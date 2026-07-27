@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344104</versionUuid>
+    <rule>
+        <name>UAM_setVisiblity_manageRolesForManagersAndAdmins</name>
+        <uuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344086</uuid>
+        <description>Setting Visibility For Managing The Roles Related Action</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>isusermemberofgroups(
+  user: loggedInUser(),
+  groups: {
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189967",
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189961"
+  }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344104"/>
+    </history>
+</contentHaul>

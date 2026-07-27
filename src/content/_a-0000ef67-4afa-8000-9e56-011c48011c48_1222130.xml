@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352218</versionUuid>
+    <rule>
+        <name>UAM_qry_getAppianGroupDetailsForTeams</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1222130</uuid>
+        <description>To query the Group and Teams
+</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!teamroledetails: if(
+    a!isNotNullOrEmpty(ri!teamid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: ri!teamid, isActive: true()),
+    null()
+  ),
+  local!groupids: index(
+    local!teamroledetails,
+    #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+    null()
+  ),
+  local!applicationGroupDetails:if( a!isNotNullOrEmpty(local!groupids),
+  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(
+    groupno: local!groupids,
+    isGroupRelReq: true()
+  ),
+  null()
+  ),
+  
+  local!GroupDetails: index(
+    local!applicationGroupDetails,
+    #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/f8388348-9f8f-40c6-a988-29af69bdf9fc",
+    null()
+  ),
+  togroup(local!GroupDetails)
+)</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1222166"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1289245"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352218"/>
+    </history>
+</contentHaul>

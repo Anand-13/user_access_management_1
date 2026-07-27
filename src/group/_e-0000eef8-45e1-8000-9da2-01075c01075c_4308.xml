@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<groupHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_e-0000eef8-45e1-8000-9da2-01075c01075c_4366</versionUuid>
+    <group>
+        <name>UAM managers </name>
+        <securityMap>SECURITYMAP_TEAM</securityMap>
+        <uuid>_e-0000eef8-45e1-8000-9da2-01075c01075c_4308</uuid>
+        <groupTypeUuid>SYSTEM_GROUP_TYPE_CUSTOM</groupTypeUuid>
+        <parentUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</parentUuid>
+        <description>This the groups is for managers who can do any changes the parent level and child level of the organizations</description>
+        <delegatedCreation>false</delegatedCreation>
+        <memberPolicy>MEMBERPOLICY_CLOSED</memberPolicy>
+        <viewingPolicy>VIEWINGPOLICY_LOW</viewingPolicy>
+        <attributes/>
+    </group>
+    <members>
+        <users/>
+        <groups/>
+    </members>
+    <admins>
+        <users/>
+        <groups/>
+    </admins>
+    <ruleSet/>
+    <history>
+        <historyInfo versionUuid="_e-0000eef8-45e1-8000-9da2-01075c01075c_4366"/>
+    </history>
+</groupHaul>

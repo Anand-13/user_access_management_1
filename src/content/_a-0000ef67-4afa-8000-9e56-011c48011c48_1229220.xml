@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1229265</versionUuid>
+    <rule>
+        <name>UAM_toRemoveOrganizationUserTeam</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1229220</uuid>
+        <description>To remove Organization User and Its Teams</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!applications: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223271"(orgId: ri!orgid, isActive: true(),user: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1206088"(ri!user)),
+
+  #"SYSTEM_SYSRULES_forEach"(
+    items: local!applications,
+    expression: if(
+      contains(
+        ri!teamids,  /* ← Pass from process model */
+        index(fv!item,#"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/b29bb5e9-ee3a-43aa-8ad0-0924cdc69a19",null())
+      ),
+      #"urn:appian:function:v1:a:update"(
+        data: fv!item,
+        index: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/65b9df0f-01e5-42e6-a136-e9e72e801224",
+        value: false()
+      ),
+      fv!item
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>user</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1229265"/>
+    </history>
+</contentHaul>

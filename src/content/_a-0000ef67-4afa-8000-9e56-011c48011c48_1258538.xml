@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1260567</versionUuid>
+    <rule>
+        <name>UAM_functionality_removeApplicationGroup</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1258538</uuid>
+        <description>Get the roles from the application</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!group: if(
+    or(
+      a!isNotNullOrEmpty(ri!appid),
+      a!isNotNullOrEmpty(ri!selectedids)
+    ),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(
+      id: ri!selectedids,
+      applicationid: ri!appid
+    ),
+    null()
+  ),
+  local!remove:if(a!isNotNullOrEmpty(local!group),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: local!group,
+    expression: #"urn:appian:function:v1:a:update"(
+    fv!item,
+    #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/ddfddf3c-ce74-4f02-9ed8-4e2273f808b2",
+    false()
+  )
+  ),
+  null()
+  ),
+  local!remove
+)</definition>
+        <namedTypedValue>
+            <name>selectedids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>appid</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1260567"/>
+    </history>
+</contentHaul>

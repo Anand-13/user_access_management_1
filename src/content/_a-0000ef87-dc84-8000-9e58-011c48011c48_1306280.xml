@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1315010</versionUuid>
+    <interface>
+        <name>UAM_editablegrid_selectAndDeselectSuborganization</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1306280</uuid>
+        <description>Selecting and Deselecting Suborganization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!organization: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1084584"(Isparentorg: false(), isActive: true()),    /* Here we will get child organizations*/
+  local!organizationids: if(
+    a!isNotNullOrEmpty(local!organization),                                                         /* Get The child org ids */
+    tointeger(index(
+      local!organization,
+      #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec",
+      null()
+    )),
+    tointeger({})
+  ),                                                                                            
+  local!childorganization: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1092772"(parentorgId: ri!orgid, isActive: true()),   /* Pass the rule input get the organization data*/
+  local!associatedorgids: if(
+    a!isNotNullOrEmpty(local!childorganization),
+    tointeger(index(                                                                                               /* get the child orgs assoicated with the parent organization*/
+      local!childorganization,
+      #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/0c02b78a-3116-4b9c-b8d4-117c5519f675",
+      null()
+    )),
+    tointeger(null())
+  ),
+  local!availableorgids: difference(local!organizationids, local!associatedorgids),                                     /* Now by using difference function get remaining org ids which are not assoicated with the parent org*/
+  local!assignedorgids: if(
+    a!isNotNullOrEmpty(local!associatedorgids),
+    local!associatedorgids,                                                                                            /* Assigned Org Ids are nothing but associated orgids*/    
+    tointeger({})
+  ),
+  local!orgadd: tointeger({}),                                                                                          /* These local variables such as add and subtract will be useful in upcoming steps*/
+  local!orgsub: tointeger({}),
+
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Manage Organizations",
+      secondaryText: "Select To Add Or Remove Organization"
+    ),
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Assigned Organizations",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Organization Name"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Project Manager"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Remove")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: local!organization,
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        /* ✅ Only show rows whose ID exists in assignedorgids */
+                        showWhen: contains(
+                          local!assignedorgids,
+                          tointeger(
+                            fv!item[
+                              #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec"
+                            ]
+                          )
+                        ),
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"
+                            ],
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(fv!item[
+                              #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2"
+                            ]),
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "minus-circle",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(                                         
+                                      local!availableorgids,                                /* when user clicks on the icon respected id will be saved into the variable and to avoid duplicates we are using union function*/
+                                      union(local!availableorgids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assignedorgids,                                /*The respected id should be removed from the assigned vales variable and we should write the assigned values with remaining ids*/
+                                      difference(local!assignedorgids, tointeger(save!value))
+                                    ),
+                                    a!save(                                                  
+                                      local!orgsub,
+                                      union(local!orgsub, tointeger(save!value))            /*The id should be removed from the database */
+                                    ),
+                                    a!save(
+                                      local!orgadd,                                            /*The id should be added to the database*/
+                                      difference(local!orgadd, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "SECONDARY",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!assignedorgids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No organizations assigned.",
+                      color: "SECONDARY",                                               /*This display when no organizations are assigned to it*/
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!assignedorgids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+
+          /* ── LEFT: AVAILABLE ORGANIZATIONS ── */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Available Organizations",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Organization Name"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Project Manager"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Add")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: local!organization,
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        /* ✅ Only show rows whose ID exists in availableorgids */
+                        showWhen: contains(
+                          local!availableorgids,
+                          tointeger(
+                            fv!item[
+                              #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec"
+                            ]
+                          )
+                        ),
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"
+                            ],
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(fv!item[
+                              #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2"
+                            ]),
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "plus-square-o",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(
+                                      local!availableorgids,
+                                      difference(local!availableorgids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assignedorgids,
+                                      union(local!assignedorgids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!orgadd,
+                                      union(local!orgadd, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!orgsub,
+                                      difference(local!orgsub, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "ACCENT",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!availableorgids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No organizations available to add.",
+                      color: "SECONDARY",
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!availableorgids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          ),
+         
+        }
+      ),
+     
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true(),
+          loadingIndicator: true(),
+          style: "SOLID",
+          disabled: and(
+            a!isNullOrEmpty(local!orgadd),
+            a!isNullOrEmpty(local!orgsub)
+          ),
+          saveInto: {
+            a!save(ri!orgsToAdd, local!orgadd),                               /* the values stored in rule inputs things to add */
+            a!save(ri!orgsToRemove, local!orgsub),                           /* The values stored in rule inputs things to subtract*/
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463")
+          }
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          submit: true(),
+          validate: false(),
+          style: "OUTLINE",
+          saveInto: {
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469")
+          }
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgsToAdd</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgsToRemove</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:description/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">21</a:value>
+                    <a:nameRef>orgid</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>orgsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>orgsToRemove</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>button</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1315010"/>
+    </history>
+</contentHaul>

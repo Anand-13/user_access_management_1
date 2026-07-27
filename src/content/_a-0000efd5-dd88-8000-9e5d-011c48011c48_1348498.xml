@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352269</versionUuid>
+    <rule>
+        <name>UAM_determineTeamRequestRevoke</name>
+        <uuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348498</uuid>
+        <description>To determine team request  revoke access</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!teamid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223135"(
+    teamid: ri!teamid,
+    taskstatusid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204741"[1],
+    taskdefid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204747"[2]
+  ),
+  local!isuserpartofteam: isusermemberofgroups(
+    user: ri!user,
+    groups: { ri!groupids }
+  ),
+  local!istaskexist: a!isnotNullOrEmpty(local!teamid),
+  not(
+    or(
+      local!istaskexist,
+      not(local!isuserpartofteam)
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>groupids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>user</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1349075"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352269"/>
+    </history>
+</contentHaul>

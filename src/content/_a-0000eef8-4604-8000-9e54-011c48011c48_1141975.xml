@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338584</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_applicaton</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1141975</uuid>
+        <description>In this grid layout we have application</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selected:ri!selected,
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Select The Applications",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7",
+        filters: 
+        {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2",
+            operator: "in",
+            value:ri!appid,
+            applyWhen: a!isNotNullOrEmpty(ri!appid)
+          )
+        }
+      ),
+      selectable: a!defaultValue(value: ri!isSelectable,default: true()),
+      selectionStyle: "ROW_HIGHLIGHT",
+      selectionValue: local!selected,
+      selectionSaveInto: {
+       local!selected,
+       a!save(
+         ri!selected,
+         index(
+           index(fv!selectedRows,1,null()),
+           #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2",
+           null()
+         )
+       )
+      },
+      showRefreshButton: ri!refresh,
+      showSearchBox: ri!search,
+      emptyGridMessage: "No Applications Found",
+      showWhen: a!isNotNullOrEmpty(ri!appid),
+     
+      
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Application Reference ID",
+          value: a!defaultValue(fv!row[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/f2b0c7d1-6463-4beb-b9e2-040191b3a6ff"], "–"),
+          sortField: #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/f2b0c7d1-6463-4beb-b9e2-040191b3a6ff"
+        ),
+      
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Application Name",
+          value: a!defaultValue(fv!row[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/934fe72d-d285-4f56-bb33-55edd415c5de"], "–"),
+          sortField: #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/934fe72d-d285-4f56-bb33-55edd415c5de"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Application Description",
+          value: a!defaultValue(fv!row[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/fe3c2d5d-d09f-48a6-9692-dd3ee4f80925"], "–"),
+          sortField: #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Created by",
+          value: a!defaultValue(#"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(fv!row[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/b7f7118c-46d1-454a-b1e5-43d6c512d680"]), "–"),
+          sortField: #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/b7f7118c-46d1-454a-b1e5-43d6c512d680"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Modified by",
+          value: a!defaultValue(#"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(fv!row[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/1c4afd49-abdc-4a12-b126-5e2397abec16"]), "–"),
+          sortField: #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/1c4afd49-abdc-4a12-b126-5e2397abec16"
+        ),
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isSelectable</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>appid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refresh</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1142106"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338584"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339424</versionUuid>
+    <constant>
+        <name>UAM_INT_REF_VALUE_ID_CATEGORY_SUB_CATEGORY</name>
+        <uuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339412</uuid>
+        <description>TASK DEFINITATION IS STORED IN THIS CONSTANT SUB CATEGORY
+1. Array and List
+2. Conditional and Logic
+3. Text Functions
+4.Date and Time
+5.Mathematical
+6.Array and List
+7.Conditional and Logic
+8.Text Functions
+9.Date and Time
+10.Mathematical
+11. Array and List
+12. Conditional and Logic
+13. Text Functions
+14.Date and Time
+15.Mathematical</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <typedValue>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+            <value>
+                <el>1</el>
+                <el>2</el>
+                <el>3</el>
+                <el>4</el>
+                <el>5</el>
+                <el>6</el>
+                <el>7</el>
+                <el>8</el>
+                <el>9</el>
+                <el>10</el>
+                <el>11</el>
+                <el>12</el>
+                <el>13</el>
+                <el>14</el>
+                <el>15</el>
+            </value>
+        </typedValue>
+        <isEnvironmentSpecific>false</isEnvironmentSpecific>
+    </constant>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339424"/>
+    </history>
+</contentHaul>

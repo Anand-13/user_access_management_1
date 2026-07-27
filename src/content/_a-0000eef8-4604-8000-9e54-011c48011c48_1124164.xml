@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1343800</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_subOrganization</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1124164</uuid>
+        <description>This is the gridlayout for selecting the sub organization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selected: {},
+  local!dummy: {},
+  local!parentid: ri!parentid,
+  local!parentorg: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1084584"(Isparentorg: true()),
+  local!parentorgids: index(
+    local!parentorg,
+    #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec",
+    null()
+  ),
+  local!childparent: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1092772"(
+    parentorgid: local!parentid,
+    isActive: true()
+  ),
+  local!childorgids: index(
+    local!childparent,
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/0c02b78a-3116-4b9c-b8d4-117c5519f675",
+    null()
+  ),
+
+  if(
+    a!isNullOrEmpty(local!childorgids),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          labelPosition: "COLLAPSED",
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: "building-o",
+              size: "MEDIUM",
+              color: "SECONDARY"
+            ),
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: " No Sub Organizations Available",
+              size: "MEDIUM",
+              color: "SECONDARY",
+              style: "EMPHASIS"
+            )
+          },
+          align: "CENTER"
+        )
+      },
+      style: "NONE",
+      padding: "STANDARD",
+      marginBelow: "STANDARD",
+      showBorder: true
+    ),
+
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "List OF Sub Organizations",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec",
+            operator: "in",
+            value: local!childorgids
+          )
+        }
+      ),
+      showRefreshButton: ri!select,
+      showSearchBox: ri!select,
+      selectable: a!defaultValue(ri!isselectable, true()),
+      selectionStyle: "ROW_HIGHLIGHT",
+      selectionValue: local!selected,
+      maxSelections: 1,
+      selectionSaveInto: {
+        local!selected,
+        a!save(
+          ri!childids,
+          index(
+            index(fv!selectedRows, 1, null()),
+            #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec",
+            null()
+          )
+        ),
+        a!save(
+          ri!childorg,
+          if(
+            a!isNullOrEmpty(fv!selectedRows),
+            null,
+            #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123673"(
+              orgId: index(
+                index(fv!selectedRows, 1, null()),
+                #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/5793af42-009b-4cef-b5b5-7c4a81f902ec",
+                null()
+              ),
+              isAddressRequried: true(),
+              isContactRequried: true()
+            )
+          )
+        )
+      },
+
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "ORG-ID",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: fv!row[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/47e00641-832e-4dbe-a4e1-c0ff7da8deba"]
+              )
+            }
+          ),
+          sortField: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/47e00641-832e-4dbe-a4e1-c0ff7da8deba",
+          align: "START",
+          width: "NARROW"
+        ),
+
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Organization Name",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: fv!row[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"]
+            )
+          ),
+          sortField: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"
+        ),
+
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Manager",
+          value: a!defaultValue(
+            #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(
+              fv!row[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2"]
+            ),
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2",
+          align: "START"
+        )
+      },
+      borderStyle: "LIGHT",
+      shadeAlternateRows: true,
+      rowHeader: 2,
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isselectable</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>parentid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>childids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>select</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>childorg</name>
+            <type>
+                <name>008dc9c2-5821-421b-b1dd-e322b8e6665f</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1230035"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338374"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1343800"/>
+    </history>
+</contentHaul>

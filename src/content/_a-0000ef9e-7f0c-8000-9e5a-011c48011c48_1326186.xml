@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326224</versionUuid>
+    <interface>
+        <name>UAM_formlayout_toactivateUser</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326186</uuid>
+        <description>To activate the user</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!confirmation: null,
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Activate User",
+      secondaryText: "Confirm activation",
+      backgroundColor: "ACCENT"
+    ),
+    contents: {
+     
+      #"SYSTEM_SYSRULES_radioButtonField_v1"(
+        label: "Are you sure you want to activate this user?",
+        labelPosition: "ABOVE",
+        choiceLabels: {"Yes", "No"},
+        choiceValues: {true, false},
+        value: local!confirmation,
+        saveInto: local!confirmation,
+        choiceLayout: "STACKED",
+        required: true,
+        validations: {},
+        
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+         
+          saveInto: {
+            a!save(
+              ri!confirmation,
+              local!confirmation
+            ),
+            a!save(
+              ri!button,
+              #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            )
+          },
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          saveInto: {
+            a!save(
+              ri!button,
+              #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    showTitleBarDivider: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>confirmation</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Test User</a:name>
+                <a:description>To user </a:description>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>confirmation</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>button</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">8</a:value>
+                    <a:nameRef>userid</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <a:isDefault>true</a:isDefault>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326224"/>
+    </history>
+</contentHaul>

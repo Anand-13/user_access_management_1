@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>70f210e2-9938-4292-afd8-f61cf4b8b98e</versionUuid>
+  <recordType a:uuid="70f210e2-9938-4292-afd8-f61cf4b8b98e" name="UAM Task Team Event Type">
+    <a:pluralName>UAM Task Team Event Types</a:pluralName>
+    <a:description>Contains the types of business events for Task Team</a:description>
+    <a:urlStub>4sWC6w</a:urlStub>
+    <a:source xsi:type="a:RecordsReplica"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+    columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Id",
+          sortField: #"urn:appian:record-field:v1:70f210e2-9938-4292-afd8-f61cf4b8b98e/137ec82a-8cb4-489b-bc87-5fcbc5511e64",
+          value: fv!row[#"urn:appian:record-field:v1:70f210e2-9938-4292-afd8-f61cf4b8b98e/137ec82a-8cb4-489b-bc87-5fcbc5511e64"],
+          align: "END"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Event Name",
+          sortField: #"urn:appian:record-field:v1:70f210e2-9938-4292-afd8-f61cf4b8b98e/23365595-8e78-4394-98e6-a20e4c8476cb",
+          value: #"SYSTEM_SYSRULES_linkField"(
+            links: {
+              #"SYSTEM_SYSRULES_recordLink"(
+                label: fv!row[#"urn:appian:record-field:v1:70f210e2-9938-4292-afd8-f61cf4b8b98e/23365595-8e78-4394-98e6-a20e4c8476cb"],
+                recordType: #"urn:appian:record-type:v1:70f210e2-9938-4292-afd8-f61cf4b8b98e",
+                identifier: fv!identifier
+              )
+            }
+          )
+        )
+      },
+      pageSize: 50,
+      shadeAlternateRows: true
+    )</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:70f210e2-9938-4292-afd8-f61cf4b8b98e/23365595-8e78-4394-98e6-a20e4c8476cb"]</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:sourceConfiguration>
+      <sourceUuid>UAMS.UAM_TASK_TEAM_EVENT_TYPE@_a-0000eeda-0177-8000-9e52-011c48011c48_1084386</sourceUuid>
+      <sourceType>RDBMS_TABLE</sourceType>
+      <sourceSubType>NONE</sourceSubType>
+      <friendlyName>UAM_TASK_TEAM_EVENT_TYPE</friendlyName>
+      <sourceFilterExpr/>
+      <field>
+        <uuid>137ec82a-8cb4-489b-bc87-5fcbc5511e64</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>id</fieldName>
+        <displayName>Id</displayName>
+        <isRecordId>true</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>23365595-8e78-4394-98e6-a20e4c8476cb</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>EVENT_NAME</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>eventName</fieldName>
+        <displayName>Event Name</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <uuid>1191ba57-d4a6-47ae-bdd5-68bf79c6cc81</uuid>
+      <refreshSchedule>
+        <value>{"hour":3,"minute":"00","amPM":"AM","timeZone":"America/New_York","version":"v1"}</value>
+        <activated>false</activated>
+      </refreshSchedule>
+      <skipFailureEnabled>true</skipFailureEnabled>
+      <recordIdGeneratorUuid/>
+    </a:sourceConfiguration>
+    <a:enabledFeatures>2039</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+    <a:creationSource>UNKNOWN</a:creationSource>
+    <a:sqlEnabled>true</a:sqlEnabled>
+    <a:sqlName>uam_task_team_event_types</a:sqlName>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="70f210e2-9938-4292-afd8-f61cf4b8b98e"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

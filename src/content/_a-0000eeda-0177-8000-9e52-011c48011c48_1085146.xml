@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1094515</versionUuid>
+    <rule>
+        <name>UAM_qry_getCityList</name>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1085146</uuid>
+        <description>To query the list of city list from reference table
+</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!names:#"SYSTEM_SYSRULES_queryRecordType_v3"(
+    recordType: #"urn:appian:record-type:v1:c155a5df-b848-4d0e-b02f-89afb731210d",
+    fields: #"SYSTEM_SYSRULES_selectionFields"(
+      allFieldsFromRecordType: #"urn:appian:record-type:v1:c155a5df-b848-4d0e-b02f-89afb731210d"
+    ),
+    filters: #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      operator: "AND",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:c155a5df-b848-4d0e-b02f-89afb731210d/215a9540-4788-4706-8993-dac4d522d301",
+          operator: "in",
+          value: ri!stateId
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:c155a5df-b848-4d0e-b02f-89afb731210d/6005a254-28f5-47b6-9d00-f0e25c605cc2",
+          operator: "in",
+          value: ri!cityid
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:c155a5df-b848-4d0e-b02f-89afb731210d/224e70fc-2577-493c-bedb-b7add69cfd46",
+          operator: "=",
+          value: ri!isActive
+        )
+      },
+      ignoreFiltersWithEmptyValues: true(),
+    )
+    ,
+    pagingInfo: a!defaultValue(
+      value: ri!paginginfo,
+      default:  #"SYSTEM_SYSRULES_pagingInfo"(
+        startIndex: 1,
+        batchSize: 5000
+      )
+    )
+  ),
+  local!data:index(local!names,"data",null()),
+  {
+    local!data
+  }
+)</definition>
+        <namedTypedValue>
+            <name>cityid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>stateid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>paginginfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isActive</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1094515"/>
+    </history>
+</contentHaul>

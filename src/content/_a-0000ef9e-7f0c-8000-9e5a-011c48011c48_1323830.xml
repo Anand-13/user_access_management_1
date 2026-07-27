@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338403</versionUuid>
+    <interface>
+        <name>UAM_richtextfield_backToDashboard</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323830</uuid>
+        <description>Back to Dashboard we will using it all the interfaces</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_richTextDisplayField"(
+    value: {
+      #"SYSTEM_SYSRULES_richTextIcon"(
+        icon: "angle-double-left-bold",
+        color: "ACCENT"
+      ),
+      #"SYSTEM_SYSRULES_richTextItem_v1"(
+        text: "Back To Dashboard",
+        style: "EMPHASIS",
+        color: "STANDARD",
+        link: {
+        #"SYSTEM_SYSRULES_safeLink"(
+          uri: "/suite/sites/user-access-management-anand",
+          openLinkIn: "SAME_TAB"
+        )
+        }
+      )
+    },
+    showWhen: ri!show
+  )
+}</definition>
+        <namedTypedValue>
+            <name>show</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323867"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338403"/>
+    </history>
+</contentHaul>

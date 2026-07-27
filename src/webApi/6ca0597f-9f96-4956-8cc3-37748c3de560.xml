@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webApiHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>46c8ec83-45fb-40cd-9357-abafd6e15b00</versionUuid>
+    <webApi a:uuid="6ca0597f-9f96-4956-8cc3-37748c3de560" name="UAM organization">
+        <a:description>organization web api</a:description>
+        <a:expression>a!localVariables(
+  /*
+  * Run the "queryRecordType()" function on the record to retrieve data for the
+  * first 50 records and store this data in a local variable named "local!records".
+  */
+  local!records: #"SYSTEM_SYSRULES_queryRecordType_v4"(
+    recordType: #"urn:appian:record-type:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f",
+    pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: 50
+    )
+  ).data,
+  /*
+  * Construct an HTTP response that contains the information that we just stored
+  * in "local!records".
+  */
+  #"SYSTEM_SYSRULES_httpResponse_v1"(
+    /*
+    * Set an HTTP header that tells the client that the body of the response
+    * will be JSON-encoded.
+    */
+    headers: {
+      #"SYSTEM_SYSRULES_httpHeader"(name: "Content-Type", value: "application/json")
+    },
+    /*
+    * JSON-encode the value of "local!records" and place it in the response body.
+    */
+    body: #"SYSTEM_SYSRULES_toJson_v1"(value: local!records)
+  )
+)</a:expression>
+        <a:urlAlias>postjd</a:urlAlias>
+        <a:httpMethod>GET</a:httpMethod>
+        <a:system>false</a:system>
+        <a:requestBodyType>NONE</a:requestBodyType>
+        <a:loggingEnabled>false</a:loggingEnabled>
+    </webApi>
+    <roleMap>
+        <role name="web_api_administrator">
+            <users/>
+            <groups>
+                <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+            </groups>
+        </role>
+        <role name="web_api_viewer">
+            <users/>
+            <groups>
+                <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>WebApiRequest?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:path/>
+                <a:body/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="46c8ec83-45fb-40cd-9357-abafd6e15b00"/>
+    </history>
+</webApiHaul>

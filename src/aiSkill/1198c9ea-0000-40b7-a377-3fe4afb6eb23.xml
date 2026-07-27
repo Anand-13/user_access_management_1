@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aiSkillRemoteHaul xmlns:a="http://www.appian.com/ae/types/2009">
+  <versionUuid>2220c707-c135-4a74-bebf-9f1f1bd7d8ec</versionUuid>
+  <remoteDesignObject>
+    <uuid>1198c9ea-0000-40b7-a377-3fe4afb6eb23</uuid>
+    <name>UAM_prompt</name>
+    <content><![CDATA[{"id":"1198c9ea-0000-40b7-a377-3fe4afb6eb23","ai_skill_type":"generative_ai","featuresEnabled":["CUSTOM_ENTITY_EXTRACTION"]}]]></content>
+    <parameterizedProperties></parameterizedProperties>
+    <exportVersion>1.0.0</exportVersion>
+    </remoteDesignObject>
+  <roleMap>
+    <role name="VIEWER">
+      <users></users>
+      <groups>
+        <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+        </groups>
+      </role>
+    <role name="ADMINISTRATOR">
+      <users></users>
+      <groups>
+        <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+        </groups>
+      </role>
+    </roleMap>
+  <history>
+    <historyInfo versionUuid="2220c707-c135-4a74-bebf-9f1f1bd7d8ec"></historyInfo>
+    </history>
+  </aiSkillRemoteHaul>

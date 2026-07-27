@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348383</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_TeamNamesOnly</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328203</uuid>
+        <description>To Display the team names are only displayed
+</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selected: {},
+  local!selectedrow: {},
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Team Details",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/8bd5b534-0792-4dab-8bdc-6fb3440fd4e5",
+            operator: "=",
+            value: true()
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+            operator: "in",
+            value: ri!teamid,
+            applyWhen: a!isNotNullOrEmpty(ri!teamid)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/96d37d06-45e7-4282-8de1-85e282e0ef8b",
+            operator: "in",
+            value: ri!orgid,
+            applyWhen: a!isNotNullOrEmpty(ri!orgid)
+          )
+        }
+      ),
+      showRefreshButton: ri!refresh,
+      showSearchBox: ri!search,
+      selectionValue: local!selected,
+      selectable: true(),
+      selectionStyle: "ROW_HIGHLIGHT",
+      selectionSaveInto: {
+        local!selected,
+        {
+          a!save(
+            ri!selected,
+            index(
+              index(fv!selectedRows, 1, null()),
+              #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+              null()
+            )
+          ),
+          a!save(
+            ri!selectedid,
+            index(
+              index(fv!selectedRows, 1, null()),
+              #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/e9047739-3947-4d53-907e-c2a20ec1a944",
+              null()
+            )
+          )
+        }
+      },
+      maxSelections: 1,
+      showWhen: or(
+        a!isNotNullOrEmpty(ri!orgid),
+        a!isNotNullOrEmpty(ri!teamid)
+      ),
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Organization Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/d9464913-546f-4eb5-98f7-a0515805c8a6/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/e9047739-3947-4d53-907e-c2a20ec1a944",
+          align: "START"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Team Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/d9464913-546f-4eb5-98f7-a0515805c8a6/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+          align: "START"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Access Status",
+          value: a!localVariables(
+            local!teamGroups: #"_a-0000efc0-69e9-8000-9e5b-011c48011c48_1342328"(
+              orgid: ri!orgid,
+              teamid: fv!row[#"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923"]
+            ),
+            #"SYSTEM_SYSRULES_tagField"(
+              labelPosition: "COLLAPSED",
+              tags: if(
+                and(
+                  a!isNotNullOrEmpty(local!teamGroups),
+                  not(contains(
+                    #"SYSTEM_SYSRULES_forEach"(
+                      items: local!teamGroups,
+                      expression: #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(loggedInUser(), togroup(fv!item))
+                    ),
+                    false
+                  ))
+                ),
+                #"SYSTEM_SYSRULES_tagItem_v1"(text: "Granted",     backgroundColor: "POSITIVE"),
+                #"SYSTEM_SYSRULES_tagItem_v1"(text: "Not Granted", backgroundColor: "NEGATIVE")
+              )
+            )
+          ),
+          showWhen: #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+            username: loggedInUser(),
+            groups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189967"
+          )
+        )
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    ),
+    
+  }
+)</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refresh</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>user</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339073"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344555"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348383"/>
+    </history>
+</contentHaul>

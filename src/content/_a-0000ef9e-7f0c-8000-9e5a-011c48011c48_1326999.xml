@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340093</versionUuid>
+    <interface>
+        <name>UAM_interface_dynamic_Interface</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326999</uuid>
+        <description>Here we Have dynamic Interface it will works on the person who logged in.</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!match(
+  value: loggedInUser(),
+  whenTrue: #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+    username: fv!value,
+    groups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189961"
+  ),
+  then: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1319966"(
+    search: ri!search,
+    section: ri!section
+  ),
+  whenTrue: #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+    username: fv!value,
+    groups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189967"
+  ),
+  then: {#"_a-0000eef8-4604-8000-9e54-011c48011c48_1122605"(),#"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223026"()},/*rework is need*/
+  whenTrue: #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+    username: fv!value,
+    groups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1145013"
+  ),
+  then: #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1327024"(),
+  default: "No page found"
+)</definition>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>section</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1327071"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1327762"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340093"/>
+    </history>
+</contentHaul>

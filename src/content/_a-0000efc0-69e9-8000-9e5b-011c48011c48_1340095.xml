@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340204</versionUuid>
+    <rule>
+        <name>UAM_qry_checkWhetherLoggedInUserIsManager</name>
+        <uuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340095</uuid>
+        <description>To check whether Login in user is a manager or not </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+    local!team: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(teamId: ri!teamId,isActive: true()),
+    local!orgId: index(
+      local!team,
+      #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/96d37d06-45e7-4282-8de1-85e282e0ef8b",
+      null()
+),
+local!org: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123673"(orgId: local!orgId),
+local!orgPM: index(
+local!org,
+#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2",
+null()
+),
+if(
+a!isNullOrEmpty(local!orgPM),
+false,
+loggedInUser() = local!orgPM
+)
+)</definition>
+        <namedTypedValue>
+            <name>teamId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340204"/>
+    </history>
+</contentHaul>

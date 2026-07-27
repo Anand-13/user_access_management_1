@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344080</versionUuid>
+    <rule>
+        <name>UAM_qry_togetRolesFromTeam</name>
+        <uuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1342328</uuid>
+        <description>To get Roles From the Team</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgteam: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(
+    orgId: ri!orgid,
+    teamid: ri!teamid,
+    isActive: true()
+  ),
+  
+
+  local!getorgteamids:index(local!orgteam,#"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",null()),
+  local!getteamroles:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: local!getorgteamids,isActive: true()),
+  local!getTeamroleids:index(local!getteamroles,#"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",null()),
+  local!getgroupdetails:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1136584"(groupid: local!getTeamroleids,isactive: true()),
+  local!getappiangroupid:index(local!getgroupdetails,#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/f8388348-9f8f-40c6-a988-29af69bdf9fc",null()),
+  {
+    local!getappiangroupid
+  }
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344080"/>
+    </history>
+</contentHaul>

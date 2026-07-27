@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1142257</versionUuid>
+    <interface>
+        <name>UAM_formlayout_removeOrganizationApplications</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1142202</uuid>
+        <description>To remove the applications from the organization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!mappapplication:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1142076"(orgId: ri!orgid, isActive: true()),
+  local!appid:if(
+    a!isNullOrEmpty(local!mappapplication),
+    -1,
+    index(
+      local!mappapplication,
+      #"urn:appian:record-field:v1:0723a91a-4d09-404f-821d-4296dd50e6c6/26a43997-9c33-40cd-a0e1-cf6a4c80387b",
+      null()
+    )
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"_a-0000eef8-4604-8000-9e54-011c48011c48_1141975"(
+        selected:ri!selected,
+      appid: local!appid
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+          saveInto: {
+            a!save(
+              target:ri!button,
+              value:#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            )
+          },
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(
+              target:ri!button,
+              value:#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Remove Applications",
+      secondaryText: "To remove the applications",
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1142257"/>
+    </history>
+</contentHaul>

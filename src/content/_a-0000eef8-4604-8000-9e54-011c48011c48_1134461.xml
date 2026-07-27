@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1137664</versionUuid>
+    <interface>
+        <name>UAM_formlayout_removeOrgTeam</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1134461</uuid>
+        <description>Form that remove team associated with organization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* Input validation */
+  local!hasOrgId: a!isNotNullOrEmpty(ri!orgid),
+
+  /* Query organization teams */
+  local!orgTeamData: if(
+    local!hasOrgId,
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(orgId: ri!orgid, isActive: true),
+    {}
+  ),
+
+  /* Extract team IDs */
+  local!teamIds: if(
+    a!isNullOrEmpty(local!orgTeamData),
+    {},
+    index(
+      local!orgTeamData,
+      #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+      {}
+    )
+  ),
+
+  /* Check if teams exist */
+  local!hasTeams: a!isNotNullOrEmpty(local!teamIds),
+
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: "Select Teams to Remove",
+        labelSize: "MEDIUM",
+        contents: {
+          /* Instructions */
+          #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: "Select the teams you want to remove from this organization.",
+              color: "SECONDARY"
+            ),
+            marginBelow: "STANDARD"
+          ),
+
+          /* Content based on state */
+          if(
+            not(local!hasOrgId),
+            /* No organization selected */
+            #"SYSTEM_SYSRULES_stampField"(
+              labelPosition: "COLLAPSED",
+              icon: "building-o",
+              text: "Please select an organization first",
+              backgroundColor: "TRANSPARENT",
+              contentColor: "ACCENT",
+              size: "MEDIUM",
+              align: "CENTER"
+            ),
+
+            if(
+              not(local!hasTeams),
+              /* No teams to remove */
+              #"SYSTEM_SYSRULES_stampField"(
+                labelPosition: "COLLAPSED",
+                icon: "users",
+                text: "No teams available for this organization",
+                backgroundColor: "TRANSPARENT",
+                contentColor: "SECONDARY",
+                size: "MEDIUM",
+                align: "CENTER"
+              ),
+
+              /* Show teams for selection */
+              #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134085"(
+                selectedteams: ri!selectedteams,
+                teamid: local!teamIds
+              )
+            )
+          )
+        }
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Remove Selected",
+          icon: "trash",
+          submit: true,
+          saveInto: a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"),
+          style: "SOLID",
+          loadingIndicator: true,
+          disabled: or(
+            not(local!hasTeams),
+            a!isNullOrEmpty(ri!selectedteams)
+          ),
+          tooltip: if(
+            a!isNullOrEmpty(ri!selectedteams),
+            "Please select at least one team to remove",
+            ""
+          )
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          submit: true,
+          saveInto: a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"),
+          validate: false,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Remove Teams",
+      secondaryText: "Select teams to remove from organization",
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>selectedteams</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1137664"/>
+    </history>
+</contentHaul>

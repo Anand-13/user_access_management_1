@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1094523</versionUuid>
+    <interface>
+        <name>UAM_sectionlayout_organizationContactDetails</name>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1085421</uuid>
+        <description>Interface for Contact Details</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  {
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      label: "Contact Details",
+      contents: {
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_textField"(
+                  label: "Phone Number",
+                  labelPosition: "ABOVE",
+                  value: ri!organizationContactDetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/0da43122-5b32-4aea-89b6-d626dc2f2d61"],
+                  saveInto: {ri!organizationContactDetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/0da43122-5b32-4aea-89b6-d626dc2f2d61"]},
+                  refreshAfter: "UNFOCUS",
+                  validations: {}
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_textField"(
+                  label: "Email",
+                  labelPosition: "ABOVE",
+                  value: ri!organizationContactDetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/eef3bff1-e2f6-4b07-a820-42a98b258011"],
+                  saveInto: {ri!organizationContactDetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/eef3bff1-e2f6-4b07-a820-42a98b258011"]},
+                  refreshAfter: "UNFOCUS",
+                  validations: {}
+                )
+              }
+            )
+          }
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>organizationContactDetails</name>
+            <type>
+                <name>5e8f88d6-4a59-4fe5-a737-a6659e469273</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1094523"/>
+    </history>
+</contentHaul>

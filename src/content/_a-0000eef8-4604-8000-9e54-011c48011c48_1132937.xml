@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326801</versionUuid>
+    <interface>
+        <name>UAM_readonlygrid_teamDetails</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1132937</uuid>
+        <description>Read only grid for creating team</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Team Details",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54",
+        fields: {}
+      ),
+      showRefreshButton: true,
+      showSearchBox: true,
+      similarityScoreThreshold: 1.0,
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Team Name",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: fv!row[
+                  #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"
+                ],
+                link: #"SYSTEM_SYSRULES_recordLink"(
+                  recordType: #"urn:appian:record-type:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54",
+                  identifier: fv!identifier
+                ),
+                style: "STRONG"
+              ),
+              char(10),
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: fv!row[
+                  #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/ece145ef-8bf4-4237-b5c9-c0fc462a03a3"
+                ],
+                color: "SECONDARY",
+                size: "SMALL"
+              )
+            }
+          ),
+          sortField: #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"
+        ),
+        
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Description",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Created By",
+          value: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(
+            fv!row[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/5b3116d5-79dc-4937-ae25-673207c3df2b"]
+          ),
+          sortField: #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/5b3116d5-79dc-4937-ae25-673207c3df2b"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Actions",
+          value:#"SYSTEM_SYSRULES_recordActionField_v1"(
+            actions: #"SYSTEM_SYSRULES_recordActionItem"(
+              action: #"urn:appian:record-action:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/b166a57e-b59e-411d-ab5d-aa15ad201762",
+              identifier: fv!identifier
+            )
+          ),
+          width: "AUTO"
+        )
+        
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )
+  }
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1132989"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326801"/>
+    </history>
+</contentHaul>

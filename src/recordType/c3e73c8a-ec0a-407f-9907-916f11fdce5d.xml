@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>11b09f52-80e6-4325-a2ee-6dff7f9084e6</versionUuid>
+  <recordType a:uuid="c3e73c8a-ec0a-407f-9907-916f11fdce5d" name="UAM Ref Country">
+    <a:pluralName>Ref Countries</a:pluralName>
+    <a:description>Reference list of countries </a:description>
+    <a:urlStub>xV39Mw</a:urlStub>
+    <a:source xsi:type="a:RecordsReplica"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Country Id",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{a50adea3-5e12-4cf2-99c5-22074722d770}countryId',
+      value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+        value: {
+          #"SYSTEM_SYSRULES_richTextItem_v1"(
+            text: if(
+              fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{a50adea3-5e12-4cf2-99c5-22074722d770}countryId'] &lt; 100000,
+              text(
+                fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{a50adea3-5e12-4cf2-99c5-22074722d770}countryId'],
+                "#00000"
+              ),
+              fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{a50adea3-5e12-4cf2-99c5-22074722d770}countryId']
+            ),
+            link: #"SYSTEM_SYSRULES_recordLink"(
+              recordType: #"urn:appian:record-type:v1:c3e73c8a-ec0a-407f-9907-916f11fdce5d",
+              identifier: fv!identifier
+            ),
+            linkStyle: "STANDALONE"
+          )
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Country Name",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{1f76749a-fbe8-4ba5-b8f2-097dcecb789d}countryName',
+      value: a!defaultValue(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{1f76749a-fbe8-4ba5-b8f2-097dcecb789d}countryName'], "–")
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Country Code",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{5104cef1-9781-43ee-b2e2-8645dd6ac56f}countryCode',
+      value: a!defaultValue(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{5104cef1-9781-43ee-b2e2-8645dd6ac56f}countryCode'], "–")
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Is Active",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{4262186e-02a5-4f8f-b3e5-f9cd752d91fe}isActive',
+      value: if(
+        isnull(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{4262186e-02a5-4f8f-b3e5-f9cd752d91fe}isActive']),
+        "–",
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: if(
+            fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{4262186e-02a5-4f8f-b3e5-f9cd752d91fe}isActive'],
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: "check",
+              altText: "Yes",
+              color: "#138901"
+            ),
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: "times",
+              altText: "No",
+              color: "SECONDARY"
+            )
+          )
+        )
+      ),
+      align: "CENTER"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created By",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{6e66ad47-4851-45c4-ad93-177a2d11c396}createdBy',
+      value: a!defaultValue(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{6e66ad47-4851-45c4-ad93-177a2d11c396}createdBy'], "–")
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created On",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{02dddba9-45e6-4acd-8ead-2009fabb91d5}createdOn',
+      value: if(
+        isnull(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{02dddba9-45e6-4acd-8ead-2009fabb91d5}createdOn']),
+        "–",
+        datetext(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{02dddba9-45e6-4acd-8ead-2009fabb91d5}createdOn'], "default")
+      ),
+      align: "END",
+      width: "NARROW_PLUS"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Modified By",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{9d3cd7f9-3df2-430f-92b9-ec2bdb8ef3ad}modifiedBy',
+      value: a!defaultValue(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{9d3cd7f9-3df2-430f-92b9-ec2bdb8ef3ad}modifiedBy'], "–")
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Modified On",
+      sortField: 'recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{bcba5076-d4b5-4903-ba3f-fd9154d00276}modifiedOn',
+      value: if(
+        isnull(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{bcba5076-d4b5-4903-ba3f-fd9154d00276}modifiedOn']),
+        "–",
+        datetext(fv!row['recordType!{c3e73c8a-ec0a-407f-9907-916f11fdce5d}UAM Ref Country.fields.{bcba5076-d4b5-4903-ba3f-fd9154d00276}modifiedOn'], "default")
+      ),
+      align: "END",
+      width: "NARROW_PLUS"
+    )
+  },
+  pageSize: 50,
+  borderStyle: "LIGHT",
+  shadeAlternateRows: false
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:c3e73c8a-ec0a-407f-9907-916f11fdce5d/1f76749a-fbe8-4ba5-b8f2-097dcecb789d"]</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:sourceConfiguration>
+      <sourceUuid>UAMS.UAMS_Ref_Country@_a-0000eeda-0177-8000-9e52-011c48011c48_1084386</sourceUuid>
+      <sourceType>RDBMS_TABLE</sourceType>
+      <sourceSubType>NONE</sourceSubType>
+      <sourceContextExpr/>
+      <friendlyName>UAMS_Ref_Country</friendlyName>
+      <sourceFilterExpr/>
+      <field>
+        <uuid>a50adea3-5e12-4cf2-99c5-22074722d770</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>country_id</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>countryId</fieldName>
+        <displayName>Country Id</displayName>
+        <isRecordId>true</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>1f76749a-fbe8-4ba5-b8f2-097dcecb789d</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>country_name</sourceFieldName>
+        <sourceFieldType>VARCHAR(100)</sourceFieldType>
+        <fieldName>countryName</fieldName>
+        <displayName>Country Name</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>5104cef1-9781-43ee-b2e2-8645dd6ac56f</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>country_code</sourceFieldName>
+        <sourceFieldType>VARCHAR(10)</sourceFieldType>
+        <fieldName>countryCode</fieldName>
+        <displayName>Country Code</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>4262186e-02a5-4f8f-b3e5-f9cd752d91fe</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Boolean</type>
+        <sourceFieldName>is_active</sourceFieldName>
+        <sourceFieldType>BOOLEAN</sourceFieldType>
+        <fieldName>isActive</fieldName>
+        <displayName>Is Active</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>6e66ad47-4851-45c4-ad93-177a2d11c396</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>created_by</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>createdBy</fieldName>
+        <displayName>Created By</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>02dddba9-45e6-4acd-8ead-2009fabb91d5</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Datetime</type>
+        <sourceFieldName>created_on</sourceFieldName>
+        <sourceFieldType>TIMESTAMP</sourceFieldType>
+        <fieldName>createdOn</fieldName>
+        <displayName>Created On</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>9d3cd7f9-3df2-430f-92b9-ec2bdb8ef3ad</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>modified_by</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>modifiedBy</fieldName>
+        <displayName>Modified By</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>bcba5076-d4b5-4903-ba3f-fd9154d00276</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Datetime</type>
+        <sourceFieldName>modified_on</sourceFieldName>
+        <sourceFieldType>TIMESTAMP</sourceFieldType>
+        <fieldName>modifiedOn</fieldName>
+        <displayName>Modified On</displayName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <recordFieldSecurityMembershipFilter/>
+        <fieldFormat/>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <compositePkPrecedence>-1</compositePkPrecedence>
+        <isHidden>false</isHidden>
+      </field>
+      <uuid>b2f53290-1734-41f3-becd-6e20b0df2fc5</uuid>
+      <refreshSchedule>
+        <value>{"hour":3,"minute":"00","amPM":"AM","timeZone":"America/New_York"}</value>
+        <activated>true</activated>
+      </refreshSchedule>
+      <skipFailureEnabled>true</skipFailureEnabled>
+      <recordIdGeneratorUuid/>
+    </a:sourceConfiguration>
+    <a:enabledFeatures>1023</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+    <a:creationSource>UNKNOWN</a:creationSource>
+    <a:sqlEnabled>true</a:sqlEnabled>
+    <a:sqlName>ref_countries</a:sqlName>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="11b09f52-80e6-4325-a2ee-6dff7f9084e6"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

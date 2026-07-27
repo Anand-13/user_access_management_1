@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326626</versionUuid>
+    <rule>
+        <name>UAM_qry_visiblityOfOrganization</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1131885</uuid>
+        <description>To show the visiblity of organization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgid: ri!orgid,
+
+  /* Get org data */
+  local!orgdata: if(
+    a!isNotNullOrEmpty(local!orgid),
+    #"_a-0000eeda-0177-8000-9e52-011c48011c48_1084584"(orgId: local!orgid),
+    null()
+  ),
+
+  /* Get org manager */
+  local!orgmanager: if(
+    a!isNotNullOrEmpty(local!orgdata),
+    index(
+      local!orgdata,
+      #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2",
+      null()
+    ),
+    null()
+  ),
+
+  /* Get parent org hierarchy data */
+  local!orgparentdata: if(
+    a!isNotNullOrEmpty(local!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1092772"(suborgaid: local!orgid, isActive: true()),
+    null()
+  ),
+
+  /* Get parent org ID */
+  local!orgparentid: if(
+    a!isNotNullOrEmpty(local!orgparentdata),
+    index(
+      local!orgparentdata,
+      #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/8bd8d3b2-2d84-4bf1-baec-7d111de875eb",
+      null()
+    ),
+    null()
+  ),
+
+  /* Get parent org data */
+  local!parentorgdata: if(
+    a!isNotNullOrEmpty(local!orgparentid),
+    #"_a-0000eeda-0177-8000-9e52-011c48011c48_1084584"(orgId: local!orgparentid),
+    null()
+  ),
+
+  /* Get parent org manager */
+  local!parentorgmanager: if(
+    a!isNotNullOrEmpty(local!parentorgdata),
+    index(
+      local!parentorgdata,
+      #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2",
+      null()
+    ),
+    null()
+  ),
+  local!isSystemgroup:#"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+    username: loggedInUser(),
+    groups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189961"
+  ),
+
+  /* Check if logged in user is org manager or parent org manager */
+  local!ra: or(
+    and(
+      a!isNotNullOrEmpty(local!parentorgmanager),
+      loggedInUser() = touser(local!parentorgmanager)
+    ),
+    and(
+      a!isNotNullOrEmpty(local!orgmanager),
+      loggedInUser() = touser(local!orgmanager)
+    ),
+    local!isSystemgroup
+  ),
+
+  local!ra
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1229541"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326626"/>
+    </history>
+</contentHaul>

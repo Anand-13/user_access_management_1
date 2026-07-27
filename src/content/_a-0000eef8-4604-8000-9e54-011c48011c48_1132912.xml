@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323591</versionUuid>
+    <interface>
+        <name>UAM_formlayout_createOrUpdateTeam</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1132912</uuid>
+        <description>Form for creating or updating the team</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!teamdetails: if(
+    a!isNotNullOrEmpty(ri!teamid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132811"(TeamId: ri!teamid),
+    null()
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132792"(team: local!teamdetails)
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+          saveInto: {
+            if(
+              ri!isUpdate,
+              {
+                a!save(
+                  target: local!teamdetails[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/05a3d9d2-435f-40db-b1ba-b738884ea0ac"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: local!teamdetails[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/da7add7a-4e14-48f7-842f-e3df624f4c00"],
+                  value: now()
+                )
+              },
+              {
+                a!save(
+                  target: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/5b3116d5-79dc-4937-ae25-673207c3df2b"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/b2e82a3c-b634-46f9-9efc-0e0e134f4000"],
+                  value: now()
+                ),
+                a!save(
+                  target: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/7db87751-26a5-4ea2-9c9e-53e78cf84bc1"],
+                  value: true()
+                ),
+                
+              }
+            ),
+            a!save(target: ri!team, value: local!teamdetails),
+            a!save(
+              target: ri!button,
+              value: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            )
+          },
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(
+              target: ri!button,
+              value: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: if(
+        a!isNotNullOrEmpty(ri!isUpdate),
+        "Update Team",
+        "Create Team"
+      ),
+      secondaryText: if(
+        a!isNotNullOrEmpty(ri!isUpdate),
+        "Update Team Details",
+        "Enter team details"
+      ),
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>team</name>
+            <type>
+                <name>bb51e73c-01e7-4e73-8a7b-4187491dde54</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isUpdate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1132923"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323591"/>
+    </history>
+</contentHaul>

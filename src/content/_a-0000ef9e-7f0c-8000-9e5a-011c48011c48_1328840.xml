@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328915</versionUuid>
+    <interface>
+        <name>UAM_sectionlayout_quickActions</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328840</uuid>
+        <description>In this section layout we will have quick actions</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_sectionLayout_v1"(
+  label: "Quick Actions",
+  labelSize: "MEDIUM",
+  labelColor: "STANDARD",
+  labelHeadingTag: "H2",
+  contents: {
+    #"SYSTEM_SYSRULES_recordActionField_v1"(
+      actions: {
+        #"SYSTEM_SYSRULES_recordActionItem"(
+          action: #"urn:appian:record-action:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/ebb45d61-762f-4db0-93cb-de4e77e3a9a1"
+        ),
+        #"SYSTEM_SYSRULES_recordActionItem"(
+          action: #"urn:appian:record-action:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b68118b-a133-4cfe-a12b-0b896ea662bd"
+        ),
+        #"SYSTEM_SYSRULES_recordActionItem"(
+          action: #"urn:appian:record-action:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/ee74549f-f099-458f-b08d-48b7539f9f0f"
+        )
+      },
+      style: "CARDS",
+      display: "LABEL_AND_ICON"
+    )
+  },
+  marginBelow: "STANDARD"
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328915"/>
+    </history>
+</contentHaul>

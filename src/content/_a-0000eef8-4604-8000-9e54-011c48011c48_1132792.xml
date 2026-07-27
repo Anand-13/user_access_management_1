@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1132904</versionUuid>
+    <interface>
+        <name>UAM_columnlayout_teamDetails</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1132792</uuid>
+        <description>Column layout for team details</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  {
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_textField"(
+              label: "Team Name",
+              labelPosition: "ABOVE",
+              value: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"],
+              saveInto: {
+                ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"]
+              },
+              refreshAfter: "UNFOCUS",
+              validations: {}
+            ),
+            
+            
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_textField"(
+              label: "Team Description",
+              labelPosition: "ABOVE",
+              value: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6"],
+              saveInto: {
+                ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6"]
+              },
+              refreshAfter: "UNFOCUS",
+              validations: {}
+            ),
+
+
+          }
+        ),
+      }
+    ),
+    
+  }
+)</definition>
+        <namedTypedValue>
+            <name>team</name>
+            <type>
+                <name>bb51e73c-01e7-4e73-8a7b-4187491dde54</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1132904"/>
+    </history>
+</contentHaul>

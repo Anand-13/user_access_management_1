@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1353161</versionUuid>
+    <interface>
+        <name>UAM_titlebarandrelatedaction_organization</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1319879</uuid>
+        <description>Creating new organization and title bar interface</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_sideBySideLayout"(
+        alignVertical: "MIDDLE",
+        spacing: "STANDARD",
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            width: "MINIMIZE",
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              labelPosition: "COLLAPSED",
+              marginBelow: "NONE",
+              value: #"SYSTEM_SYSRULES_richTextIcon"(icon: "building", size: "LARGE", color: "#FFFFFF")
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              labelPosition: "COLLAPSED",
+              marginBelow: "NONE",
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(text: "Organization Management", size: "LARGE", style: "STRONG", color: "#FFFFFF"),
+                char(10),
+                #"SYSTEM_SYSRULES_richTextItem_v1"(text: "System administrator · all organizations · last synced today", size: "SMALL", color: "#EAF1E3")
+              }
+            )
+          ),
+          
+        }
+      )
+    },
+    style: "#6AA84F",
+    padding: "MORE",
+    shape: "SEMI_ROUNDED",
+    marginBelow: "STANDARD",
+    showBorder: false
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1319980"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1322526"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352796"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1353161"/>
+    </history>
+</contentHaul>

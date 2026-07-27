@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339777</versionUuid>
+    <interface>
+        <name>UAM_editablegrid_selectAndDeselectTeams</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332017</uuid>
+        <description>To add or remove the users</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!applications: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1316451"(isActive: true()),
+  local!applicationids: if(
+    a!isNotNullOrEmpty(local!applications),
+    tointeger(
+      index(
+        local!applications,
+        #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2",
+        null()
+      )
+    ),
+    tointeger(null())
+  ),
+
+  local!applicationrole: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(
+    applicationid: local!applicationids,
+    isActive: true()
+  ),
+  local!applicationroleids: if(
+    a!isNotNullOrEmpty(local!applicationrole),
+    tointeger(
+      index(
+        local!applicationrole,
+        #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+        null()
+      )
+    ),
+    tointeger(null())
+  ),
+
+  local!teamapplication: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(
+    teamid: ri!teamid,
+    isActive: true()
+  ),
+  local!teamapplicationid: if(
+    a!isNotNullOrEmpty(local!teamapplication),
+    tointeger(
+      index(
+        local!teamapplication,
+        #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+        null()
+      )
+    ),
+    tointeger({})
+  ),
+
+  local!availableroleids: difference(local!applicationroleids, local!teamapplicationid),
+  local!assignedroleids: local!teamapplicationid,
+  local!roleAdd: tointeger({}),
+  local!roleSubtract: tointeger({}),
+
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Team Roles",
+      secondaryText: "Manage Roles For Teams"
+    ),
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Assigned Roles",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Group Name"),
+                      
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Remove")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                   
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(
+                        groupno: local!assignedroleids,
+                        isActive: true(),
+                        isGroupRelReq: true()
+                      ),
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"
+                            ],
+                            readOnly: true()
+                          ),
+                        
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "minus-circle",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(
+                                      local!availableroleids,
+                                      union(local!availableroleids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assignedroleids,
+                                      difference(local!assignedroleids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!roleSubtract,
+                                      union(local!roleSubtract, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!roleAdd,
+                                      difference(local!roleAdd, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "SECONDARY",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!assignedroleids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No roles assigned to this team.",
+                      color: "SECONDARY",
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!assignedroleids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+
+          /* ── LEFT: AVAILABLE ROLES ── */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Available Roles",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Group Name"),
+                      
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Add")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                  
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(
+                        groupno: local!availableroleids,
+                        isActive: true(),
+                        isGroupRelReq: true()
+                      ),
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"
+                            ],
+                            readOnly: true()
+                          ),
+                         
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "plus-square-o",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(
+                                      local!availableroleids,
+                                      difference(local!availableroleids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assignedroleids,
+                                      union(local!assignedroleids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!roleAdd,
+                                      union(local!roleAdd, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!roleSubtract,
+                                      difference(local!roleSubtract, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "ACCENT",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!availableroleids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No roles available to add.",
+                      color: "SECONDARY",
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!availableroleids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          ),
+
+          /* ── RIGHT: ASSIGNED ROLES ── */
+          
+
+        }
+      )
+      
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true(),
+          loadingIndicator: true(),
+          style: "SOLID",
+          disabled: and(
+            a!isNullOrEmpty(local!roleAdd),
+            a!isNullOrEmpty(local!roleSubtract)
+          ),
+          saveInto: {
+            a!save(ri!rolesToAdd, local!roleAdd),
+            a!save(ri!rolesToRemove, local!roleSubtract),
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463")
+          }
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          submit: true(),
+          validate: false(),
+          style: "OUTLINE",
+          saveInto: {
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469")
+          }
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>rolesToAdd</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>rolesToRemove</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Checking The Team Roles</a:name>
+                <a:description>Checking for team roles</a:description>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">4</a:value>
+                    <a:nameRef>teamid</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>button</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>rolesToAdd</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>rolesToRemove</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <a:isDefault>true</a:isDefault>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332039"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339777"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1227809</versionUuid>
+    <rule>
+        <name>UAM_constructor_setTeamForRevoke</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1227797</uuid>
+        <description>set the team details for revoke purpose</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgdetails:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1123673"(orgId: ri!orgid),
+  local!orgname:index(local!orgdetails,#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9",null()),
+  #"urn:appian:record-type:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97"(
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4": null(),
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/40f58e90-9586-4243-ad02-95c88f7aed79": concat("Team Access Add For Revoke","-",local!orgname),
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/07705049-9429-45c0-9e76-73ac7197597b": ri!orgid,
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/74c3b022-8822-4346-ac87-fd2bd6f9f05e": ri!taskstatusid,
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3": ri!ppinitator,
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db": now(),
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/d523b078-a6eb-4362-9474-6fe2bbbc1598": ri!ppinitator,
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/31fb444a-b274-4b08-9a8b-90cc283e3060": ri!manager,
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/c3bdbf49-0c8a-4687-8306-16b138dba74c": now(),
+  #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a74d0f31-a451-49b4-abbd-a0c9c5f83f24": ri!taskdef,
+ #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/6cb77a5a-559e-459a-b0db-d9d86d0edbcc": true()
+  
+)
+)
+</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>ppinitator</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskstatusid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>manager</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskdef</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1227809"/>
+    </history>
+</contentHaul>

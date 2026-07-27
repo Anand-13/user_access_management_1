@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1353245</versionUuid>
+    <interface>
+        <name>UAM_cardgrid_OrganizationData</name>
+        <uuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352771</uuid>
+        <description></description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!search: "",
+  local!type: "all",
+  local!sortDesc: false,
+  local!pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(startIndex: 1, batchSize: 9),
+  local!all: #"SYSTEM_SYSRULES_queryRecordType_v4"(
+    recordType: #"urn:appian:record-type:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f",
+    fields: #"SYSTEM_SYSRULES_selectionFields"(
+      allFieldsFromRecordType: {
+        #"urn:appian:record-type:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f",
+        #"urn:appian:record-relationship:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/60f9ea53-2ab2-479b-a990-a1eac9caaa33"
+      }
+    ),
+    filters: #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      operator: "AND",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(field: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/b0ac5bbd-9773-410d-9da1-e2a26bea4a13", operator: "=", value: true()),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/56279cd7-e7c5-4577-9c40-eae4b315ac12",
+          operator: "=",
+          value: local!type = "Parent",
+          applyWhen: local!type &lt;&gt; "all"
+        )
+      },
+      ignoreFiltersWithEmptyValues: true()
+    ),
+    pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: 100,
+      sort: #"SYSTEM_SYSRULES_sortInfo"(field: #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9", ascending: not(local!sortDesc))
+    )
+  ).data,
+  /* In-memory search filter -&gt; flat list of matches */
+  local!filtered: a!flatten(
+    #"SYSTEM_SYSRULES_forEach"(
+      items: local!all,
+      expression: if(
+        or(
+          a!isNullOrEmpty(local!search),
+          search(
+            lower(local!search),
+            lower(
+              a!defaultValue(fv!item[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"], "")
+              &amp; " " &amp; a!defaultValue(fv!item[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/47e00641-832e-4dbe-a4e1-c0ff7da8deba"], "")
+              &amp; " " &amp; a!defaultValue(fv!item[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2"], "")
+            )
+          ) &gt; 0
+        ),
+        fv!item,
+        {}
+      )
+    )
+  ),
+  /* Computed page — recomputes whenever local!pagingInfo changes */
+  local!page: todatasubset(local!filtered, local!pagingInfo),
+  {
+    /* ===== Billboard (own card) ===== */
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+        alignVertical: "MIDDLE",
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            width: "MINIMIZE",
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              marginBelow: "NONE",
+              labelPosition: "COLLAPSED",
+              value: #"SYSTEM_SYSRULES_richTextIcon"(icon: "building-o", size: "MEDIUM_PLUS")
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_headingField"(
+              marginBelow: "NONE",
+              text: "Organization Management",
+              fontWeight: "SEMI_BOLD",
+              size: "MEDIUM",
+              headingTag: "H1"
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            width: "MINIMIZE",
+            item: #"SYSTEM_SYSRULES_recordActionField_v1"(
+              actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                action: #"urn:appian:record-action:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/a7039225-8a7e-4bc5-87b6-69b91f8b8e03"
+              ),
+              style: "CALL_TO_ACTION",
+              align: "END"
+            )
+          )
+        }
+      ),
+      height: "AUTO",
+      style: "ACCENT",
+      padding: "STANDARD",
+      marginBelow: "STANDARD",
+      showBorder: false
+    ),
+    /* ===== Toolbar (own card) ===== */
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: #"SYSTEM_SYSRULES_columnsLayout"(
+        alignVertical: "MIDDLE",
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: #"SYSTEM_SYSRULES_textField"(
+              labelPosition: "COLLAPSED",
+              placeholder: "Search name, code, or manager…",
+              value: local!search,
+              saveInto: { a!save(local!search, save!value), a!save(local!pagingInfo.startIndex, 1) },
+              refreshAfter: "KEYPRESS"
+            )
+          ),
+          #"SYSTEM_SYSRULES_forEach"(
+            items: {"all", "Parent", "Child"},
+            expression: #"SYSTEM_SYSRULES_columnLayout"(
+              width: "NARROW",
+              contents: #"SYSTEM_SYSRULES_cardLayout"(
+                contents: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  align: "CENTER",
+                  marginBelow: "NONE",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: if(fv!item = "all", "All", fv!item),
+                    color: if(local!type = fv!item, "#FFFFFF", "STANDARD"),
+                    style: "STRONG"
+                  )
+                ),
+                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                  value: fv!item,
+                  saveInto: { a!save(local!type, fv!item), a!save(local!pagingInfo.startIndex, 1) }
+                ),
+                style: if(local!type = fv!item, "#6AA84F", "#E8F0E3"),
+                padding: "LESS",
+                showBorder: false
+              )
+            )
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            width: "NARROW",
+            contents: #"SYSTEM_SYSRULES_dropdownField_v1"(
+              label: "",
+              labelPosition: "COLLAPSED",
+              placeholder: "Sort",
+              choiceLabels: {"Name A-Z", "Name Z-A"},
+              choiceValues: {false, true},
+              value: local!sortDesc,
+              saveInto: { a!save(local!sortDesc, save!value), a!save(local!pagingInfo.startIndex, 1) }
+            )
+          )
+        }
+      ),
+      style: "NONE",
+      padding: "STANDARD",
+      marginBelow: "STANDARD",
+      showBorder: false,
+      showShadow: true
+    ),
+    /* ===== Card grid — page's data, 3 per row ===== */
+    if(
+      local!page.totalCount = 0,
+      #"SYSTEM_SYSRULES_richTextDisplayField"(
+        labelPosition: "COLLAPSED",
+        align: "CENTER",
+        value: #"SYSTEM_SYSRULES_richTextItem_v1"(text: "No organizations match your filters.", color: "SECONDARY")
+      ),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: enumerate(tointeger(ceiling(count(local!page.data) / 3))),
+        expression: a!localVariables(
+          local!rowItems: index(local!page.data, (fv!item * 3) + enumerate(3) + 1, {}),
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            marginBelow: "STANDARD",
+            columns: #"SYSTEM_SYSRULES_forEach"(
+              items: local!rowItems,
+              expression: #"SYSTEM_SYSRULES_columnLayout"(
+                contents: if(a!isNullOrEmpty(fv!item), {}, #"_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352777"(org: fv!item))
+              )
+            )
+          )
+        )
+      )
+    ),
+    /* ===== Custom pager ===== */
+    #"SYSTEM_SYSRULES_richTextDisplayField"(
+      labelPosition: "COLLAPSED",
+      align: "CENTER",
+      marginBelow: "STANDARD",
+      showWhen: local!page.totalCount &gt; 0,
+      value: {
+        #"SYSTEM_SYSRULES_richTextIcon"(
+          icon: "angle-double-left",
+          link: #"SYSTEM_SYSRULES_dynamicLink"(
+            saveInto: a!save(local!pagingInfo.startIndex, 1),
+            showWhen: local!pagingInfo.startIndex &lt;&gt; 1
+          ),
+          linkStyle: "STANDALONE",
+          color: if(local!pagingInfo.startIndex &lt;&gt; 1, "STANDARD", "SECONDARY"),
+          size: "MEDIUM"
+        ),
+        "  ",
+        #"SYSTEM_SYSRULES_richTextIcon"(
+          icon: "angle-left",
+          link: #"SYSTEM_SYSRULES_dynamicLink"(
+            saveInto: a!save(
+              local!pagingInfo.startIndex,
+              if(
+                local!pagingInfo.startIndex - local!pagingInfo.batchSize &lt; 1,
+                1,
+                local!pagingInfo.startIndex - local!pagingInfo.batchSize
+              )
+            ),
+            showWhen: local!pagingInfo.startIndex &lt;&gt; 1
+          ),
+          linkStyle: "STANDALONE",
+          color: if(local!pagingInfo.startIndex &lt;&gt; 1, "STANDARD", "SECONDARY"),
+          size: "MEDIUM"
+        ),
+        "   ",
+        #"SYSTEM_SYSRULES_richTextItem_v1"(
+          text: {
+            local!pagingInfo.startIndex,
+            " - ",
+            if(
+              local!pagingInfo.startIndex + local!pagingInfo.batchSize - 1 &gt; local!page.totalCount,
+              local!page.totalCount,
+              local!pagingInfo.startIndex + local!pagingInfo.batchSize - 1
+            )
+          },
+          style: "STRONG"
+        ),
+        #"SYSTEM_SYSRULES_richTextItem_v1"(text: { " of ", fixed(local!page.totalCount, 0) }),
+        "   ",
+        #"SYSTEM_SYSRULES_richTextIcon"(
+          icon: "angle-right",
+          link: #"SYSTEM_SYSRULES_dynamicLink"(
+            saveInto: a!save(
+              local!pagingInfo.startIndex,
+              local!pagingInfo.startIndex + local!pagingInfo.batchSize
+            ),
+            showWhen: local!pagingInfo.startIndex + local!pagingInfo.batchSize - 1 &lt; local!page.totalCount
+          ),
+          linkStyle: "STANDALONE",
+          color: if(local!pagingInfo.startIndex + local!pagingInfo.batchSize - 1 &lt; local!page.totalCount, "STANDARD", "SECONDARY"),
+          size: "MEDIUM"
+        ),
+        "  ",
+        #"SYSTEM_SYSRULES_richTextIcon"(
+          icon: "angle-double-right",
+          link: #"SYSTEM_SYSRULES_dynamicLink"(
+            saveInto: a!save(
+              local!pagingInfo.startIndex,
+              if(
+                mod(local!page.totalCount, local!pagingInfo.batchSize) = 0,
+                local!page.totalCount - local!pagingInfo.batchSize + 1,
+                local!page.totalCount - mod(local!page.totalCount, local!pagingInfo.batchSize) + 1
+              )
+            ),
+            showWhen: local!pagingInfo.startIndex + local!pagingInfo.batchSize - 1 &lt; local!page.totalCount
+          ),
+          linkStyle: "STANDALONE",
+          color: if(local!pagingInfo.startIndex + local!pagingInfo.batchSize - 1 &lt; local!page.totalCount, "STANDARD", "SECONDARY"),
+          size: "MEDIUM"
+        )
+      }
+    ),
+   
+  }
+)</definition>
+        <namedTypedValue>
+            <name>selectedvalue</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352829"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1353245"/>
+    </history>
+</contentHaul>

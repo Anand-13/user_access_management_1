@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<groupHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</versionUuid>
+    <group>
+        <name>UAM Administrators</name>
+        <securityMap>SECURITYMAP_TEAM</securityMap>
+        <uuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</uuid>
+        <groupTypeUuid>SYSTEM_GROUP_TYPE_CUSTOM</groupTypeUuid>
+        <description>Assigns Administrator permissions to users for objects in the application</description>
+        <delegatedCreation>false</delegatedCreation>
+        <memberPolicy>MEMBERPOLICY_CLOSED</memberPolicy>
+        <viewingPolicy>VIEWINGPOLICY_LOW</viewingPolicy>
+        <attributes/>
+    </group>
+    <members>
+        <users/>
+        <groups>
+            <groupUuid>_e-0000eeda-015e-8000-9da0-01075c01075c_4045</groupUuid>
+            <groupUuid>_e-0000eef8-45e1-8000-9da2-01075c01075c_4308</groupUuid>
+            <groupUuid>_e-0000eef8-45e1-8000-9da2-01075c01075c_4364</groupUuid>
+        </groups>
+    </members>
+    <admins>
+        <users/>
+        <groups>
+            <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+        </groups>
+    </admins>
+    <ruleSet/>
+    <history>
+        <historyInfo versionUuid="15e1f5a7-cce7-4993-84d0-24405f18b73b"/>
+    </history>
+</groupHaul>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323624</versionUuid>
+    <interface>
+        <name>UAM_readonlygrid_applicationGroupDetails</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1136654</uuid>
+        <description>Read only grid to know the details of an application group details</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!groupcheck: if(
+    a!isNotNullOrEmpty(ri!groupid),
+    ri!groupid,
+    {-1}
+  ),
+  local!selected: {},
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Application Roles",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+            operator: "in",
+            value: local!groupcheck,
+            applyWhen: a!isNotNullOrEmpty(ri!groupid)
+          )
+        }
+      ),
+      showRefreshButton: true,
+      showSearchBox: true,
+      selectable: a!defaultValue(ri!selectable, false()),
+      selectionStyle: "ROW_HIGHLIGHT",
+      selectionValue: local!selected,
+      selectionSaveInto: {
+        local!selected,
+        a!save(
+          ri!selectedgroupids,
+          tointeger(local!selected)
+        )
+      },
+      columns: {
+        /* Group Name + Group ID merged — matches other grids' name pattern */
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Group Name",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: a!defaultValue(
+                  fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+                  "–"
+                ),
+                style: "STRONG"
+              ),
+              char(10),
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: if(
+                  a!isNullOrEmpty(
+                    fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2"]
+                  ),
+                  "–",
+                  "GRP-" &amp; text(
+                    fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2"],
+                    "00000"
+                  )
+                ),
+                color: "SECONDARY",
+                size: "SMALL"
+              )
+            }
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"
+        ),
+        /* Role */
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Role",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/4af96ff0-51ae-494e-b291-9b69501ced3f/299b80ba-6859-4a51-9327-066924ec76d4"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/14bd0629-b396-47cb-af9a-982e31d3ebee"
+        ),
+        /* Created By — null-safe with UAM_setUserName */
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Created By",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: if(
+                a!isNullOrEmpty(
+                  fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"]
+                ),
+                "No User",
+                #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(
+                  fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"]
+                )
+              ),
+              color: if(
+                a!isNullOrEmpty(
+                  fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"]
+                ),
+                "NEGATIVE",
+                "STANDARD"
+              )
+            )
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"
+        ),
+        /* Created On */
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Created On",
+          value: a!defaultValue(
+            #"_a-0000eef8-4604-8000-9e54-011c48011c48_1122127"(
+              fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e"]
+            ),
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e",
+          align: "END",
+          width: "NARROW_PLUS"
+        )
+      },
+      rowHeader: 1,
+      borderStyle: "LIGHT",
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>groupid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedgroupids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectable</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1254532"/>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1277707"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323624"/>
+    </history>
+</contentHaul>

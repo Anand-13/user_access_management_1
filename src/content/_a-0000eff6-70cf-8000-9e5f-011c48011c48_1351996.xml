@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352129</versionUuid>
+    <interface>
+        <name>UAM_buttonwidget_toRejectUserTOAddToTheGroup</name>
+        <uuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351996</uuid>
+        <description>Button That helps to reject a user from adding to a group</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!reasonforreject,
+  local!comment,
+  {#"SYSTEM_SYSRULES_ButtonArrayLayout"(
+    buttons: {
+      #"SYSTEM_SYSRULES_buttonWidget_v1"(
+        label: "Reject",
+        style: "OUTLINE",
+        color: "NEGATIVE",
+        saveInto: {
+          a!save(
+            local!reasonforreject,
+            true()
+          )
+        }
+      )
+    },
+    align: "END"
+  ),
+  if(
+    local!reasonforreject,
+    {
+     #"SYSTEM_SYSRULES_textField"(
+       refreshAfter: "KEYPRESS",
+       showCharacterCount: true(),
+       showWhen: local!reasonforreject,
+       value: local!comment,
+       saveInto: a!save(
+         local!comment,
+         save!value
+       )
+     ),
+     #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+       buttons: {
+         #"SYSTEM_SYSRULES_buttonWidget_v1"(
+           label: "cancel",
+           icon: "pencil-ruler",
+           style: "OUTLINE",
+           color: "NEGATIVE",
+           saveInto: a!save(local!reasonforreject,false())
+         ),
+         #"SYSTEM_SYSRULES_buttonWidget_v1"(
+           label: "Accept",
+           icon:"thumbs-o-up",
+           style: "SOLID",
+           color: "ACCENT",
+           saveInto: {
+             #"SYSTEM_SYSRULES_startProcess_v2"(
+               processModel: #"_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351758",
+               processParameters: {
+                 
+               }
+             )
+           }
+         )
+       }
+     )
+    },
+    null()
+  )
+ }
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352129"/>
+    </history>
+</contentHaul>

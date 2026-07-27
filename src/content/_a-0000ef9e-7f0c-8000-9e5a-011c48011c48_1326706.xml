@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326757</versionUuid>
+    <rule>
+        <name>UAM_qry_practiceQuestionsSet4TdateAndTime</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326706</uuid>
+        <description>Date and Time problems are here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* 61. An employee joined on date(2020, 3, 15) and today is date(2024, 3, 15). Write an expression
+to calculate how many complete years they've been employed. */
+  local!joiningdate:date(2020,3,15),
+  local!today:date(2024,3,15),
+  local!completedyears:abs(year(local!today)-year(local!joiningdate)),
+  /* 62. A project has startDate = date(2024, 1, 15) and endDate = date(2024, 3, 30). Write an
+expression to calculate the project duration in days. */
+  local!startdate:date(2024,1,15),
+  local!enddate:date(2024,3,30),
+  local!duration:local!enddate-local!startdate,
+  /* 63. Today is date(2024, 6, 15). Write an expression to get the first day of the current month. */
+  local!givendate:date(2024,6,15),
+  local!currentday:todate(date(year(local!givendate),month(local!givendate),1)),
+  /* 64. A subscription started on date(2023, 6, 1) with a duration of 18 months. Write an expression
+to calculate the expiry date. */
+  local!subscriptionstart:date(2023,6,1),
+  local!expirydate:todate(edate(local!subscriptionstart,18)),
+  /* 65. Two timestamps: meeting1 = datetime(2024, 6, 15, 14, 30, 0) and meeting2 = datetime(2024,
+6, 15, 16, 0, 0). Write an expression to calculate the time difference in hours. */
+  local!meeting1:datetime(2024, 6, 15, 14, 30, 0),
+  local!meeting2:datetime(2024,6, 15, 16, 0, 0),
+  local!time1:hour(local!meeting1) + minute(local!meeting1)/60 + second(local!meeting1)/3600,
+  local!time2:hour(local!meeting2) + minute(local!meeting2)/60 + second(local!meeting2)/3600,
+  local!timedifference:(local!time2-local!time1)*60,
+  /* 66. A deadline is date(2024, 12, 25). Write an expression to determine if it falls on a weekend
+(Saturday or Sunday). */
+  local!deadline:date(2024,12,25),
+  local!day:weekday(local!deadline),
+  local!weekend:if(or((local!day==1),local!day==7),"Weekend","weekday"),
+  /* 67. An invoice date is date(2024, 6, 1) with payment terms of "Net 30". Write an expression to
+calculate the due date (30 days after invoice date). */
+  local!invoicedate:date(2024,6,1),
+  local!duedate:todate(local!invoicedate+30),
+  /* 68. Today is date(2024, 6, 15). Write an expression to get the date of the last day of the previous
+month. */
+  local!dates:date(2024,6,15),
+  local!endmonth:todate(eomonth(local!dates,-1)),
+  /* 69. A person's birthdate is date(1990, 5, 20) and today is date(2024, 6, 15). Write an expression
+to calculate their age in years. */
+  local!birthdate:date(1990,5,20),
+  local!todaydate:date(2024,6,15),
+  local!calculate:year(local!todaydate)-year(local!birthdate),
+  /* 70. A task was created at datetime(2024, 6, 15, 9, 30, 0) and completed at datetime(2024, 6, 15,
+14, 45, 0). Write an expression to calculate the time taken in minutes. */
+  local!datetime:datetime(2024, 6, 15, 9, 30, 0),
+  local!datetime1:datetime(2024, 6, 15,14, 45, 0),
+  local!hour:hour(local!datetime)*60 + minute(local!datetime),
+  local!hour1:hour(local!datetime1)*60 + minute(local!datetime1),
+  local!totalhour:local!hour1-local!hour,
+  /* 71. A fiscal year starts on April 1st. Today is date(2024, 6, 15). Write an expression to determine
+the current fiscal year (e.g., "FY2024-2025"). */
+  local!fiscalyear:date(2024,6,15),
+  local!currentfiscalyear:if(
+    month(local!fiscalyear)&gt;=4,
+    concat("FY",year(local!fiscalyear),"-",year(local!fiscalyear)+1),
+    concat("FY",year(local!fiscalyear)-1,"-",year(local!fiscalyear))
+  ),
+  /* 72. A contract is valid for 90 days starting from date(2024, 1, 1). Write an expression to check if
+today date(2024, 2, 15) is still within the valid period. */
+  local!contract:date(2024,1,1),
+  local!isdate:todate(local!contract+90),
+  local!checkdate:date(2024,2,15),
+  local!checking:if(local!checkdate&lt;=local!isdate,"valid period","is not valid period"),
+  /* 73. Today is date(2024, 6, 15). Write an expression to get the date 3 months from now */
+  local!express:date(2024,6,15),
+  local!emonth:todate(edate(local!express,3)),
+  /* 74. A shift starts at time(9, 0, 0) and ends at time(17, 30, 0). Write an expression to calculate
+shift duration in hours and minutes (e.g., "8.5 hours"). */
+  local!shiftstart:time(9, 0, 0),
+  local!shiftclosing:time(17, 30, 0),
+  local!onlyhour:hour(local!shiftstart)*60 + minute(local!shiftstart),
+  local!onlyhour1:hour(local!shiftclosing)*60 + minute(local!shiftclosing),
+  local!onlyhours:(local!onlyhour1-local!onlyhour)/60,
+  /* 75. An event is scheduled for date(2024, 12, 25). Write an expression to calculate how many
+days remain until the event from today date(2024, 6, 15). */
+  local!event:date(2024,12,25),
+  local!todayevent:date(2024,6,15),
+  local!difference:local!event-local!todayevent,
+  /* 76. A report covers from date(2024, 1, 1) to date(2024, 3, 31). Write an expression to generate a
+label "Q1 2024" based on these dates */
+  local!reportcover:date(2024,1,1),
+  local!todate:date(2024,3,31),
+  local!label:tointeger((month(local!reportcover)+2)/3),
+  local!labelling:concat("Q", local!label," ", year(local!reportcover)),
+  /* 77. A reminder should be sent 7 days before an event on date(2024, 7, 1). Write an expression to
+calculate the reminder date. */
+  local!sent:todate(date(2024,7,1)-7),
+  /*  8. Two dates: startDate = date(2024, 1, 15) and endDate = date(2024, 2, 10). Write an
+expression to check if they are in the same month.*/
+  local!startdates:date(2024,1,15),
+  local!enddates:date(2024,2,10),
+  local!startmonth:month(local!startdates),
+  local!endmonths:month(local!enddates),
+  local!month1:if(local!startmonth==local!endmonths,true(),false()),
+  /*  Q79. Today is date(2024, 6, 15). Write an expression to determine if it's the last day of the month.*/
+  local!determined:date(2024,6,15),
+  local!determined1:eomonth(local!determined,0),
+  local!last:if(local!determined==local!determined1,true(),false()),
+  /* 80. A project deadline is datetime(2024, 6, 30, 17, 0, 0). Write an expression to format it as "June
+30, 2024 at 5:00 PM". */
+  local!project: datetime(2024, 6, 30, 17, 0, 0),
+  local!month: text(local!project, "MMMM"),
+  local!day1: day(local!project),
+  local!year1: year(local!project),
+  local!hour22: hour(local!project),
+  local!minute: text(minute(local!project), "00"),
+  local!ampm: if(local!hour22 &gt;= 12, "PM", "AM"),
+  local!displayHour: if(local!hour22 &gt; 12, local!hour22 - 12, local!hour22),
+  local!days: concat(local!month, " ", local!day1, ", ", local!year1, " at ", local!displayHour, ":", local!minute, " ", local!ampm),
+  {
+    local!completedyears,
+    local!duration,
+    local!currentday,
+    local!expirydate,
+    local!timedifference,
+    local!weekend,
+    local!duedate,
+    local!endmonth,
+    local!calculate,
+    local!totalhour,
+    local!currentfiscalyear,
+    local!isdate,
+    local!checking,
+    local!emonth,
+    local!onlyhours,
+    local!difference,
+    local!labelling,
+    local!sent,
+    local!month1,
+    local!determined1,
+    local!last,
+    local!days
+    }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326757"/>
+    </history>
+</contentHaul>

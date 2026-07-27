@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340197</versionUuid>
+    <interface>
+        <name>UAM_readonly_teamSummaryDetails</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1132969</uuid>
+        <description>Summary details of each team is displayed here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+
+
+/* Get ASSIGNED team roles */
+local!applicationdetails: if(
+  a!isNotNullOrEmpty(ri!teamid),
+  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: ri!teamid, isActive: true()),
+  null()
+),
+
+/* Extract assigned groupids from team roles */
+local!assignedGroupids: if(
+  a!isNotNullOrEmpty(local!applicationdetails),
+  index(
+    local!applicationdetails,
+    #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+    {}
+  ),
+  {}
+),
+
+local!teamorganizationdetails: if(
+  a!isNotNullOrEmpty(ri!teamid),
+  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(teamid: ri!teamid, isActive: true()),
+  null()
+),
+
+local!organizationid: index(
+  local!teamorganizationdetails,
+  #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/96d37d06-45e7-4282-8de1-85e282e0ef8b",
+  null()
+),
+
+local!organizationapplication: if(
+  a!isNotNullOrEmpty(local!organizationid),
+  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1142076"(orgId: local!organizationid, isActive: true()),
+  null()
+),
+
+local!orgapproles: if(
+  a!isNotNullOrEmpty(local!organizationapplication),
+  index(
+    local!organizationapplication,
+    #"urn:appian:record-field:v1:0723a91a-4d09-404f-821d-4296dd50e6c6/26a43997-9c33-40cd-a0e1-cf6a4c80387b",
+    null()
+  ),
+  null()
+),
+
+local!approles: if(
+  a!isNotNullOrEmpty(local!orgapproles),
+  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(applicationid: local!orgapproles),
+  null()
+),
+
+local!appids: if(
+  a!isNotNullOrEmpty(local!approles),
+  index(
+    local!approles,
+    #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/42950c36-a377-4597-bd74-3eeceefd7079",
+    null()
+  ),
+  null()
+),
+
+{
+  #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323830"(show: ri!show),
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: "Basic Details",
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Team Name",
+                labelPosition: "JUSTIFIED",
+                value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"]
+                ),
+                marginBelow: "MORE"
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Team Description",
+                labelPosition: "JUSTIFIED",
+                value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6"]
+                )
+              )
+            }
+          )
+        }
+      )
+    },
+    divider: "BELOW"
+  ),
+
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: "System Details",
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Created by",
+                labelPosition: "JUSTIFIED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(
+                      ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/5b3116d5-79dc-4937-ae25-673207c3df2b"]
+                    )
+                  )
+                },
+                marginBelow: "MORE"
+              ),
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Modified By",
+                labelPosition: "JUSTIFIED",
+                value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1121809"(
+                    ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/05a3d9d2-435f-40db-b1ba-b738884ea0ac"]
+                  )
+                ),
+                marginBelow: "MORE"
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Created On",
+                labelPosition: "JUSTIFIED",
+                value: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1122127"(
+                  ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/b2e82a3c-b634-46f9-9efc-0e0e134f4000"]
+                ),
+                marginBelow: "MORE"
+              ),
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Modified On",
+                labelPosition: "JUSTIFIED",
+                value: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1122127"(
+                  ri!team[#"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/da7add7a-4e14-48f7-842f-e3df624f4c00"]
+                ),
+                marginBelow: "MORE"
+              )
+            }
+          )
+        }
+      )
+    },
+    divider: "BELOW"
+  ),
+
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: "Application Role Details",
+    contents: {
+      #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1205678"(appid: local!appids,
+      showsearchbox: false()
+      )
+    },
+    divider: "BELOW"
+  ),
+
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: "Roles Assigned",
+    contents: {
+      #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1253923"(
+        teamid: ri!teamid,
+        select: false(),
+        searchbox: false(),
+        refreshbutton: false()/* ← Fixed: Use assigned groupids from team */
+      )
+    },
+    divider: "BELOW"
+  )
+}
+)</definition>
+        <namedTypedValue>
+            <name>team</name>
+            <type>
+                <name>bb51e73c-01e7-4e73-8a7b-4187491dde54</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>show</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Initial Scenario</a:name>
+                <a:description/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000eef8-4604-8000-9e54-011c48011c48_1132811"(TeamId: {6})</a:value>
+                    <a:nameRef>team</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">6</a:value>
+                    <a:nameRef>teamid</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>show</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <a:isDefault>true</a:isDefault>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1254041"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1289165"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1291388"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326867"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1340197"/>
+    </history>
+</contentHaul>

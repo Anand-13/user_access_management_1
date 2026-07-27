@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1153952</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_userInformation</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1151468</uuid>
+        <description>Here User Information is displayed here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selected: {},
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "User Details",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48",
+            operator: "in",
+            value: ri!userid,
+            applyWhen: a!isNotNullOrEmpty(ri!userid)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48",
+            operator: "not in",
+            value: ri!excludeids,
+            applywhen:a!isNotNullOrEmpty(ri!excludeids)
+          )
+        }
+      ),
+      showRefreshButton: true,
+      showSearchBox: true,
+      selectable: a!defaultValue(value:ri!selectable,default: true()),
+      selectionStyle: "ROW_HIGHLIGHT",
+      selectionValue: local!selected,
+      selectionSaveInto: {local!selected,
+      a!save(
+        
+        target: ri!select,
+        value: local!selected
+      )
+      },
+      similarityScoreThreshold: 1.0,
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Id",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            value: {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: if(
+                  fv!row[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48"] &lt; 100000,
+                  text(
+                    fv!row[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48"],
+                    "#00000"
+                  ),
+                  fv!row[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48"]
+                )
+              )
+            }
+          ),
+          sortField: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "First Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/432735ea-6585-464d-b6e4-77009d9bcf1d"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/432735ea-6585-464d-b6e4-77009d9bcf1d"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Last Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/347f4da4-04e1-4eb5-b521-564f0e8be776"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/347f4da4-04e1-4eb5-b521-564f0e8be776"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Email",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/7e7ff32d-c4e1-468a-964f-48933b28c91e"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/7e7ff32d-c4e1-468a-964f-48933b28c91e"
+        ),
+        
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>select</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectable</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>excludeids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1153952"/>
+    </history>
+</contentHaul>

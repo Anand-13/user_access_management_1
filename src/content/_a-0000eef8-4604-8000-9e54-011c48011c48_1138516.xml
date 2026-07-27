@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1245700</versionUuid>
+    <interface>
+        <name>UAM_formlayout_assigningApplicationTeam</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1138516</uuid>
+        <description>Form for assigning the application to the team</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1230168"(teamid: ri!teamid,selectedgroupids:ri!selectedgroupids)
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+          saveInto:{ 
+            a!save(
+              target:ri!button,
+              value:#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            ),
+           
+          },
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(
+              target:ri!button,
+              value:#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Select the application",
+      secondaryText: "Enter your details",
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedgroupids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1245700"/>
+    </history>
+</contentHaul>

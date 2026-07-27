@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1319809</versionUuid>
+    <rule>
+        <name>UAM_qry_practiceQuestionsSet2</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1317344</uuid>
+        <description>Set Questions for practice purpose</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Q1. You have a list of employee records where each record has a name and salary: */
+  /*{*/
+  /*a!map(name:*/
+  /*"John", salary: 50000), a!map(name: "Sarah", salary: 65000), a!map(name: "Mike",*/
+  /*salary: 55000)} . Write an expression to extract only the names of employees whose salary is*/
+  /*greater than 52000 */
+  local!employeerecords: {
+    a!map(name: "John", salary: 50000),
+    a!map(name: "Sarah", salary: 65000),
+    a!map(name: "Mike", salary: 55000)
+  },
+  /*Q2. A product list contains: */
+  /*{"Apple", "Banana", "Apple", "Orange", "Banana", "Apple"} .*/
+  /*Write an expression to remove all duplicates and return a unique list */
+  local!productlist: {
+    "Apple",
+    "Banana",
+    "Apple",
+    "Orange",
+    "Banana",
+    "Apple"
+  },
+  local!duplicates: union(local!productlist, local!productlist),
+  /*3. You have two lists: approvedUsers = 
+{"user1", "user2", "user3"} and requestedUsers =
+{"user2", "user4", "user5"} . Write an expression to find users who requested access but are
+NOT already approved.  */
+  local!approvedUsers: { "user1", "user2", "user3" },
+  local!requestedUsers: { "user2", "user4", "user5" },
+  local!notapproved: difference(
+    local!requestedUsers,
+    local!approvedUsers
+  ),
+  /*  4. A survey collected ratings: 
+{5, 3, 4, 5, 2, 4, 5, 3, 4} . Write an expression to count
+how many times the rating "5" appears in the list*/
+  local!ratings: { 5, 3, 4, 5, 2, 4, 5, 3, 4 },
+  local!count: count(wherecontains(5, local!ratings)),
+  /* Q5. You have a list of order IDs: 
+{1001, 1002, 1003, 1004, 1005} . Write an expression to
+create a new list where each order ID is prefixed with "ORD-" (result: 
+1002", ...} ). */
+  local!order: { 1001, 1002, 1003, 1004, 1005 },
+  local!expression: #"SYSTEM_SYSRULES_forEach"(
+    items: local!order,
+    expression: concat("ORD-", fv!item)
+  ),
+  /*6. A team has members: 
+{"ORD-1001", "ORD
+{"Alice", "Bob", "Charlie", "David", "Eve"} . Write an
+expression to select only members whose names have exactly 3 letters*/
+  local!team: { "Alice", "Bob", "Charlie", "David", "Eve" },
+  local!members: #"SYSTEM_SYSRULES_forEach"(
+    items: local!team,
+    expression: left(fv!item, 3)
+  ),
+  /* 7. You have sales data for 3 regions: Region1 = 
+Region3 = 
+{1000, 1500} , Region2 = 
+{2000, 2500} ,
+{3000} . Write an expression to combine all sales into one flat list and calculate the
+total. */
+  local!region1: { 1000, 1500 },
+  local!region2: { 2000, 2500 },
+  local!region3: { 3000 },
+  local!total: sum(
+    union(
+      local!region1,
+      local!region2,
+      local!region3
+    )
+  ),
+  /* 8. A document list contains: 
+{"Report.pdf", "Image.jpg", "Data.xlsx", "Notes.pdf",
+"Chart.png"} . Write an expression to extract only PDF files (files ending with ".pdf"). */
+  local!document: {
+    "Report.pdf",
+    "Image.jpg",
+    "Data.xlsx",
+    "Notes.pdf",
+    "Chart.png"
+  },
+  local!checkpdf: #"SYSTEM_SYSRULES_forEach"(
+    items: local!document,
+    expression: a!endsWith(fv!item, ".pdf")
+  ),
+  local!endwithpdf: index(
+    local!document,
+    wherecontains(true(), local!checkpdf),
+    null()
+  ),
+  /* Q9. You have a list of numbers: 
+{10, 25, 30, 15, 40, 5, 35} . Write an expression to filter and
+return only numbers between 15 and 35 (inclusive) */
+  local!numbers: { 10, 25, 30, 15, 40, 5, 35 },
+  local!filter: #"SYSTEM_SYSRULES_forEach"(
+    items: local!numbers,
+    expression: if(
+      and((fv!item &gt;= 15), (fv!item &lt;= 35)),
+      fv!item,
+      null()
+    )
+  ),
+  local!nullcheck: #"SYSTEM_SYSRULES_forEach"(
+    items: local!filter,
+    expression: a!isNotNullOrEmpty(fv!item)
+  ),
+  local!returns: index(
+    local!numbers,
+    wherecontains(true(), local!nullcheck),
+    null()
+  ),
+  /* 10. A priority list has items: 
+{"High", "Low", "Medium", "High", "Critical"} . Write an
+expression to move all "High" priority items to the beginning while keeping other items in their
+original order. */
+  local!items: {
+    "High",
+    "Low",
+    "Medium",
+    "High",
+    "Critical"
+  },
+  local!high: index(
+    local!items,
+    wherecontains("High", local!items),
+    null()
+  ),
+  local!remaining: index(
+    local!items,
+    wherecontains(
+      false(),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!items,
+        expression: fv!item = "High"
+      )
+    ),
+    null()
+  ),
+  local!begining: a!flatten({ local!high, local!remaining }),
+  /*11. You have employee ages: 
+{25, 32, 45, 29, 51, 38, 41} . Write an expression to separate
+them into two lists: under 40 and 40 or above */
+  local!employee: { 25, 32, 45, 29, 51, 38, 41 },
+  local!employee1:index(local!employee,wherecontains(true(),#"SYSTEM_SYSRULES_forEach"(items: local!employee,expression: fv!item&gt;40)),null()),
+  local!employee2:index(local!employee,wherecontains(true(),#"SYSTEM_SYSRULES_forEach"(items: local!employee,expression: fv!item&lt;40)),null()),
+  /* 12. A string list contains: 
+{"apple", "BANANA", "Cherry", "GRAPE"} . Write an expression to
+convert all items to lowercase and sort them alphabetically*/
+  local!string:{"apple", "BANANA", "Cherry", "GRAPE"},
+  local!lowercase:#"SYSTEM_SYSRULES_forEach"(
+    items: local!string,
+    expression: lower(fv!item)
+  ),
+  /* Q13. You have project IDs: 
+{101, 102, 103, 104, 105} and need to create pairs: 
+101", "Project 102", ...} . Write an expression to generate this list */
+  local!Id:{101, 102, 103, 104, 105} ,
+  local!project:#"SYSTEM_SYSRULES_forEach"(
+    items: local!Id,
+    expression: concat("Project","-",fv!item)
+  ),
+  /* 14. A feedback list contains: 
+{"Project
+{"Good", "Bad", "Good", "Excellent", "Good", "Bad"} .
+Write an expression to count occurrences of each unique value and return a summary (e.g.,
+"Good appears 3 times"). */
+  local!feedback:{"Good", "Bad", "Good", "Excellent", "Good", "Bad"} ,
+  local!text:union(local!feedback,local!feedback),
+  local!appears:#"SYSTEM_SYSRULES_forEach"(
+    items: local!text,
+    expression: concat(fv!item," ","appears"," ",count(wherecontains(fv!item,local!feedback))," ","times"),
+  ),
+  /* 15. You have a nested list: 
+{{1, 2}, {3, 4, 5}, {6}} . Write an expression to flatten it and
+f
+ind the sum of all numbers. */
+  local!nestedlist:sum(a!flatten({{1, 2}, {3, 4, 5}, {6}})),
+  /* Q16. A list of codes is: 
+{"A1", "B2", "A3", "C1", "A5"} . Write an expression to extract only
+codes that start with "A" */
+  local!codes:{"A1", "B2", "A3", "C1", "A5"},
+  local!extract:a!startsWith(local!codes,"A"),
+  local!startwithA:index(local!codes, wherecontains(true(),local!extract),null()),
+  /*17. You have task durations in hours: 
+{2, 4, 1, 3, 5, 2} . Write an expression to double each
+duration and return the new list. */
+  local!duration:{2, 4, 1, 3, 5, 2},
+  local!newlist:#"SYSTEM_SYSRULES_forEach"(
+    items: local!duration,
+    expression: product(fv!item,2)
+  ),
+  /*  18. Two lists represent matched pairs: Names = 
+{"John", "Sarah", "Mike"} and Scores =
+{85, 92, 78} . Write an expression to find the name of the person with the highest score.*/
+  local!names:{"John", "Sarah", "Mike"},
+  local!scores:{85, 92, 78} ,
+  local!highestscore:index(local!names,wherecontains(touniformstring(max(local!scores)),touniformstring(local!scores)),null()),
+  /* 19. A list contains: 
+{5, 10, 15, 20, 25, 30} . Write an expression to get every other element
+starting from the first (result: 
+{5, 15, 25} ). */
+  local!element:{5, 10, 15, 20, 25, 30},
+  local!start:#"SYSTEM_SYSRULES_forEach"(
+    items: local!element,
+    expression: if(not(mod(fv!index,2)=0),fv!item,null())
+  ),
+  local!value:index(local!element,wherecontains(touniformstring(local!start),touniformstring(local!element)),null()),
+  /* Q20. You have department codes: 
+{"HR-001", "IT-002", "HR-003", "FIN-001", "IT-004"} .
+Write an expression to group and count how many codes belong to each department (HR, IT,
+FIN). */
+  local!department: {"HR-001", "IT-002", "HR-003", "FIN-001", "IT-004"},
+
+  local!deptNames: #"SYSTEM_SYSRULES_forEach"(
+    items: local!department,
+    expression: left(fv!item, find("-", fv!item) - 1)
+  ),
+  /* Result: {"HR", "IT", "HR", "FIN", "IT"} */
+
+  local!unique: union(local!deptNames, local!deptNames),
+  /* Result: {"HR", "IT", "FIN"} */
+
+  local!summary: #"SYSTEM_SYSRULES_forEach"(
+    items: local!unique,
+    expression: fv!item &amp; " - " &amp; count(wherecontains(fv!item, local!deptNames)) &amp; " codes"
+  ),
+ 
+  {
+    local!employeerecords.name,
+    local!duplicates,
+    local!notapproved,
+    local!count,
+    local!expression,
+    local!members,
+    local!total,
+    local!endwithpdf,
+    local!remaining,
+    local!high,
+    local!returns,
+    local!begining,
+    local!employee1,
+    local!employee2,
+    local!lowercase,
+    local!project,
+    local!appears,
+    local!nestedlist,
+    local!extract,
+    local!startwithA,
+    local!newlist,
+    local!highestscore,
+    local!value,
+    local!summary
+  }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1319809"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dataStoreHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1084399</versionUuid>
+    <dataStore>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1084393</uuid>
+        <name>UAM Table Data Store</name>
+        <description>Data store for all the tables </description>
+        <dataSourceKey>_a-0000eeda-0177-8000-9e52-011c48011c48_1084386</dataSourceKey>
+        <adaptingExplicitSqlNames>false</adaptingExplicitSqlNames>
+        <autoUpdateSchema>false</autoUpdateSchema>
+        <entities/>
+    </dataStore>
+    <isPublished>false</isPublished>
+    <roleMap>
+        <role inherit="false" allowForAll="false" name="administrators">
+            <users/>
+            <groups>
+                <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+            </groups>
+        </role>
+        <role inherit="false" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="readers">
+            <users/>
+            <groups>
+                <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eeda-0177-8000-9e52-011c48011c48_1084399"/>
+    </history>
+</dataStoreHaul>

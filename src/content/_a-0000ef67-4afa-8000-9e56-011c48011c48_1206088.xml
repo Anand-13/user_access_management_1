@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1220223</versionUuid>
+    <rule>
+        <name>UAM_getUserID</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1206088</uuid>
+        <description>To get the user id</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>index(
+  index(
+    #"SYSTEM_SYSRULES_queryRecordType_v4"(
+      recordType: #"urn:appian:record-type:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc",
+      filters: #"SYSTEM_SYSRULES_queryFilter"(
+        field: #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b6956f1b-0674-4b2a-a808-051a41257c01",
+        operator: "=",
+        value: tostring(ri!ppinitator)  /* ← ri! in expression rule */
+      ),
+      pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(startIndex: 1, batchSize: 1)
+    ),
+    "data",
+    {}
+  ),
+  #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48",
+  null()
+)</definition>
+        <namedTypedValue>
+            <name>ppinitator</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1220223"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326705</versionUuid>
+    <rule>
+        <name>UAM_qry_practiceQuestionsSet3Text</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326377</uuid>
+        <description>Text problems are here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* 41. An email address is "
+John.Doe@Company.com". Write an expression to extract just the
+username part before the "@" symbol (result: "John.Doe"). */
+  local!email:"John.Doe@Company.com",
+  local!username:if(
+    a!isNotNullOrEmpty(local!email),
+    index(split(local!email,"@"),1,null()),
+    null()
+  ),
+  /* 42. A full name is " SMITH, JOHN " (last name, first name format with extra spaces). Write an
+expression to clean it up and convert to "John Smith" format. */
+  local!fullname:" SMITH, JOHN ",
+  local!extraspace:trim(local!fullname),
+  local!convert:split(local!extraspace,","),
+  local!firstname:index(local!convert,2,""),
+  local!lastname:index(local!convert,1,""),
+  local!full:proper(concat(local!firstname," ",local!lastname)),
+  
+  /* Q43. A product SKU is "ELEC-LAP-2024-001". Write an expression to extract the year "2024"
+from the SKU */
+  local!product:"ELEC-LAP-2024-001",
+  local!extract:split(local!product,"-"),
+  local!year:index(local!extract,wherecontains("2024",local!extract),""),
+  /* 44. You have firstName = "Jane" and lastName = "Doe". Write an expression to create initials
+"J.D." */
+  local!Name1:"Jane",
+  local!Name2:"Doe",
+  local!firsta:left(local!Name1,1),
+  local!lasta:left(local!Name2,1),
+  local!initials:concat(local!firsta,".",local!lasta,"."),
+  /* 45. A phone number is "1234567890". Write an expression to format it as "(123) 456-7890". */
+  local!phonenumber:"1234567890",
+  local!phone:left(local!phonenumber,3),
+  local!number1:mid(local!phonenumber, 4, 3),
+  local!number2:right(local!phonenumber,4),
+  local!fullphonenumber:concat("(",local!phone,")"," ",local!number1,"-",local!number2),
+  /* Q46. A sentence is "The Quick Brown Fox Jumps". Write an expression to count how many
+words are in the sentence. */
+  local!sentence:"The Quick Brown Fox Jumps",
+  local!characters:count(split(local!sentence," ")),
+  /*47. A file path is "/documents/reports/2024/Q1/sales.pdf". Write an expression to extract just
+the filename "sales.pdf".  */
+  local!filepath:"/documents/reports/2024/Q1/sales.pdf",
+  local!split1:split(local!filepath,"/"),
+  local!just:index(local!split1,wherecontains("sales.pdf",local!split1),null()),
+  /*  A string is "apple,banana,cherry,date". Write an expression to replace all commas with
+semicolons and convert to uppercase. */
+  local!string:"apple,banana,cherry,date",
+  local!semicolons:split(local!string,","),
+  local!uppercase:#"SYSTEM_SYSRULES_forEach"(
+    items: local!semicolons,
+    expression: upper(fv!item)
+  ),
+  /* 49. A product code is "ABC-123-XYZ". Write an expression to check if it follows the pattern: 3
+letters, hyphen, 3 numbers, hyphen, 3 letters. Return true or false. */
+  local!productcode:"ABC-123-XYZ",
+  local!isvalid: regexmatch("^[A-Za-z]{3}-[0-9]{3}-[A-Za-z]{3}$",local!productcode),
+  /* 50. A description is "This is a sample text with many words". Write an expression to extract the
+first 20 characters and add "..." if the text is longer than 20 characters. */
+  local!description: "This is a sample text with many words",
+  local!words:len(local!description),
+  local!check:if(local!words&gt;20,
+  "Text is longer than 20 characters",
+  left(local!description,20)),
+  /* 51. Two strings: string1 = "Hello World" and string2 = "HELLO WORLD". Write an expression to
+check if they are equal ignoring case sensitivity */
+  local!string1:"Hello World",
+  local!string2:"HELLO WORLD",
+  local!matches:exact(upper(local!string1),upper(local!string2)),
+  /* 52. A URL is "
+https://www.example.com/page?id=123&amp;name=test". Write an expression to
+extract the domain "
+www.example.com". */
+  local!url: "https://www.example.com/page?id=123&amp;name=test",
+  local!domain: index(split(local!url,"//"),2,null()),
+ local!domainurl:index(split(local!domain,"/"),1,null()),
+ /*53. A sentence is "contact us at 
+the email address.
+support@company.com for help". Write an expression to extract */
+ local!contact: "contact us at the email address support@company.com for help",
+ local!extractemail: split(local!contact, " "),
+ local!onlyemail: index(local!extractemail, wherecontains("support@company.com", local!extractemail), null),
+ /*54. A list of names is stored as a single string: "John,Sarah,Mike,Lisa". Write an expression to
+split it into a list and count how many names there are. */
+ local!singlestring:"John,Sarah,Mike,Lisa",
+ local!single:count(split(local!singlestring,",")),
+ /*55. A credit card number is "1234567890123456". Write an expression to mask it showing only
+last 4 digits: "************3456". */
+ local!credit:"1234567890123456",
+ local!creditnumber:len(local!credit),
+ local!lastdigits:len(right(local!credit,4)),
+ local!upcoming:local!creditnumber-local!lastdigits,
+ local!astreik:joinarray(repeat(local!upcoming,"*"),""),
+ local!combine:concat(local!astreik,right(local!credit,4)),
+ /*56. A reference is "REF-2024-001". Write an expression to increment the number part to create
+"REF-2024-002". */
+ local!reference: "REF-2024-005",
+ local!spliting: split(local!reference, "-"),
+ local!prefix: index(local!spliting, 1, ""),
+ local!years: index(local!spliting, 2, ""),
+ local!counter: index(local!spliting, 3, ""),
+ local!converting: tointeger(local!counter),
+ local!adding: tostring(local!converting + 1),
+ local!addingzero: right("000" &amp; local!adding, 3),
+ local!finaloutput: concat(local!prefix, "-", local!years, "-", local!addingzero),
+ /*Q57. A paragraph contains "apple" 3 times. Write an expression to count how many times "apple"
+appears in the text (case-insensitive). */
+ /*58. Two strings: address1 = "123 Main St" and address2 = "Apt 4B". Write an expression to
+combine them with a comma and space: "123 Main St, Apt 4B". */
+ local!address:"123 Main St",
+ local!address1:"Apt 4B",
+ local!finaladdress:concat(local!address,","," ",local!address1),
+ /*59. A string is "Product_Name_With_Underscores". Write an expression to replace all
+underscores with spaces and convert to proper case: "Product Name With Underscores". */
+ local!stringname:"Product_Name_With_Underscores",
+ local!sub:substitute(local!stringname,"_"," "),
+ /* 60. A version number is "v2.5.3". Write an expression to extract just the major version number
+"2".*/
+ local!version:"v2.5.3",
+ local!versionnumber:split(local!version,"."),
+ local!number:index(local!versionnumber,1,null()),
+ local!strip:stripwith(local!number,"v"),
+ {
+    local!username,
+    local!full,
+    local!year,
+    local!initials,
+    local!fullphonenumber,
+    local!characters,
+    local!just,
+    local!uppercase,
+    local!isvalid,
+    local!check,
+    local!matches,
+    local!domainurl,
+    local!onlyemail,
+    local!single,
+    local!combine,
+  
+    local!finaloutput,
+    local!finaladdress,
+    local!sub,
+    local!strip
+  }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326705"/>
+    </history>
+</contentHaul>

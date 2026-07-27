@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338719</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_applicationAndOtherDetails</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328027</uuid>
+        <description>select application and we will get other details as well</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgteam: if(
+    a!isNotNullOrEmpty(ri!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1142076"(orgId: ri!orgid, isActive: true()),
+    null()
+  ),
+  local!applicationid: if(
+    a!isNotNullOrEmpty(local!orgteam),
+    index(
+      local!orgteam,
+      #"urn:appian:record-field:v1:0723a91a-4d09-404f-821d-4296dd50e6c6/26a43997-9c33-40cd-a0e1-cf6a4c80387b",
+      null()
+    ),
+    null()
+  ),
+  local!selectedappid: {},
+  local!selectedrowid: {},
+  {
+    if(
+      a!isNotNullOrEmpty(local!applicationid),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          /* LEFT: Application grid - full width when nothing selected, shrinks when selected */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            width:if(a!isNullOrEmpty(local!selectedappid),"EXTRA_WIDE","WIDE"),
+            contents: {
+              #"SYSTEM_SYSRULES_sideBySideLayout"(
+                items: {
+                  #"SYSTEM_SYSRULES_sideBySideItem"(),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: {
+                      #"SYSTEM_SYSRULES_recordActionField_v1"(
+                        actions: {
+                          #"SYSTEM_SYSRULES_recordActionItem"(
+                            action: #"urn:appian:record-action:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/7da09602-a57a-441d-b194-522ad5982daf",
+                            identifier: local!selectedappid
+                          )
+                        },
+                        showWhen: a!isNotNullOrEmpty(local!selectedappid),
+                        style: "SIDEBAR_PRIMARY",
+                        align: "END"
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: {
+                      #"SYSTEM_SYSRULES_recordActionField_v1"(
+                        actions: {
+                          #"SYSTEM_SYSRULES_recordActionItem"(
+                            action: #"urn:appian:record-action:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/ee74549f-f099-458f-b08d-48b7539f9f0f",
+                            identifier: ri!orgid
+                          )
+                        },
+                        style: "SIDEBAR_PRIMARY",
+                        align: "END"
+                      )
+                    }
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_cardLayout"(
+                contents: {
+                  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1141975"(
+                    appid: local!applicationid,
+                    isSelectable: true(),
+                    selected: local!selectedappid,
+                    refresh: false(),
+                    search: false()
+                  )
+                }
+              ),
+              
+            }
+          ),
+         
+          #"SYSTEM_SYSRULES_columnLayout"(
+            width: "AUTO",
+            contents: if(
+              a!isNullOrEmpty(local!selectedappid),
+              {},
+              {
+                #"SYSTEM_SYSRULES_sideBySideLayout"(
+                  items: {
+                    #"SYSTEM_SYSRULES_sideBySideItem"(),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: {
+                        #"SYSTEM_SYSRULES_recordActionField_v1"(
+                          actions: {
+                            #"SYSTEM_SYSRULES_recordActionItem"(
+                              action: #"urn:appian:record-action:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/79b37626-eaf1-4d99-a3db-7e3f655e47d9",
+                              identifier: local!selectedappid
+                            )
+                          },
+                          style: "SIDEBAR_PRIMARY",
+                          align: "END"
+                        )
+                      }
+                    ),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: {
+                        #"SYSTEM_SYSRULES_recordActionField_v1"(
+                          actions: {
+                            #"SYSTEM_SYSRULES_recordActionItem"(
+                              action: #"urn:appian:record-action:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/08f4b93f-1e9b-444d-9e69-33f4c5981ece",
+                              identifier: local!selectedappid
+                            )
+                          },
+                          style: "SIDEBAR_PRIMARY",
+                          align: "END"
+                        )
+                      }
+                    )
+                  }
+                ),
+                #"SYSTEM_SYSRULES_cardLayout"(
+                  contents: {
+                    #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328173"(
+                      appid: local!selectedappid,
+                      isSelectable: false(),
+                      selected: local!selectedrowid,
+                      refresh: false(),
+                      showsearchbox: false()
+                    )
+                  }
+                )
+              }
+            )
+          )
+        }
+      ),
+      {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedgroupid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338719"/>
+    </history>
+</contentHaul>

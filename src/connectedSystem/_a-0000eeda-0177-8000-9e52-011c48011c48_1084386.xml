@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<connectedSystemHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1084392</versionUuid>
+    <connectedSystem>
+        <name>UAM Data Source</name>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1084386</uuid>
+        <description>Data source of the entire application through connected system</description>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <sharedConfigParameters>
+            <a:Dictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <configurationDescriptor xsi:type="a:Dictionary">
+                    <types xsi:type="a:Dictionary">
+                        <RootType xsi:type="a:Dictionary">
+                            <properties xsi:type="a:Dictionary?list">
+<item>
+    <description xsi:nil="true" xsi:type="a:Null"/>
+    <refresh xsi:type="xsd:string">NEVER</refresh>
+    <placeholder xsi:nil="true" xsi:type="a:Null"/>
+    <isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <label xsi:type="xsd:string">Deprecation Notice</label>
+    <isRequired xsi:type="xsd:boolean">false</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+    <key xsi:type="xsd:string">deprecationNotice</key>
+    <isHidden xsi:type="xsd:boolean">false</isHidden>
+    <isMasked xsi:type="xsd:boolean">false</isMasked>
+    <isReadOnly xsi:type="xsd:boolean">true</isReadOnly>
+    <type xsi:type="xsd:string">STRING</type>
+</item>
+<item>
+    <description xsi:nil="true" xsi:type="a:Null"/>
+    <refresh xsi:type="xsd:string">ALWAYS</refresh>
+    <placeholder xsi:type="xsd:string">jdbc:mariadb://yourserver.example.com:3306/your_db_name?useOldAliasMetadataBehavior=true</placeholder>
+    <isImportCustomizable xsi:type="xsd:boolean">true</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <label xsi:type="xsd:string">Connection URL</label>
+    <isRequired xsi:type="xsd:boolean">true</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+    <key xsi:type="xsd:string">connectionUrl</key>
+    <isHidden xsi:type="xsd:boolean">false</isHidden>
+    <isMasked xsi:type="xsd:boolean">false</isMasked>
+    <isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+    <type xsi:type="xsd:string">STRING</type>
+</item>
+<item>
+    <description xsi:nil="true" xsi:type="a:Null"/>
+    <refresh xsi:type="xsd:string">ALWAYS</refresh>
+    <placeholder xsi:nil="true" xsi:type="a:Null"/>
+    <isImportCustomizable xsi:type="xsd:boolean">true</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <choices xsi:type="a:Dictionary?list">
+        <item>
+            <name xsi:type="xsd:string">Basic</name>
+            <value xsi:type="xsd:string">BASIC</value>
+        </item>
+    </choices>
+    <label xsi:type="xsd:string">Authentication</label>
+    <isRequired xsi:type="xsd:boolean">false</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+    <key xsi:type="xsd:string">authType</key>
+    <isHidden xsi:type="xsd:boolean">true</isHidden>
+    <isMasked xsi:type="xsd:boolean">false</isMasked>
+    <isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+    <type xsi:type="xsd:string">STRING</type>
+</item>
+<item>
+    <description xsi:nil="true" xsi:type="a:Null"/>
+    <refresh xsi:type="xsd:string">NEVER</refresh>
+    <placeholder xsi:nil="true" xsi:type="a:Null"/>
+    <isImportCustomizable xsi:type="xsd:boolean">true</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <label xsi:type="xsd:string">Username</label>
+    <isRequired xsi:type="xsd:boolean">true</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+    <key xsi:type="xsd:string">username</key>
+    <isHidden xsi:type="xsd:boolean">false</isHidden>
+    <isMasked xsi:type="xsd:boolean">false</isMasked>
+    <isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+    <type xsi:type="xsd:string">STRING</type>
+</item>
+<item>
+    <description xsi:nil="true" xsi:type="a:Null"/>
+    <refresh xsi:type="xsd:string">NEVER</refresh>
+    <placeholder xsi:nil="true" xsi:type="a:Null"/>
+    <isImportCustomizable xsi:type="xsd:boolean">true</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <label xsi:type="xsd:string">Password</label>
+    <isRequired xsi:type="xsd:boolean">true</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <key xsi:type="xsd:string">password</key>
+    <isHidden xsi:type="xsd:boolean">false</isHidden>
+    <isMasked xsi:type="xsd:boolean">true</isMasked>
+    <isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+    <type xsi:type="xsd:string">ENCRYPTED</type>
+</item>
+<item>
+    <description xsi:type="xsd:string">Maximum number of active connections to the database that can be allocated from this data source at the same time. If no value is provided, a default value of 100 will be used.</description>
+    <refresh xsi:type="xsd:string">ALWAYS</refresh>
+    <placeholder xsi:type="xsd:string">100</placeholder>
+    <isImportCustomizable xsi:type="xsd:boolean">true</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <label xsi:type="xsd:string">Maximum Connection Pool Size</label>
+    <isRequired xsi:type="xsd:boolean">false</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <key xsi:type="xsd:string">maxConnections</key>
+    <isHidden xsi:type="xsd:boolean">false</isHidden>
+    <isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+    <type xsi:type="xsd:string">INTEGER</type>
+</item>
+<item>
+    <description xsi:type="xsd:string">A list of properties that are passed to a JDBC driver to create database connections. These properties can be driver-dependent and should be separated by a semi-colon.</description>
+    <refresh xsi:type="xsd:string">ALWAYS</refresh>
+    <placeholder xsi:type="xsd:string">propertyKey1=propertyValue1; propertyKey2=propertyValue2</placeholder>
+    <isImportCustomizable xsi:type="xsd:boolean">true</isImportCustomizable>
+    <instructionText xsi:nil="true" xsi:type="a:Null"/>
+    <isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+    <label xsi:type="xsd:string">Additional Connection Properties</label>
+    <isRequired xsi:type="xsd:boolean">false</isRequired>
+    <displayHint xsi:type="xsd:string">NORMAL</displayHint>
+    <key xsi:type="xsd:string">properties</key>
+    <paragraphHeight xsi:type="xsd:string">MEDIUM</paragraphHeight>
+    <isHidden xsi:type="xsd:boolean">false</isHidden>
+    <isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+    <type xsi:type="xsd:string">PARAGRAPH</type>
+</item>
+                            </properties>
+                            <name xsi:type="xsd:string">RootType</name>
+                        </RootType>
+                    </types>
+                    <state xsi:type="a:Dictionary">
+                        <a:entry key="#t" xsi:type="xsd:string">#/types/RootType</a:entry>
+                        <properties xsi:type="xsd:string"/>
+                        <username xsi:type="xsd:string">UAMS.dsuser</username>
+                        <connectionUrl xsi:type="xsd:string">jdbc:mariadb://database:3306/UAMS?useOldAliasMetadataBehavior=true</connectionUrl>
+                        <deprecationNotice xsi:type="xsd:string">Connecting to an Aurora MySQL database using a MariaDB Data Source Connected System will not be supported in future versions of Appian. To connect to an Aurora MySQL database, you may use the Aurora MySQL Connected System along with a Connection URL that begins with the prefix "jdbc:mysql:aws:".
+ </deprecationNotice>
+                        <maxConnections xsi:nil="true" xsi:type="xsd:int"/>
+                        <authType xsi:type="xsd:string">BASIC</authType>
+                        <password xsi:type="a:EncryptedText"/>
+                    </state>
+                    <connectedSystemTemplateKey xsi:type="xsd:string">MariaDbConnectedSystem</connectedSystemTemplateKey>
+                </configurationDescriptor>
+                <url xsi:type="xsd:string"/>
+                <isInheritedUrlOptionSelected xsi:type="xsd:boolean">false</isInheritedUrlOptionSelected>
+                <isCstOAuth xsi:type="xsd:boolean">false</isCstOAuth>
+                <authType xsi:type="xsd:string">CSTF Auth</authType>
+                <authDetails xsi:type="a:Variant?list"/>
+            </a:Dictionary>
+        </sharedConfigParameters>
+        <logoChoice></logoChoice>
+        <integrationType>system.[DataSource].[MariaDbConnectedSystem]</integrationType>
+        <enableRtdShortcut>false</enableRtdShortcut>
+        <rtdShortcutDisplayName></rtdShortcutDisplayName>
+        <vaultFieldMetadata>
+            <a:Dictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </vaultFieldMetadata>
+    </connectedSystem>
+    <roleMap public="true">
+        <role inherit="false" allowForAll="false" name="readers">
+            <users/>
+            <groups>
+                <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+            </groups>
+        </role>
+        <role inherit="false" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="administrators">
+            <users/>
+            <groups>
+                <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+            </groups>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eeda-0177-8000-9e52-011c48011c48_1084392"/>
+    </history>
+</connectedSystemHaul>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348938</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_userTeamRequest</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1208892</uuid>
+        <description>User Will Request the team and we can track that</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgid: if(
+    a!isNotNullOrEmpty(ri!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1152489"(orgId: ri!orgid),
+    null()
+  ),
+  local!userid: if(
+    a!isNotNullOrEmpty(local!orgid),
+    index(
+      local!orgid,
+      #"urn:appian:record-field:v1:1d96ae0c-ec0e-4a3e-88d1-b71544f25118/ae764b4a-f059-4fe0-924b-9d60bfeda938",
+      null()
+    ),
+    null()
+  ),
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Team Request Tracker",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/07705049-9429-45c0-9e76-73ac7197597b",
+            operator: "in",
+            value: ri!orgid,
+            applyWhen: a!isNotNullOrEmpty(ri!orgid)
+          )
+        },
+        
+       
+      ),
+      initialSorts: {
+        #"SYSTEM_SYSRULES_sortInfo"(
+          field: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4",
+          ascending: false()
+        )
+      },
+      showRefreshButton: true,
+      showSearchBox: true,
+      similarityScoreThreshold: 1.0,
+      pageSize: 5,
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Id",
+          value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            value: {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: if(
+                  fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4"] &lt; 100000,
+                  text(
+                    fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4"],
+                    "#00000"
+                  ),
+                  fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4"]
+                ),
+                
+              )
+            }
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Task Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/40f58e90-9586-4243-ad02-95c88f7aed79"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/40f58e90-9586-4243-ad02-95c88f7aed79"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Organization",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a81c6077-73b1-4d51-9259-8f69e48dbe8f/f975a8fb-58b7-4cd7-af40-82feae15fea4/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a81c6077-73b1-4d51-9259-8f69e48dbe8f/40bce6e6-6e0f-48a1-b648-b37086bdd9ed",
+          align: "START"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Task Status",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/1769b12a-e2db-4dca-b178-7606720d6435/afa0d871-5650-48d6-82ca-b75cecc41f04"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/74c3b022-8822-4346-ac87-fd2bd6f9f05e",
+          align: "END"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Task Definition",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/849f7f79-2d38-4e1f-a7d0-570b82b3153e/3b0c09ed-5cab-4254-9fe2-628048792e20"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a74d0f31-a451-49b4-abbd-a0c9c5f83f24",
+          align: "END"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Assigned To",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/31fb444a-b274-4b08-9a8b-90cc283e3060"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/31fb444a-b274-4b08-9a8b-90cc283e3060"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Assigned On",
+          value: if(
+            isnull(
+              fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db"]
+            ),
+            "–",
+            datetext(
+              fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db"],
+              "default"
+            )
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db",
+          align: "END",
+          width: "NARROW_PLUS"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Requested By",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3"
+        ),
+        
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {},
+      
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1223219"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1327868"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348938"/>
+    </history>
+</contentHaul>

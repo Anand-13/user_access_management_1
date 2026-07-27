@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1128816</versionUuid>
+    <interface>
+        <name>UAM_form_createorUpdateOrganization</name>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1085476</uuid>
+        <description>To create or update an organization </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgdetails: if(
+    a!isNotNullOrEmpty(ri!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123673"(orgId: ri!orgid),
+    null()
+  ),
+  /*To get the organization details into the local variable*/
+  local!orgaddressdetails: if(
+    a!isNotNullOrEmpty(ri!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123731"(orgId: ri!orgid),
+    null()
+  ),
+  /* To get the organization address details into the local variable*/
+  local!orgcontactdetails: if(
+    a!isNotNullOrEmpty(ri!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123800"(orgId: ri!orgid),
+    null()
+  ),
+  /*To get the organization contact details into the local variable*/
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: if(
+        ri!isupdate,
+        "Update Oganization",
+        /* To display update or create organization by checking ri!update */
+        "Create Organization"
+      ),
+      secondaryText: if(
+        ri!isupdate,
+        /* To display secondary text update or create organization by checking ri!update */
+        "Update Organization",
+        "Create Organization"
+      ),
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false,
+    contentsWidth: "WIDE",
+    contents: {
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        contents: {
+          #"_a-0000eeda-0177-8000-9e52-011c48011c48_1084631"(organizationdetails: local!orgdetails),
+          
+        }
+      ),
+      /* calling out the interface with the help of rule bang And details of organization details from local!org details*/
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        contents: {
+          #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085102"(
+            organizationAddress: local!orgaddressdetails
+          ),
+          /*Calling out the interface with the help of rule bang and details of organization address details are passed from local!orgaddressdetails*/
+          
+        }
+      ),
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        contents: {
+          #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085421"(
+            organizationContactDetails: local!orgcontactdetails
+          ),
+          /*Calling out the interface with the help of rule bang and details of organization contact details are passed from local!orgcontactdetails*/
+          
+        }
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+          saveInto: {
+            if(
+              ri!isupdate,
+              /*Here if ri!update is true then the respected record details with in the local variable will be updated*/
+              {
+                a!save(
+                  target: local!orgdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/fd8f4b42-8bca-4747-94ca-c46cc6c74ba4"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: local!orgdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/8daaa099-d49f-4293-851a-50716290b0af"],
+                  value: now()
+                ),
+                a!save(
+                  target: local!orgaddressdetails[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/f21a2deb-535f-4b89-847a-9e3e05296528"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: local!orgaddressdetails[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/ba12bc28-b818-4e01-88cf-ab45f94d7fe6"],
+                  value: now()
+                ),
+                a!save(
+                  target: local!orgcontactdetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/97eb855b-8e23-4ecc-a340-0837e52c98d5"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: local!orgcontactdetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/8ac57693-bc78-48ce-b21c-1ea667bd64df"],
+                  value: now()
+                )
+              },
+              {
+                a!save(
+                  /*if ri!update is false the create organization will be rolled out and respected fields will be updated in the record */
+                  local!orgdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/ede85cff-8806-4601-8174-efd046a5e27d"],
+                  loggedInUser()
+                ),
+                a!save(
+                  local!orgdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4612a8c0-d789-4a20-b285-23be421cb15a"],
+                  now()
+                ),
+                a!save(
+                  local!orgdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/b0ac5bbd-9773-410d-9da1-e2a26bea4a13"],
+                  true()
+                ),
+                a!save(
+                  local!orgaddressdetails[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/553a7448-7e7a-4eb9-b0e8-4ae4ed54f3ca"],
+                  loggedInUser()
+                ),
+                a!save(
+                  local!orgaddressdetails[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/39255e3a-72fd-44e7-b3b5-0096d0aaccb5"],
+                  now()
+                ),
+                a!save(
+                  local!orgaddressdetails[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/55b166a8-5f71-4a21-b74f-8a910a070af3"],
+                  true()
+                ),
+                a!save(
+                 local!orgcontactdetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/4fd8c689-7cf5-406c-bd75-2620b6b43f1b"],
+                  loggedInUser()
+                ),
+                a!save(
+                  local!orgcontactdetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/6c366a20-bb6c-4bd6-88c5-1392e4223d52"],
+                  now()
+                ),
+                a!save(
+                  local!orgcontactdetails[#"urn:appian:record-field:v1:5e8f88d6-4a59-4fe5-a737-a6659e469273/5878b784-1db9-4330-baf8-b1beca7fb369"],
+                  true()
+                )
+              }
+            ),
+            a!save(
+              target: ri!organizationDetails,
+              /* Copy organization details from local variable to rule input for process model */
+              value: local!orgdetails
+            ),
+            a!save(
+              target: ri!organizationAddressDetails,
+              value: local!orgaddressdetails/* Copy organization address details from local variable to rule input for process model */
+              
+            ),
+            a!save(
+              target: ri!organizationContactDetails,
+              value: local!orgcontactdetails/* Copy organization contact details from local variable to rule input for process model */
+              
+            ),
+            a!save(
+              ri!button,
+              #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            )
+          },
+          style: "SOLID",
+          loadingIndicator: true
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(
+              ri!button,
+              #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          submit: true,
+          style: "OUTLINE",
+          validate: false
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>organizationDetails</name>
+            <type>
+                <name>008dc9c2-5821-421b-b1dd-e322b8e6665f</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>organizationAddressDetails</name>
+            <type>
+                <name>c88789e1-f61f-486d-8102-47dde29086d7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>organizationContactDetails</name>
+            <type>
+                <name>5e8f88d6-4a59-4fe5-a737-a6659e469273</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isupdate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1128816"/>
+    </history>
+</contentHaul>

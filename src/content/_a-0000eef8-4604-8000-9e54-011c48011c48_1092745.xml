@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1092756</versionUuid>
+    <rule>
+        <name>UAM_setOrganizationHierarchy</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1092745</uuid>
+        <description>To set Org Hierarchy</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!selectedorgid,
+  expression: #"urn:appian:record-type:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d"(
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/0c5faf0d-39e1-4cb3-b915-3d364423b3b3":null(),
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/8bd8d3b2-2d84-4bf1-baec-7d111de875eb": ri!parentorgid,
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/0c02b78a-3116-4b9c-b8d4-117c5519f675": fv!item,
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/4570c897-2ee5-464e-8d8d-460513af0094":true(),
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/a98f29a5-956f-45e8-9371-8c46f35d7e6b":loggedInUser(),
+    #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/9c85046d-ed72-4252-9e7e-4be44466aee8": now()
+  )
+)</definition>
+        <namedTypedValue>
+            <name>selectedorgid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>parentorgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1092756"/>
+    </history>
+</contentHaul>

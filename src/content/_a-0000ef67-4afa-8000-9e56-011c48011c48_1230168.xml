@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1246849</versionUuid>
+    <interface>
+        <name>UAM_selectable_applicationRole</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1230168</uuid>
+        <description>Application roles are displayed here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* Get organization from team */
+  local!teamorgid: if(
+    a!isNotNullOrEmpty(ri!teamid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(teamid: ri!teamid, isActive: true()),
+    null()
+  ),
+
+  local!orgid: if(
+    a!isNotNullOrEmpty(local!teamorgid),
+    index(
+      local!teamorgid,
+      #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/96d37d06-45e7-4282-8de1-85e282e0ef8b",
+      null()
+    ),
+    null()
+  ),
+
+  /* Get applications for organization */
+  local!orgapplication: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1142076"(orgId: local!orgid, isActive: true()),
+
+  local!appids: if(
+    a!isNotNullOrEmpty(local!orgapplication),
+    index(
+      local!orgapplication,
+      #"urn:appian:record-field:v1:0723a91a-4d09-404f-821d-4296dd50e6c6/26a43997-9c33-40cd-a0e1-cf6a4c80387b",
+      null()
+    ),
+    null()
+  ),
+
+  /* Get ALL application roles */
+  local!appgroups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(
+    applicationid: local!appids,
+    isActive: true()
+  ),
+
+  /* Extract ALL IDs and groupnos */
+  local!allIds: if(
+    a!isNotNullOrEmpty(local!appgroups),
+    index(
+      local!appgroups,
+      #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/e54fba8a-c899-4306-9f96-9474398e8fe0",
+      {}
+    ),
+    {}
+  ),
+
+  local!allGroupnos: if(
+    a!isNotNullOrEmpty(local!appgroups),
+    index(
+      local!appgroups,
+      #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+      {}
+    ),
+    {}
+  ),
+
+  /* Get ALREADY ASSIGNED roles */
+  local!teamrole: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: ri!teamid, isActive: true()),
+
+  local!teamroleids: if(
+    a!isNotNullOrEmpty(local!teamrole),
+    index(
+      local!teamrole,
+      #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+      {}
+    ),
+    {}
+  ),
+
+  /* Filter out already assigned - show only UNASSIGNED */
+  local!unassignedGroupnos: difference(
+    tointeger(local!allGroupnos),
+    tointeger(local!teamroleids)
+  ),
+
+  local!roleids: if(
+    a!isNotNullOrEmpty(local!unassignedGroupnos),
+    local!unassignedGroupnos,
+    {-1}
+  ),
+
+  local!selected: {},
+
+  {
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Add Application Role",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+            operator: "in",
+            value: local!roleids,
+            applyWhen: a!isNotNullOrEmpty(local!roleids)
+          )
+        },
+        fields: {}
+      ),
+      showRefreshButton: ri!showsearchbox,
+      showSearchBox: ri!showsearchbox,
+      selectable: true(),
+      selectionValue: local!selected,
+      selectionStyle: "ROW_HIGHLIGHT",
+      selectionSaveInto: {
+        local!selected,
+        a!save(
+          ri!selectedgroupids,
+          if(
+            a!isNotNullOrEmpty(local!selected),
+            index(
+              local!allGroupnos,
+              wherecontains(tointeger(local!selected), local!allIds),
+              {}
+            ),
+            {}
+          )
+        )
+      },
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Group Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+          align: "START"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Created By",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Created On",
+          value: if(
+            isnull(
+              fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e"]
+            ),
+            "–",
+            datetext(
+              fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e"],
+              "default"
+            )
+          ),
+          sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e",
+          align: "END",
+          width: "NARROW_PLUS"
+        )
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>showsearchbox</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedgroupids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1246849"/>
+    </history>
+</contentHaul>

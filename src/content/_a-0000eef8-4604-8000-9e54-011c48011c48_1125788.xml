@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1125821</versionUuid>
+    <interface>
+        <name>UAM_removeOrganization</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1125788</uuid>
+        <description>To remove Organizations </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selectedorg:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1092772"(parentorgId: ri!orgid, isActive: true()),
+  local!childid:if(a!isNullOrEmpty(local!selectedorg),-1,index(local!selectedorg,#"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/0c02b78a-3116-4b9c-b8d4-117c5519f675",null())),
+
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"_a-0000eef8-4604-8000-9e54-011c48011c48_1124164"(
+        selected: ri!isselected,
+        parentid: ri!orgid,
+        isselectable: true(),
+        childids: local!childid
+      ),
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+          saveInto: {
+            a!save(ri!button,#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463")
+          },
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(ri!button,#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469")
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    contentsWidth: "WIDE"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isselected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1125821"/>
+    </history>
+</contentHaul>

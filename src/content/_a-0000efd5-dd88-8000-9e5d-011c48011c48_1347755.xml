@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348427</versionUuid>
+    <rule>
+        <name>UAM_qry_getTeamAndRoleInformation</name>
+        <uuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1347755</uuid>
+        <description>Getting the role and team information</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgteamdetails: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(
+    orgId: ri!orgid,
+    isActive: true(),
+    isteamreq: true()
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: local!orgteamdetails,
+    expression: a!map(
+      orgteamid: index(
+        fv!item,
+        #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/e9047739-3947-4d53-907e-c2a20ec1a944",
+        null()
+      ),
+      teamId: index(
+        fv!item,
+        #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+        null()
+      ),
+      teamname: index(
+        fv!item,
+        #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/d9464913-546f-4eb5-98f7-a0515805c8a6/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a",
+        null()
+      ),
+      teamdescription: index(
+        fv!item,
+        #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/d9464913-546f-4eb5-98f7-a0515805c8a6/532d5040-0e9d-4d8c-ae0f-a642f9b22cb6",
+        null()
+      ),
+      roles: index(
+        #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(
+          teamid: index(
+            fv!item,
+            #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+            null()
+          ),
+          isActive: true(),
+          isRoleDetails: true()
+        ),
+        #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/ef5f62ea-2050-4741-9023-aa3fceb8a7f3/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c",
+        null()
+      ),
+      rolegroups: index(
+        #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(
+          teamid: index(
+            fv!item,
+            #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+            null()
+          ),
+          isActive: true(),
+          isRoleDetails: true()
+        ),
+        #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/ef5f62ea-2050-4741-9023-aa3fceb8a7f3/f8388348-9f8f-40c6-a988-29af69bdf9fc",
+        null()
+      )
+    )
+  ),
+  
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348427"/>
+    </history>
+</contentHaul>

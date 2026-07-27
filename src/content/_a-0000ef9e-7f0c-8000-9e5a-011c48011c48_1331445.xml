@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332101</versionUuid>
+    <interface>
+        <name>UAM_readonlygrid_teamUser</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1331445</uuid>
+        <description>Team User Details</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selected:{},
+  {
+   
+    if(
+      or(a!isNotNullOrEmpty(ri!teamid),
+      a!isNotNullOrEmpty(ri!userid),
+      a!isNotNullOrEmpty(ri!orgid)),
+    {#"SYSTEM_SYSRULES_gridField_v6"(
+      label: "Team User",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:4356d859-6f7e-4040-8f2a-649c4885a415",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/3a265d67-f994-4875-af46-4f886f8d970b",
+            operator: "=",
+            value: ri!orgid,
+            applyWhen: a!isNotNullOrEmpty(ri!orgid)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/b29bb5e9-ee3a-43aa-8ad0-0924cdc69a19",
+            operator: "=",
+            value: ri!teamid,
+            applyWhen: a!isNotNullOrEmpty(ri!teamid)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/2446f425-e513-4053-8151-47012ca1e09f",
+            operator: "in",
+            value: ri!userid,
+            applyWhen: a!isNotNullOrEmpty(ri!userid)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/65b9df0f-01e5-42e6-a136-e9e72e801224",
+            operator: "=",
+            value: true()
+          )
+        }
+
+      ),
+      showRefreshButton: ri!refresh,
+      selectable: true(),
+      selectionStyle: "ROW_HIGHLIGHT",
+      showSearchBox: ri!search, 
+      selectionValue: local!selected,
+      maxSelections: 1,
+      selectionSaveInto: {
+        local!selected,
+        a!save(
+          target:ri!selected,
+          index(
+            index(fv!selectedRows,1,null()),
+            #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/2446f425-e513-4053-8151-47012ca1e09f",
+            null()
+          )
+        )
+      },
+     
+      columns: {
+
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "User Name",
+          value: a!defaultValue(fv!row[#"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/46608aea-93e0-49b9-99fd-154a31bdb016/b6956f1b-0674-4b2a-a808-051a41257c01"], "–"),
+          sortField: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/2446f425-e513-4053-8151-47012ca1e09f",
+          align: "START"
+        ),
+        
+
+      },
+      refreshAfter: "RECORD_ACTION",
+      validations: {}
+    )},
+    null()
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refresh</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332101"/>
+    </history>
+</contentHaul>

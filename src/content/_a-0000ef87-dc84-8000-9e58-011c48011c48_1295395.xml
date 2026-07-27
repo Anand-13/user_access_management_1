@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1297691</versionUuid>
+    <interface>
+        <name>UAM_sectionlayout_addorRemoveTeam</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1295395</uuid>
+        <description>To add or remove team from the organization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!allteams: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132811"(isActive: true()),
+  local!teamids: if(
+    a!isNotNullOrEmpty(local!allteams),
+    tointeger(
+      index(
+        local!allteams,
+        #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/4c75fc18-2599-4da4-b579-737570b6189c",
+        {}
+      )
+    ),
+    tointeger({})
+  ),
+
+  local!orgteam: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(orgId: ri!orgid, isActive: true()),
+  local!orgteamids: if(
+    a!isNotNullOrEmpty(local!orgteam),
+    tointeger(
+      index(
+        local!orgteam,
+        #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+        {}
+      )
+    ),
+    tointeger({})
+  ),
+
+  local!remainingsteamids: difference(local!teamids, local!orgteamids),
+
+  /* Local variables for grid selections */
+  local!selectedToAdd: tointeger({}),
+  local!selectedToRemove: tointeger({}),
+
+  /* Track teams moved during session */
+  local!teamsAdded: tointeger({}),
+  local!teamsRemoved: tointeger({}),
+ 
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      /* AVAILABLE TEAMS SECTION */
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: "Available Teams",
+        contents: {
+          if(
+            a!isNotNullOrEmpty(local!remainingsteamids),
+            /* TRUE - Show grid and button */
+            {
+              #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134085"(
+                teamid: local!remainingsteamids,
+                selectable: true(),
+                selectedteams: local!selectedToAdd
+              ),
+              #"SYSTEM_SYSRULES_sideBySideLayout"(
+                items: {
+                  #"SYSTEM_SYSRULES_sideBySideItem"(),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                      buttons: {
+                        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+                          label: "SELECT",
+                          saveInto: {
+                            /* Move to assigned */
+                            a!save(
+                              local!orgteamids,
+                              union(local!orgteamids, tointeger(local!selectedToAdd))
+                            ),
+                            /* Remove from available */
+                            a!save(
+                              local!remainingsteamids,
+                              difference(local!remainingsteamids, tointeger(local!selectedToAdd))
+                            ),
+                            /* Track teams added */
+                            a!save(
+                              local!teamsAdded,
+                              union(local!teamsAdded, tointeger(local!selectedToAdd))
+                            ),
+                            /* If previously removed, undo */
+                            a!save(
+                              local!teamsRemoved,
+                              difference(local!teamsRemoved, tointeger(local!selectedToAdd))
+                            ),
+                            /* Clear selection */
+                            a!save(local!selectedToAdd, tointeger({}))
+                          },
+                          style: "OUTLINE",
+                          disabled: a!isNullOrEmpty(local!selectedToAdd)
+                        )
+                      },
+                      align: "END"
+                    ),
+                    width: "MINIMIZE"
+                  )
+                },
+                marginBelow: "STANDARD"
+              )
+            },
+            /* FALSE - Show empty message */
+            #"SYSTEM_SYSRULES_richTextDisplayField"(
+              value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: "No teams available to add.",
+                color: "SECONDARY"
+              )
+            )
+          )
+        }
+      ),
+
+      /* SELECTED TEAMS SECTION */
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: "Selected Teams",
+        contents: {
+          if(
+            a!isNotNullOrEmpty(local!orgteamids),
+            /* TRUE - Show grid and button */
+            {
+              #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134085"(
+                teamid: local!orgteamids,
+                selectable: true(),
+                selectedteams: local!selectedToRemove
+              ),
+              #"SYSTEM_SYSRULES_sideBySideLayout"(
+                items: {
+                  #"SYSTEM_SYSRULES_sideBySideItem"(),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                      buttons: {
+                        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+                          label: "REMOVE",
+                          saveInto: {
+                            /* Remove from assigned */
+                            a!save(
+                              local!orgteamids,
+                              difference(local!orgteamids, tointeger(local!selectedToRemove))
+                            ),
+                            /* Move back to available */
+                            a!save(
+                              local!remainingsteamids,
+                              union(local!remainingsteamids, tointeger(local!selectedToRemove))
+                            ),
+                            /* Track teams removed */
+                            a!save(
+                              local!teamsRemoved,
+                              union(local!teamsRemoved, tointeger(local!selectedToRemove))
+                            ),
+                            /* If previously added, undo */
+                            a!save(
+                              local!teamsAdded,
+                              difference(local!teamsAdded, tointeger(local!selectedToRemove))
+                            ),
+                            /* Clear selection */
+                            a!save(local!selectedToRemove, tointeger({}))
+                          },
+                          style: "OUTLINE",
+                          disabled: a!isNullOrEmpty(local!selectedToRemove)
+                        )
+                      },
+                      align: "END"
+                    ),
+                    width: "MINIMIZE"
+                  )
+                },
+                marginBelow: "STANDARD"
+              )
+            },
+            /* FALSE - Show empty message */
+            #"SYSTEM_SYSRULES_richTextDisplayField"(
+              value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: "No teams selected for this organization.",
+                color: "SECONDARY"
+              )
+            )
+          )
+        }
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true(),
+          saveInto: {
+            
+            a!save(ri!teamsToAdd, #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1297635"(orgid: ri!orgid,teamaddids: local!teamsAdded)),
+            a!save(ri!teamsToRemove, local!teamsRemoved),
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463")
+            
+          },
+          loadingIndicator: true(),
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          submit: true(),
+          saveInto: {
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469")
+          },
+          validate: false(),
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Manage Organization Teams",
+      secondaryText: "Select teams to add or remove",
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false()
+  )
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamsToAdd</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamsToRemove</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:description/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">33</a:value>
+                    <a:nameRef>orgid</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>teamsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>teamsToRemove</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>button</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1297691"/>
+    </history>
+</contentHaul>

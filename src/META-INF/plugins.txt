@@ -1,0 +1,8 @@
+com.appiancorp.plugins.regexfunctions
+Appian Regular Expression Functions
+2.2.36
+
+psshared.peoplefunctions
+People Functions
+1.11
+

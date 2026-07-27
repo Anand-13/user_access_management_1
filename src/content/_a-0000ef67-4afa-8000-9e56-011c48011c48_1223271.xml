@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1327857</versionUuid>
+    <rule>
+        <name>UAM_qry_getUserTeamData</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1223271</uuid>
+        <description>To query the getUserTeamData</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!names: if(
+    or(
+      a!isNotNullOrEmpty(ri!orgId),
+      a!isNotNullOrEmpty(ri!teamid),
+      a!isNotNullOrEmpty(ri!user),
+      a!isNotNullOrEmpty(ri!username),
+      a!isNotNullOrEmpty(ri!isActive)
+    ),
+    #"SYSTEM_SYSRULES_queryRecordType_v4"(
+      recordType: #"urn:appian:record-type:v1:4356d859-6f7e-4040-8f2a-649c4885a415",
+      fields: #"SYSTEM_SYSRULES_selectionFields"(
+        allFieldsFromRecordType: #"urn:appian:record-type:v1:4356d859-6f7e-4040-8f2a-649c4885a415"
+      ),
+      filters: #"SYSTEM_SYSRULES_queryLogicalExpression"(
+        operator: "AND",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/3a265d67-f994-4875-af46-4f886f8d970b",
+            operator: "=",
+            value: ri!orgId,
+            applyWhen: a!isNotNullOrEmpty(ri!orgId)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/2446f425-e513-4053-8151-47012ca1e09f",
+            operator: "in",
+            value: ri!user,
+            applyWhen: a!isNotNullOrEmpty(ri!user)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/46608aea-93e0-49b9-99fd-154a31bdb016/b6956f1b-0674-4b2a-a808-051a41257c01",
+            operator: "=",
+            value: ri!username,
+            applyWhen: a!isNotNullOrEmpty(ri!username)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/b29bb5e9-ee3a-43aa-8ad0-0924cdc69a19",
+            operator: "in",
+            value: ri!teamid,
+            applyWhen: a!isNotNullOrEmpty(ri!teamid)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/65b9df0f-01e5-42e6-a136-e9e72e801224",
+            operator: "=",
+            value: ri!isActive,
+            applyWhen: a!isNotNullOrEmpty(ri!isActive)
+          )
+        },
+        ignoreFiltersWithEmptyValues: true()
+      ),
+      pagingInfo: a!defaultValue(
+        value: ri!paginginfo,
+        default: #"SYSTEM_SYSRULES_pagingInfo"(
+          startIndex: 1,
+          batchSize: 5000
+        )
+      )
+    ),
+    null()
+  ),
+  local!data: if(
+    a!isNotNullOrEmpty(local!names),
+    index(local!names, "data", null()),
+    null()
+  ),
+  local!data
+)</definition>
+        <namedTypedValue>
+            <name>paginginfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isActive</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>user</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>username</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1227053"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1327857"/>
+    </history>
+</contentHaul>

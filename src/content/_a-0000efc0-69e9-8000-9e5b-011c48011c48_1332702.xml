@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1332738</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_groupAndRoles</name>
+        <uuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1332702</uuid>
+        <description>To Display the group and its roles
+</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  if(
+    a!isNotNullOrEmpty(ri!teamid),
+    #"SYSTEM_SYSRULES_gridField_v5"(
+      label: "Team Role Details",
+      labelPosition: "ABOVE",
+      data: #"SYSTEM_SYSRULES_recordData"(
+        recordType: #"urn:appian:record-type:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/588ea49d-583b-48a8-8a84-19913aa10420",
+            operator: "=",
+            value: true()
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/ba19b3eb-70a5-4719-a1d1-879e233732f5",
+            operator: "in",
+            value: ri!teamid
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+            operator: "in",
+            value: ri!groupid,
+            applyWhen: a!isNotNullOrEmpty(ri!groupid)
+          )
+        }
+      ),
+      showRefreshButton: a!defaultValue(ri!refresh, false),
+      showSearchBox: a!defaultValue(ri!search, false),
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Group Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/ef5f62ea-2050-4741-9023-aa3fceb8a7f3/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+          align: "START"
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: "Role Name",
+          value: a!defaultValue(
+            fv!row[#"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/ef5f62ea-2050-4741-9023-aa3fceb8a7f3/4af96ff0-51ae-494e-b291-9b69501ced3f/299b80ba-6859-4a51-9327-066924ec76d4"],
+            "–"
+          ),
+          sortField: #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/ef5f62ea-2050-4741-9023-aa3fceb8a7f3/4af96ff0-51ae-494e-b291-9b69501ced3f/f8397cb5-6d5e-470b-8d1b-1e034fb7b25c",
+          align: "START"
+        )
+      },
+      refreshAfter: "RECORD_ACTION"
+    ),
+    null()
+  )
+)</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>groupid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refresh</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1332738"/>
+    </history>
+</contentHaul>

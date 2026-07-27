@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328155</versionUuid>
+    <interface>
+        <name>UAM_readonlygrid_applicationRole</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1205678</uuid>
+        <description>Application roles are displayed here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selected:{},
+  if(
+    or(a!isNotNullOrEmpty(ri!appid),
+    a!isNotNullOrEmpty(ri!groupid)),
+    {
+      #"SYSTEM_SYSRULES_gridField_v5"(
+        label: "Application Role",
+        labelPosition: "ABOVE",
+        data: #"SYSTEM_SYSRULES_recordData"(
+          recordType: #"urn:appian:record-type:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6",
+          filters: {
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/42950c36-a377-4597-bd74-3eeceefd7079",
+              operator: "in",
+              value: ri!appid,
+              applyWhen: a!isNotNullOrEmpty(ri!appid)
+            ),
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/ddfddf3c-ce74-4f02-9ed8-4e2273f808b2",
+              operator: "=",
+              value: true()
+            ),
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+              operator: "in",
+              value: ri!groupid,
+              applyWhen: a!isNotNullOrEmpty(ri!groupid)
+            ),
+          },
+          fields: {}
+        ),
+        showRefreshButton: ri!refresh,
+        showSearchBox: ri!showsearchbox,
+        selectable: ri!isSelectable,
+        selectionStyle: "ROW_HIGHLIGHT",
+        selectionValue: local!selected,
+        selectionSaveInto: {
+          local!selected,
+          a!save(
+            target:ri!selected,
+            value:local!selected
+          )
+        },
+        columns: {
+          #"SYSTEM_SYSRULES_gridColumn"(
+            label: "Application Name",
+            value: a!defaultValue(
+              fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/b4c9e32a-8ae4-4742-92f9-f947058f925d/934fe72d-d285-4f56-bb33-55edd415c5de"],
+              "–"
+            ),
+            sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/42950c36-a377-4597-bd74-3eeceefd7079",
+            align: "START"
+          ),
+          #"SYSTEM_SYSRULES_gridColumn"(
+            label: "Group Name",
+            value: a!defaultValue(
+              fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+              "–"
+            ),
+            sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+            align: "START"
+          ),
+          #"SYSTEM_SYSRULES_gridColumn"(
+            label: "Created By",
+            value: a!defaultValue(
+              fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"],
+              "–"
+            ),
+            sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/9beb3839-489c-4563-ace8-1b78b8bac4ee"
+          ),
+          #"SYSTEM_SYSRULES_gridColumn"(
+            label: "Created On",
+            value: if(
+              isnull(
+                fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e"]
+              ),
+              "–",
+              datetext(
+                fv!row[#"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e"],
+                "default"
+              )
+            ),
+            sortField: #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/fb609b13-57ee-4a22-b5cf-57e04069432e",
+            align: "END",
+            width: "NARROW_PLUS"
+          ),
+          
+        },
+        refreshAfter: "RECORD_ACTION",
+        validations: {}
+      )
+    },
+    {}
+  )
+)</definition>
+        <namedTypedValue>
+            <name>appid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showsearchbox</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isSelectable</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>groupid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refresh</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1254467"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1289209"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328155"/>
+    </history>
+</contentHaul>

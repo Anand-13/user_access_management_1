@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1277731</versionUuid>
+    <rule>
+        <name>UAM_qry_RemovingGroup</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1277720</uuid>
+        <description>Removing the Group with appid</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!applicationdetails:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(id: ri!appid,isGroupRelReq: true()),
+  local!groupdetails:index(local!applicationdetails,#"urn:appian:record-relationship:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/cd882668-a8b3-4169-90e0-07558bb8f81d",null()),
+  local!removinggroup:#"SYSTEM_SYSRULES_forEach"(
+    items: local!groupdetails,
+    expression: #"urn:appian:function:v1:a:update"(
+      fv!item,
+      #"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/82aca863-06a8-4f7c-9d2c-40e88ccf3ef6",
+      false()
+    )
+  ),
+  local!removinggroup
+)</definition>
+        <namedTypedValue>
+            <name>appid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1277731"/>
+    </history>
+</contentHaul>

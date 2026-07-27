@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1305780</versionUuid>
+    <interface>
+        <name>UAM_exampleShuffleBetweenLists</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1305762</uuid>
+        <description></description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!availableItems: {
+    a!map(id: 1, name: "Item A", category: "Type 1"),
+    a!map(id: 2, name: "Item B", category: "Type 2"),
+    a!map(id: 3, name: "Item C", category: "Type 1"),
+    a!map(id: 4, name: "Item D", category: "Type 3"),
+    a!map(id: 5, name: "Item E", category: "Type 2")
+  },
+  local!selectedItems: {},
+
+  {
+    #"SYSTEM_SYSRULES_columnsLayout"(
+    columns: {
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_sectionLayout_v1"(
+            label: "Available Items",
+            contents: {
+              #"SYSTEM_SYSRULES_gridLayout"(
+                headerCells: {
+                  #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Name"),
+                  #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Category"),
+                  #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "")
+                },
+                columnConfigs: {
+                  #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE"),
+                  #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE"),
+                  #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                },
+                rows: #"SYSTEM_SYSRULES_forEach"(
+                  items: local!availableItems,
+                  expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                    contents: {
+                      #"SYSTEM_SYSRULES_textField"(value: fv!item.name, readOnly: true),
+                      #"SYSTEM_SYSRULES_textField"(value: fv!item.category, readOnly: true),
+                      #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                          text: "Add",
+                          link: #"SYSTEM_SYSRULES_dynamicLink"(
+                            value: fv!index,
+                            saveInto: {
+                              a!save(
+                                local!selectedItems,
+                                append(local!selectedItems, local!availableItems[save!value])
+                              ),
+                              a!save(
+                                local!availableItems,
+                                remove(local!availableItems, save!value)
+                              )
+                            }
+                          ),
+                          linkStyle: "STANDALONE"
+                        )
+                      )
+                    }
+                  )
+                ),
+                showWhen: length(local!availableItems) &gt; 0
+              ),
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: "No items available",
+                  style: "EMPHASIS"
+                ),
+                showWhen: length(local!availableItems) = 0
+              )
+            }
+          )
+        }
+      )
+      
+    }
+  ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_sectionLayout_v1"(
+              label: "Selected Items",
+              contents: {
+                #"SYSTEM_SYSRULES_gridLayout"(
+                  headerCells: {
+                    #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Name"),
+                    #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Category"),
+                    #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "")
+                  },
+                  columnConfigs: {
+                    #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE"),
+                    #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE"),
+                    #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                  },
+                  rows: #"SYSTEM_SYSRULES_forEach"(
+                    items: local!selectedItems,
+                    expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                      contents: {
+                        #"SYSTEM_SYSRULES_textField"(value: fv!item.name, readOnly: true),
+                        #"SYSTEM_SYSRULES_textField"(value: fv!item.category, readOnly: true),
+                        #"SYSTEM_SYSRULES_richTextDisplayField"(
+                          value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                            text: "Remove",
+                            link: #"SYSTEM_SYSRULES_dynamicLink"(
+                              value: fv!index,
+                              saveInto: {
+                                a!save(
+                                  local!availableItems,
+                                  append(local!availableItems, local!selectedItems[save!value])
+                                ),
+                                a!save(
+                                  local!selectedItems,
+                                  remove(local!selectedItems, save!value)
+                                )
+                              }
+                            ),
+                            linkStyle: "STANDALONE"
+                          )
+                        )
+                      }
+                    )
+                  ),
+                  showWhen: length(local!selectedItems) &gt; 0
+                ),
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: "No items selected",
+                    style: "EMPHASIS"
+                  ),
+                  showWhen: length(local!selectedItems) = 0
+                )
+              }
+            )
+          }
+        )
+      }
+    )
+  }
+)
+</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1305780"/>
+    </history>
+</contentHaul>

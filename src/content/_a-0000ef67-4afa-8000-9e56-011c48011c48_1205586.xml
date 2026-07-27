@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1289226</versionUuid>
+    <interface>
+        <name>UAM_taskform_userApplicationRolesApproval</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1205586</uuid>
+        <description>To get the userApplicationRolesApproval</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* Get team details for selected team only */
+  local!teamdetails: if(
+    a!isNotNullOrEmpty(ri!teamid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132811"(TeamId: {ri!teamid}),
+    {}
+  ),
+
+  /* Get team name */
+  local!teamNames: a!defaultValue(
+    joinarray(
+      index(
+        local!teamdetails,
+        #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a",
+        {}
+      ),
+      ", "
+    ),
+    "–"
+  ),
+
+  /* Get teamroledetails for selected team only */
+  local!teamroledetails: if(
+    a!isNotNullOrEmpty(ri!teamid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: ri!teamid,isActive: true()),
+    {}
+  ),
+
+  /* Get group IDs */
+  local!groupids: index(
+    local!teamroledetails,
+    #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+    {}
+  ),
+
+  {
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      label: "Task Details",
+      contents: {
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Teams Name",
+                  labelPosition: "JUSTIFIED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: local!teamNames
+                  ),
+                  marginBelow: "MORE"
+                ),
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Assigned By",
+                  labelPosition: "JUSTIFIED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: ri!assignedby
+                  ),
+                  marginBelow: "MORE"
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Organization Name",
+                  labelPosition: "JUSTIFIED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: ri!orgname
+                  ),
+                  marginBelow: "MORE"
+                ),
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Assigned On",
+                  labelPosition: "JUSTIFIED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: ri!assignedon
+                  ),
+                  marginBelow: "MORE"
+                )
+              }
+            )
+          }
+        )
+      },
+      divider: "BELOW"
+    ),
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      label: "Application Roles",
+      contents: {
+        #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1205678"(groupid: local!groupids)
+      },
+      divider: "BELOW"
+    )
+  }
+)
+</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>assignedby</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgname</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>assignedon</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1223101"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1289226"/>
+    </history>
+</contentHaul>

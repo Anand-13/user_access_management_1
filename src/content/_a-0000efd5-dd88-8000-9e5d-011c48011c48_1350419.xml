@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351348</versionUuid>
+    <interface>
+        <name>UAM_eventhistory_toUpdateForTheUser</name>
+        <uuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1350419</uuid>
+        <description>To update for the user regarding status of the request</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_eventHistoryListField"(
+    label: "Event History",
+    labelPosition: "COLLAPSED",
+    eventData: {
+      #"SYSTEM_SYSRULES_eventData"(
+        recordType: #"urn:appian:record-type:v1:5467170e-9eb1-46e2-b1d2-a7c213989144",
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:5467170e-9eb1-46e2-b1d2-a7c213989144/d09271e7-2fb1-4ef2-9a4d-8f96172438c4/a81c6077-73b1-4d51-9259-8f69e48dbe8f/f975a8fb-58b7-4cd7-af40-82feae15fea4/4c75fc18-2599-4da4-b579-737570b6189c",
+            operator: "=",
+            value: ri!teamid,
+            applyWhen: a!isNotNullOrEmpty(ri!teamid)
+          )
+        },
+        timestamp: #"urn:appian:record-field:v1:5467170e-9eb1-46e2-b1d2-a7c213989144/9abf13a7-ded4-415a-a006-8275f51832dc",
+        user: #"urn:appian:record-field:v1:5467170e-9eb1-46e2-b1d2-a7c213989144/a559f854-5407-46a0-86ac-b4df8367c771",
+        comment: #"urn:appian:record-field:v1:5467170e-9eb1-46e2-b1d2-a7c213989144/0d39da13-d21a-4987-8022-957aaf389a44",
+        eventTypeName: fv!data[#"urn:appian:record-field:v1:5467170e-9eb1-46e2-b1d2-a7c213989144/68d695ca-a68c-42b0-9db0-93059da131b0/71978243-3971-4006-8f3f-992837cd090b"]
+      )
+    },
+    showSearchBox: ri!search,
+    showReverseSortButton: true,
+    refreshAfter: "RECORD_ACTION",
+    eventStyle: "PREVIEW_LIST",
+    previewListPageSize: 2
+    
+  )
+}</definition>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351348"/>
+    </history>
+</contentHaul>

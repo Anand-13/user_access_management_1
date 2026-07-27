@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1353332</versionUuid>
+    <interface>
+        <name>UAM_kpi_todisplayKPI</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1319927</uuid>
+        <description>Here we display KPIs</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!choice: "Organizations",
+  /* ===== KPI counts ===== */
+  local!allorg: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123673"(isActive: true()),
+  local!countorg: count(local!allorg),
+  local!allteams: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132811"(isActive: true()),
+  local!countteams: count(local!allteams),
+  local!allapps: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1316451"(isActive: true()),
+  local!countapps: count(local!allapps),
+  local!allusers: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1277768"(isActive: true()),
+  local!countusers: count(local!allusers),
+  /* ===== PAGE BACKGROUND WRAPPER ===== */
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      /* ===== KPI CARDS ===== */
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          /* ----- Card 1: Organizations ----- */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_cardLayout"(
+                contents: {
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    align: "CENTER",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: "building-o",
+                        size: "LARGE",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: tostring(local!countorg),
+                        size: "LARGE",
+                        style: "STRONG",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: "Organizations",
+                        size: "MEDIUM",
+                        color: "STANDARD"
+                      )
+                    }
+                  )
+                },
+                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                  value: "Organizations",
+                  saveInto: local!choice
+                ),
+                style: if(
+                  local!choice = "Organizations",
+                  "#6aa84f",
+                  "#e8f0e3"
+                ),
+                padding: "STANDARD",
+                showBorder: false,
+                showShadow: false,
+                shape: "SEMI_ROUNDED"
+              )
+            }
+          ),
+          /* ----- Card 2: Teams ----- */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_cardLayout"(
+                contents: {
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    align: "CENTER",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: "users",
+                        size: "LARGE",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: tostring(local!countteams),
+                        size: "LARGE",
+                        style: "STRONG",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: "Teams",
+                        size: "MEDIUM",
+                        color: "STANDARD"
+                      )
+                    }
+                  )
+                },
+                link: #"SYSTEM_SYSRULES_dynamicLink"(value: "Teams", saveInto: local!choice),
+                style: if(
+                  local!choice = "Teams",
+                  "#6aa84f",
+                  "#e8f0e3"
+                ),
+                padding: "STANDARD",
+                showBorder: false,
+                showShadow: false,
+                shape: "SEMI_ROUNDED"
+              )
+            }
+          ),
+          /* ----- Card 3: Applications ----- */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_cardLayout"(
+                contents: {
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    align: "CENTER",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: "th-large",
+                        size: "LARGE",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: tostring(local!countapps),
+                        size: "LARGE",
+                        style: "STRONG",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: "Applications",
+                        size: "MEDIUM",
+                        color: "STANDARD"
+                      )
+                    }
+                  )
+                },
+                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                  value: "Applications",
+                  saveInto: local!choice
+                ),
+                style: if(
+                  local!choice = "Applications",
+                  "#6aa84f",
+                  "#e8f0e3"
+                ),
+                padding: "STANDARD",
+                showBorder: false,
+                showShadow: false,
+                shape: "SEMI_ROUNDED"
+              )
+            }
+          ),
+          /* ----- Card 4: Users ----- */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_cardLayout"(
+                contents: {
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    align: "CENTER",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: "user",
+                        size: "LARGE",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: tostring(local!countusers),
+                        size: "LARGE",
+                        style: "STRONG",
+                        color: "STANDARD"
+                      ),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: "Users",
+                        size: "MEDIUM",
+                        color: "STANDARD"
+                      )
+                    }
+                  )
+                },
+                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                  value: "userdetails",
+                  saveInto: local!choice
+                ),
+                style: if(
+                  local!choice = "userdetails",
+                  "#6aa84f",
+                  "#e8f0e3"
+                ),
+                padding: "STANDARD",
+                showBorder: false,
+                showShadow: false,
+                shape: "SEMI_ROUNDED"
+              )
+            }
+          )
+        }
+      ),
+      /* ===== CONTENT SECTION ===== */
+      if(
+        a!isNullOrEmpty(local!choice),
+        {},
+        a!match(
+          value: local!choice,
+          equals: "Organizations",
+          then: #"_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352771"(selectedvalue: ri!selectedvalue),
+          equals: "Teams",
+          then: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132949"(),
+          equals: "Applications",
+          then: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136351"(),
+          equals: "userdetails",
+          then:  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1145295"(),
+          default: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: #"SYSTEM_SYSRULES_richTextItem_v1"(text: "Page not found", color: "NEGATIVE")
+          )
+        )
+        
+      )
+    },
+    
+  )
+)</definition>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedvalue</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1320038"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1320806"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326554"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1353332"/>
+    </history>
+</contentHaul>

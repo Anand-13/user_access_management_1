@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323249</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_toDisplayAllOrganizations</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1320140</uuid>
+        <description>To Display The Display Organization</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/* ── LEFT: Quick Actions ── */
+#"SYSTEM_SYSRULES_columnLayout"(
+  contents: {
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {
+        /* Section Header */
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          labelPosition: "COLLAPSED",
+          marginBelow: "STANDARD",
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: "bolt",
+              color: "#6AA84F",
+              size: "MEDIUM"
+            ),
+            "  ",
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: "Quick Actions",
+              size: "MEDIUM",
+              style: "STRONG"
+            )
+          }
+        ),
+        /* Action Links */
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          labelPosition: "COLLAPSED",
+          marginBelow: "NONE",
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(icon: "plus-circle", color: "POSITIVE"),
+            "  ",
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: "Create New Organization",
+              link: #"SYSTEM_SYSRULES_startProcessLink"(
+                processModel: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1319885"
+              ),
+              linkStyle: "STANDALONE"
+            ),
+            char(10), char(10),
+            #"SYSTEM_SYSRULES_richTextIcon"(icon: "plus-circle", color: "POSITIVE"),
+            "  ",
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: "Create New Team",
+              link: #"SYSTEM_SYSRULES_startProcessLink"(
+                processModel: #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323208"
+              ),
+              linkStyle: "STANDALONE"
+            ),
+            char(10), char(10),
+            #"SYSTEM_SYSRULES_richTextIcon"(icon: "plus-circle", color: "POSITIVE"),
+            "  ",
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: "Register New Application",
+              link: #"SYSTEM_SYSRULES_startProcessLink"(
+                processModel: #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323215"
+              ),
+              linkStyle: "STANDALONE"
+            )
+          }
+        )
+      },
+      style: "NONE",
+      padding: "STANDARD",
+      shape: "SEMI_ROUNDED",
+      showShadow: true
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>search</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1320668"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323249"/>
+    </history>
+</contentHaul>

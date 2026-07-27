@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<siteHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>20f0f3c7-6a99-4dcf-917c-5a0e5710089e</versionUuid>
+  <site a:uuid="eb2b43a8-b82e-4661-8584-92b0d02a3d80" name="UAM User Access Management Anand">
+    <description>Site for User Access Management System</description>
+    <urlStub>user-access-management-anand</urlStub>
+    <page a:uuid="77b193f6-3335-4a0a-9c35-723cfb7a51b8">
+      <staticName>User Access Management</staticName>
+      <description/>
+      <urlStub>system-admin</urlStub>
+      <uiObject a:uuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326999" xsi:type="a:ContentFreeformRule"/>
+      <iconId>f016</iconId>
+      <visibilityExpr>fn!true()</visibilityExpr>
+      <pageWidth>WIDE</pageWidth>
+      <sitePageInput a:uuid="78e0e07a-0df0-4e4d-b151-6fac531d35bd">
+        <inputName>search</inputName>
+        <allowQueryParameter>true</allowQueryParameter>
+        <defaultValue/>
+        <urlParamName>search</urlParamName>
+      </sitePageInput>
+      <sitePageInput a:uuid="a2621915-6711-4c50-8a7b-5dbf973e44b5">
+        <inputName>section</inputName>
+        <allowQueryParameter>true</allowQueryParameter>
+        <defaultValue/>
+        <urlParamName>section</urlParamName>
+      </sitePageInput>
+      <areUrlParamsEncrypted>true</areUrlParamsEncrypted>
+      <autoContextUpdateEnabled>true</autoContextUpdateEnabled>
+      <siteBrandingEnabled>true</siteBrandingEnabled>
+      <darkThemeEnabled>false</darkThemeEnabled>
+    </page>
+    <page a:uuid="e6d20171-a4c4-46f4-a85d-3e585c30a8f8">
+      <staticName>Manager Tasks</staticName>
+      <description/>
+      <urlStub>manager-tasks</urlStub>
+      <uiObject a:uuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351651" xsi:type="a:ContentFreeformRule"/>
+      <iconId>f016</iconId>
+      <visibilityExpr>#"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+  username: loggedInUser(),
+  groups: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1189967"
+)</visibilityExpr>
+      <pageWidth>WIDE</pageWidth>
+      <areUrlParamsEncrypted>true</areUrlParamsEncrypted>
+      <autoContextUpdateEnabled>true</autoContextUpdateEnabled>
+      <siteBrandingEnabled>true</siteBrandingEnabled>
+      <darkThemeEnabled>false</darkThemeEnabled>
+    </page>
+    <page a:uuid="816faeb3-561a-4a7d-998a-64aeb13c2b56">
+      <staticName>Test</staticName>
+      <description/>
+      <urlStub>test</urlStub>
+      <uiObject a:uuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352771" xsi:type="a:ContentFreeformRule"/>
+      <iconId>f016</iconId>
+      <visibilityExpr>fn!true()</visibilityExpr>
+      <pageWidth>WIDE</pageWidth>
+      <areUrlParamsEncrypted>true</areUrlParamsEncrypted>
+      <autoContextUpdateEnabled>true</autoContextUpdateEnabled>
+      <siteBrandingEnabled>true</siteBrandingEnabled>
+      <darkThemeEnabled>false</darkThemeEnabled>
+    </page>
+    <visibility>268435456</visibility>
+    <faviconRef a:uuid="SYSTEM_CONTENT_SITES_DEFAULT_FAVICON" xsi:type="a:CollaborationDocument"/>
+    <logoRef a:uuid="SYSTEM_CONTENT_SITES_DEFAULT_LOGO" xsi:type="a:CollaborationDocument"/>
+    <headerBackgroundColorExpr>#"_a-0000eeda-0177-8000-9e52-011c48011c48_1087390"</headerBackgroundColorExpr>
+    <selectedTabBackgroundColorExpr>#"_a-0000eeda-0177-8000-9e52-011c48011c48_1087396"</selectedTabBackgroundColorExpr>
+    <accentColorExpr>#"_a-0000eeda-0177-8000-9e52-011c48011c48_1087506"</accentColorExpr>
+    <showName>false</showName>
+    <tempoLinkVisibility>HIDDEN</tempoLinkVisibility>
+    <showRecordNews>true</showRecordNews>
+    <tasksInSitesVisibility>HIDDEN</tasksInSitesVisibility>
+    <buttonShape>ROUNDED</buttonShape>
+    <loadingBarColorExpr>#"_a-0000eeda-0177-8000-9e52-011c48011c48_1087521"</loadingBarColorExpr>
+    <navigationBarStyle>STYLE1</navigationBarStyle>
+    <inputShape>SEMI_ROUNDED</inputShape>
+    <isSystem>false</isSystem>
+    <displayName>#"_a-0000eeda-0177-8000-9e52-011c48011c48_1087378"</displayName>
+    <isStaticDisplayName>false</isStaticDisplayName>
+    <nameExprIsEvaluable>true</nameExprIsEvaluable>
+    <primaryNavLayoutType>TOPBAR</primaryNavLayoutType>
+    <buttonLabelCase>UPPERCASE</buttonLabelCase>
+    <dialogShape>ROUNDED</dialogShape>
+    <pageNameCase>UPPERCASE</pageNameCase>
+    <showUserProfile>true</showUserProfile>
+    <showUserSettings>true</showUserSettings>
+    <showUserMenu>true</showUserMenu>
+    <cssProfileUuid/>
+  </site>
+  <roleMap>
+    <role name="site_administrator">
+      <users/>
+      <groups>
+        <groupUuid>15e1f5a7-cce7-4993-84d0-24405f18b73b</groupUuid>
+      </groups>
+    </role>
+    <role name="site_viewer">
+      <users/>
+      <groups>
+        <groupUuid>0d678c7b-998d-450e-a9be-231e1916953e</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="b753aeaa-c8f5-475b-9e88-c33aeebb82ca"/>
+    <historyInfo versionUuid="1ef3d4e1-f55d-4ac7-841e-270b0e5de6bd"/>
+    <historyInfo versionUuid="7b523a47-2889-45d6-a89d-64621f7c602b"/>
+    <historyInfo versionUuid="8f82ae02-a0d3-4db2-badb-2f041f97e6df"/>
+    <historyInfo versionUuid="1ea8e7fc-063d-4686-ae98-007ddc7a867e"/>
+    <historyInfo versionUuid="3153ad83-e35c-4ebd-a275-757873837e92"/>
+    <historyInfo versionUuid="20f0f3c7-6a99-4dcf-917c-5a0e5710089e"/>
+  </history>
+</siteHaul>

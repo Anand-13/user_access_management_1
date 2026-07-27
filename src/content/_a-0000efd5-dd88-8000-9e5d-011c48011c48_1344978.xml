@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1345007</versionUuid>
+    <interface>
+        <name>UAM_formlayout_dialogueBox</name>
+        <uuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344978</uuid>
+        <description>Dialogue Box for a manager before joining a group </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgteam: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(
+    orgId: ri!orgid,
+    teamid: ri!teamid,
+    isActive: true()
+  ),
+
+
+  local!getorgteamids:index(local!orgteam,#"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",null()),
+  local!getteamroles:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: local!getorgteamids,isActive: true()),
+  local!getTeamroleids:index(local!getteamroles,#"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",null()),
+  local!getgroupdetails:#"_a-0000eef8-4604-8000-9e54-011c48011c48_1136584"(groupid: local!getTeamroleids,isactive: true()),
+  local!getgroupname:index(local!getgroupdetails,#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c",null()),
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"SYSTEM_SYSRULES_cardLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_richTextDisplayField"(
+            value: {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text:" You will be added to the ",
+                style: "STRONG",
+                size: "STANDARD",
+                color: "STANDARD"
+              ),
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: local!getgroupname,
+                style: "STRONG",
+                size: "STANDARD",
+                color: "POSITIVE"
+              ),
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: " Groups",
+                style: "STRONG",
+                size: "STANDARD",
+                color: "STANDARD"
+              )
+            }
+          ),
+
+        },
+        padding: "NONE",
+        showBorder: false(),
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          saveInto: {
+            a!save(
+              target:ri!submit,
+              value:#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            )
+          },
+          submit: true,
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(
+              target:ri!submit,
+              value:#"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Are You Sure  To Join The Team",
+      secondaryText: "You will be added to the group",
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false,
+    contentsWidth: "NARROW"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>submit</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1345007"/>
+    </history>
+</contentHaul>

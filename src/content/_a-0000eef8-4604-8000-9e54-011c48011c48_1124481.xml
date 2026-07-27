@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efc0-69e9-8000-9e5b-011c48011c48_1343863</versionUuid>
+    <interface>
+        <name>UAM_view_mappedSuborganizations</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1124481</uuid>
+        <description>To view the mapped suborganizations</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* Check if a parent organization ID was passed in */
+  local!hasOrgId: a!isNotNullOrEmpty(ri!orgid),
+
+  /* Fetch all hierarchy mappings where the current org is the parent */
+  local!maporgid: if(
+    local!hasOrgId,
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1092772"(
+      parentorgId: ri!orgid,
+      isActive: true()
+    ),
+    {}
+  ),
+
+  /* Extract just the child organization IDs from the hierarchy mapping */
+  local!orgid: if(
+    a!isNullOrEmpty(local!maporgid),
+    {},
+    index(
+      local!maporgid,
+      #"urn:appian:record-field:v1:28808922-2be4-47a6-a7b6-33b1b5da8c2d/0c02b78a-3116-4b9c-b8d4-117c5519f675",
+      {}
+    )
+  ),
+
+  /* Flag indicating whether this organization has any sub-organizations */
+  local!hasSubOrgs: a!isNotNullOrEmpty(local!orgid),
+
+  /* Holds the selected child organization's details when a user clicks a row in the grid */
+  local!childorg,
+
+  /* Toggle that drives the show/hide between the grid view and the sub-org details view */
+  local!hasChildSelected: a!isNotNullOrEmpty(local!childorg),
+
+  {
+    /* Back link: visible only when a sub-org is selected.
+       Clicking it clears local!childorg, which flips local!hasChildSelected back to false
+       and re-displays the sub-organizations grid. */
+    #"SYSTEM_SYSRULES_richTextDisplayField"(
+      labelPosition: "COLLAPSED",
+      showWhen: local!hasChildSelected,
+      value: {
+        #"SYSTEM_SYSRULES_richTextItem_v1"(
+          text: {
+            #"SYSTEM_SYSRULES_richTextIcon"(icon: "arrow-left"),
+            "  Back to Sub-Organizations"
+          },
+          link: #"SYSTEM_SYSRULES_dynamicLink"(
+            saveInto: a!save(local!childorg, null)
+          ),
+          color: "ACCENT",
+          style: "STRONG",
+          size: "SMALL"
+        )
+      },
+      marginBelow: "STANDARD"
+    ),
+
+  
+
+    /* Section header for the sub-organizations grid; hidden once a child is selected */
+    #"SYSTEM_SYSRULES_richTextDisplayField"(
+      labelPosition: "COLLAPSED",
+      showWhen: not(local!hasChildSelected),
+      value: {
+        #"SYSTEM_SYSRULES_richTextIcon"(icon: "sitemap", color: "ACCENT"),
+        #"SYSTEM_SYSRULES_richTextItem_v1"(
+          text: " Mapped Sub-Organizations",
+          size: "MEDIUM",
+          style: "STRONG"
+        )
+      },
+      marginBelow: "STANDARD"
+    ),
+
+    /* GRID CARD: lists all sub-organizations under the current parent.
+       Hidden when a sub-org has been selected so the details card can take its place. */
+    #"SYSTEM_SYSRULES_cardLayout"(
+      showWhen: not(local!hasChildSelected),
+      contents: {
+        #"SYSTEM_SYSRULES_sectionLayout_v1"(
+          label: "Sub Organizations",
+          labelSize: "MEDIUM",
+          labelColor: "STANDARD",
+          contents: {
+            if(
+              not(local!hasOrgId),
+              /* State 1 - No organization selected: prompt user to pick one */
+              #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      labelPosition: "COLLAPSED",
+                      value: {
+                        #"SYSTEM_SYSRULES_richTextIcon"(
+                          icon: "sitemap",
+                          size: "LARGE",
+                          color: "SECONDARY"
+                        ),
+                        char(10),
+                        char(10),
+                        #"SYSTEM_SYSRULES_richTextItem_v1"(
+                          text: "Please select an organization to view sub-organizations.",
+                          color: "SECONDARY"
+                        )
+                      },
+                      align: "CENTER"
+                    )
+                  }
+                ),
+                alignVertical: "MIDDLE"
+              ),
+              if(
+                not(local!hasSubOrgs),
+                /* State 2 - Organization selected but has no children: empty-state message */
+                #"SYSTEM_SYSRULES_columnsLayout"(
+                  columns: #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          #"SYSTEM_SYSRULES_richTextIcon"(
+                            icon: "inbox",
+                            size: "LARGE",
+                            color: "SECONDARY"
+                          ),
+                          char(10),
+                          char(10),
+                          #"SYSTEM_SYSRULES_richTextItem_v1"(
+                            text: "No sub-organizations mapped to this organization.",
+                            color: "SECONDARY"
+                          )
+                        },
+                        align: "CENTER"
+                      )
+                    }
+                  ),
+                  alignVertical: "MIDDLE"
+                ),
+                /* State 3 - Render the grid of sub-organizations.
+                   The grid writes the clicked row's details into local!childorg via the childorg parameter. */
+                #"_a-0000eef8-4604-8000-9e54-011c48011c48_1124164"(
+                  parentid: ri!orgid,
+                  isselectable: true(),
+                  childids: local!orgid,
+                  select: false(),
+                  childorg: local!childorg
+                )
+              )
+            )
+          }
+        )
+      },
+      style: "NONE",
+      padding: "STANDARD",
+      marginBelow: "STANDARD",
+      showBorder: false,
+      showShadow: true
+    ),
+
+    /* DETAILS CARD: full summary view of the selected sub-organization.
+       Mutually exclusive with the grid card above - only one is visible at a time. */
+    #"SYSTEM_SYSRULES_cardLayout"(
+      showWhen: local!hasChildSelected,
+      contents: {
+        #"_a-0000eef8-4604-8000-9e54-011c48011c48_1098557"(
+          organizationdetails: local!childorg,
+          orgid: local!orgid,
+          showbacktodashboard: false()
+        )
+      },
+      style: "NONE",
+      padding: "NONE",
+      marginBelow: "STANDARD",
+      showBorder: false,
+      showShadow: false
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>parentorgname</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1135135"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1315041"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1338484"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1343863"/>
+    </history>
+</contentHaul>

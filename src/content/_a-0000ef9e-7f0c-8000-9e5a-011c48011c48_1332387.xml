@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332596</versionUuid>
+    <interface>
+        <name>UAM_editablegrid_selectAndDeselectTeamUsers</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332387</uuid>
+        <description>Selecting and Deselecting Team Users</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* Users on this specific team */
+  local!teamuserdata: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223271"(
+    teamid: ri!teamid,
+    orgId: ri!orgid,
+    isActive: true()
+  ),
+  local!userid: if(
+    a!isNotNullOrEmpty(local!teamuserdata),
+    union(
+      tointeger(
+        index(
+          local!teamuserdata,
+          #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/2446f425-e513-4053-8151-47012ca1e09f",
+          {}
+        )
+      ),
+      tointeger({})
+    ),
+    tointeger({})
+  ),
+
+  /* All users on any team in this org (deduplicated) */
+  local!orguser: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1152489"(
+    orgId: ri!orgid,
+    isActive: true()
+  ),
+  local!orguserid: if(
+    a!isNotNullOrEmpty(local!orguser),
+    union(
+      tointeger(
+        index(
+          local!orguser,
+          #"urn:appian:record-field:v1:1d96ae0c-ec0e-4a3e-88d1-b71544f25118/ae764b4a-f059-4fe0-924b-9d60bfeda938",
+          {}
+        )
+      ),
+      tointeger({})
+    ),
+    tointeger({})
+  ),
+
+  /* Available = in org, on some team, but not on THIS team */
+  local!availableuserids: difference(local!orguserid, local!userid),
+  local!assigneduserids: local!userid,
+  local!userAdd: tointeger({}),
+  local!userSubtract: tointeger({}),
+
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Team Users",
+      secondaryText: "Manage Users For This Team"
+    ),
+    contents: {
+
+      /* ── ASSIGNED USERS ── */
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Assigned Users",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "User Name"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Remove")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1277768"(
+                        userId: local!assigneduserids,
+                        isActive: true()
+                      ),
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b6956f1b-0674-4b2a-a808-051a41257c01"
+                            ],
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "minus-circle",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(
+                                      local!availableuserids,
+                                      union(local!availableuserids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assigneduserids,
+                                      difference(local!assigneduserids, tointeger(save!value))
+                                    ),
+                                    /* If user was originally on this team, mark for removal */
+                                    a!save(
+                                      local!userSubtract,
+                                      if(
+                                        contains(local!userid, tointeger(save!value)),
+                                        union(local!userSubtract, tointeger(save!value)),
+                                        local!userSubtract
+                                      )
+                                    ),
+                                    /* If user was a fresh add this session, undo it */
+                                    a!save(
+                                      local!userAdd,
+                                      difference(local!userAdd, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "SECONDARY",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!assigneduserids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No users assigned to this team.",
+                      color: "SECONDARY",
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!assigneduserids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          )
+        }
+      ),
+
+      /* ── AVAILABLE USERS ── */
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Available Users",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "User Name"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Add")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1277768"(
+                        userId: local!availableuserids,
+                        isActive: true()
+                      ),
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b6956f1b-0674-4b2a-a808-051a41257c01"
+                            ],
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "plus-square-o",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b9c974e1-800e-4dfe-9d43-14273008fe48"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(
+                                      local!availableuserids,
+                                      difference(local!availableuserids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assigneduserids,
+                                      union(local!assigneduserids, tointeger(save!value))
+                                    ),
+                                    /* If user was NOT originally on this team, mark for add */
+                                    a!save(
+                                      local!userAdd,
+                                      if(
+                                        contains(local!userid, tointeger(save!value)),
+                                        local!userAdd,
+                                        union(local!userAdd, tointeger(save!value))
+                                      )
+                                    ),
+                                    /* If user was being removed this session, undo it */
+                                    a!save(
+                                      local!userSubtract,
+                                      difference(local!userSubtract, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "ACCENT",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!availableuserids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No users available to add.",
+                      color: "SECONDARY",
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!availableuserids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          )
+        }
+      )
+    },
+
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true(),
+          loadingIndicator: true(),
+          style: "SOLID",
+          disabled: and(
+            a!isNullOrEmpty(local!userAdd),
+            a!isNullOrEmpty(local!userSubtract)
+          ),
+          saveInto: {
+            a!save(ri!selectingusers, local!userAdd),
+            a!save(ri!removeusers, local!userSubtract),
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463")
+          }
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          submit: true(),
+          validate: false(),
+          style: "OUTLINE",
+          saveInto: {
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469")
+          }
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectingusers</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>removeusers</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1332596"/>
+    </history>
+</contentHaul>

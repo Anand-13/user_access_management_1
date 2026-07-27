@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323583</versionUuid>
+    <interface>
+        <name>UAM_formlayout_createorUpdateApplication</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1136285</uuid>
+        <description>Formlayout interface to create or update application</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!appdetails: if(
+    a!isNotNullOrEmpty(ri!appid),
+    #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1316451"(AppId: ri!appid),
+    null()
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    contents: {
+      #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136273"(application: local!appdetails)
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true,
+          saveInto: {
+            if(
+              ri!isUpdate,
+              {
+                a!save(
+                  target: local!appdetails[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/1c4afd49-abdc-4a12-b126-5e2397abec16"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: local!appdetails[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/2ae72cda-12f5-48a2-bf61-706f697f6734"],
+                  value: now()
+                )
+              },
+              {
+                a!save(
+                  target: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/b7f7118c-46d1-454a-b1e5-43d6c512d680"],
+                  value: loggedInUser()
+                ),
+                a!save(
+                  target: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3d842534-8460-4cf1-943a-e3bf1a162b9a"],
+                  value: now()
+                ),
+                a!save(
+                  target: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/b0983308-9603-4f16-b22c-c1fe878df61b"],
+                  value: true()
+                )
+              }
+            ),
+            a!save(
+              target: ri!application,
+              value: local!appdetails
+            ),
+            a!save(
+              target: ri!button,
+              value: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463"
+            )
+          },
+          loadingIndicator: true,
+          style: "SOLID"
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          value: true,
+          saveInto: {
+            a!save(
+              target: ri!button,
+              value: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469"
+            )
+          },
+          validate: false,
+          submit: true,
+          style: "OUTLINE"
+        )
+      }
+    ),
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: if(
+        a!isNotNullOrEmpty(ri!isUpdate),
+        "Update Application",
+        "Create Application"
+      ),
+      secondaryText: if(
+        a!isNotNullOrEmpty(ri!isUpdate),
+        "Update Application Details",
+        "Enter Application details"
+      ),
+      backgroundColor: "ACCENT"
+    ),
+    showTitleBarDivider: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>application</name>
+            <type>
+                <name>d82b71ee-1dd1-46f0-ba3e-d6849d0512f7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>appid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isUpdate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1136316"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1323583"/>
+    </history>
+</contentHaul>

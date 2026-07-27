@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326376</versionUuid>
+    <rule>
+        <name>UAM_qry_practiceQuestionsSet2Conditional</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1319854</uuid>
+        <description>Conditional problems are here</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* 21. An employee's years of service is 8 and performance rating is "Excellent". Write an
+expression to determine bonus: if years &gt;= 5 AND rating is "Excellent", bonus is 10000; if years
+&gt;= 5 OR rating is "Excellent", bonus is 5000; otherwise 2000. */
+  local!employeeservice: 8,
+  local!employeeperformance: "Excellent",
+  local!condition: if(
+    and(
+      (local!employeeperformance = "Excellent"),
+      (local!employeeservice &gt;= 5)
+    ),
+    concat("bonus is 10000"),
+    concat("bonus is 2000")
+  ),
+  /* 22. A student has scores: Math = 75, Science = 82, English = 68. Write an expression to return
+"Pass" if the average is &gt;= 70 AND no individual score is below 60, otherwise "Fail". */
+  local!math: 75,
+  local!science: 82,
+  local!english: 68,
+  local!average: average(local!math, local!science, local!english),
+  local!result: if(local!average &gt;= 70, "Pass", "Fail"),
+  /* 23. An order amount is $1500 and customer type is "Premium". Write an expression to calculate
+discount: Premium customers get 15% if amount &gt; 1000, otherwise 10%. Regular customers get
+5% if amount &gt; 1000, otherwise 0%. */
+  local!amount: "$1500",
+  local!discount: if(tointeger(local!amount) &gt; 1000, 0.15, 0.10),
+  local!discountamount: local!amount * local!discount,
+  local!finalamount: local!amount - local!discountamount,
+  /* 24. A product has stock = 0 and backorder = true. Write an expression to return status: "Out of
+Stock - Available for Backorder" if stock is 0 and backorder is true, "Out of Stock" if stock is 0 and
+backorder is false, "In Stock" otherwise. */
+  local!stock: 0;local!backorder: true(),
+  local!checkavailability: if(
+    and(
+      (local!stock = 0),
+      (local!backorder = true())
+    ),
+    "Out of
+Stock - Available for Backorder",
+    "In Stock"
+  ),
+  /* 25. Three checkboxes have values: option1 = true, option2 = false, option3 = true. Write an
+expression to return "At least 2 selected" if 2 or more are true, "Only 1 selected" if exactly 1 is true,
+"None selected" if all are false. */
+  local!option1:true(),
+  local!option2:false(),
+  local!option3:true(),
+  local!count:tointeger(local!option1) + tointeger(local!option2) + tointeger(local!option3),
+  local!result1:if(
+    local!count&gt;=2,
+    "At least 2 selected",
+    if(local!count&gt;=1,
+    "Only 1 selected",
+    "None Selected")
+  ),
+  /* Q26. A loan applicant has creditScore = 720, income = 65000, employmentYears = 4. Write an
+expression to determine approval: Approved if (creditScore &gt; 700 AND income &gt; 50000) OR
+employmentYears &gt; 5, otherwise Denied. */
+  local!creditscore: 720,
+  local!income : 65000,
+  local!employmentyears: 4,
+local!approve:if(
+  or(and((local!creditscore&gt;700),local!income&gt;50000),local!employmentyears&gt;5),
+  "Approved",
+  "Denied"
+),
+/*27. A date field has value date(2024, 2, 15). Write an expression to determine quarter: Q1 (Jan
+Mar), Q2 (Apr-Jun), Q3 (Jul-Sep), or Q4 (Oct-Dec).*/
+  local!date: date(2024, 2, 15),
+  local!monthNum: month(local!date),
+  local!quarter:if(
+    local!monthNum&lt;=3,
+    "Q1",
+    if(and((local!monthNum&gt;=4),(local!monthNum&lt;=6)),
+    "Q2",
+    if(and((local!monthNum&gt;=7),(local!monthNum&lt;=9)),
+    "Q3",
+    "Q4"
+    )
+    )
+  ),
+  /* 28. A ticket priority is "High" and days open is 5. Write an expression to return escalation level:
+"Critical" if priority is "High" and days &gt; 3, "Warning" if priority is "Medium" and days &gt; 7,
+"Normal" otherwise. */
+  local!priority:"Medium",
+  local!days:8,
+  local!escalation:a!match(
+    value: true(),
+    equals: and((local!priority="High"),(local!days&gt;3)),
+    then: "Critical",
+    equals: and((local!priority="Medium"),(local!days&gt;7)),
+    then: "Medium",
+    default: "Normal"
+  ),
+  
+  /* 29. A user's role is in the list 
+{"Admin", "Manager", "Supervisor"} and they're trying to
+access a restricted page. Write an expression to return true only if they have one of these roles. */
+  local!usersrole:"Manager",
+  local!roles:{"Admin", "Manager", "Supervisor"},
+  local!pageaccess:contains(local!roles,local!usersrole),
+  /* 30. An exam has passingScore = 70, studentScore = 68, extraCredit = 5. Write an expression to
+return "Pass" if studentScore + extraCredit &gt;= passingScore, otherwise "Fail". */
+  local!passingscore: 70,
+  local!studentscore: 68,
+  local!extracredit:5,
+  local!passorfail:if(
+    (sum(local!studentscore,local!extracredit))&gt;=local!passingscore,
+    "Pass",
+    "Fail"
+  ),
+  /* 31. A temperature is 28°C and humidity is 75%. Write an expression to return comfort level:
+"Uncomfortable" if temp &gt; 25 AND humidity &gt; 70, "Comfortable" otherwise. */
+  local!temperature: tointeger("28c"),
+  local!humidity: tointeger("75%"),
+  local!comfortlevel:if(
+    and(local!temperature,local!humidity),
+    "Uncomfortable",
+    "Comfortable"
+  ),
+  /* 32. A product category is "Electronics" and price is $350. Write an expression to determine tax
+rate: Electronics over $300 get 18% tax, Electronics $300 or less get 12% tax, other categories get
+8% tax. */
+  local!category:"Electronics",
+  local!price:350,
+  local!tax:a!match(
+    value: true(),
+    whenTrue: and((local!category="Electronics"),(local!price&gt;300)), then: 0.18,
+    whenTrue: and((local!category="Electronics"),(local!price&lt;300)), then: 0.12,
+    default: 0.08
+  ),
+  /* 33. Three validators return: validator1 = true, validator2 = true, validator3 = false. Write an
+expression to return "Valid" only if ALL validators are true, otherwise list which validators failed. */
+  local!validator:true(),
+  local!validator1:true(),
+  local!validator2:false(),
+local!list:a!match(
+  value: true(),
+  whenTrue: and(local!validator,local!validator1,local!validator2), then: "Valid",
+  default: "Failed"
+),
+/*34. An age is 17 and parentalConsent = true. Write an expression to return "Eligible" if age &gt;=
+18 OR (age &gt;= 16 AND parentalConsent is true), otherwise "Not Eligible".*/
+local!age:17,
+local!parent:true(),
+local!iseligible:or(local!age&gt;=18,and((local!age&gt;=16),(local!parent=true()))),
+local!return:if(
+  local!iseligible,
+  "Eligible",
+  "Not Eligible"
+),
+/*35. A schedule has startTime = 9 and endTime = 17 (24-hour format). Current time is 14. Write
+an expression to return "Active" if current time is between start and end (inclusive), "Inactive"
+otherwise.*/
+local!starttime: 9,
+local!endtime:17,
+local!currenttime:14,
+local!checktime:if(
+  and((local!currenttime&gt;=local!starttime),(local!currenttime&lt;=local!endtime)),
+  "Active",
+  "InActive"
+),
+/*36. A shipping weight is 25 kg and destination is "International". Write an expression to
+calculate shipping cost: Domestic is $5 per kg up to 20kg, then $7 per kg. International is $10 per
+kg up to 20kg, then $12 per kg.*/
+
+local!weight: 25,
+local!destination: "International",
+local!threshold: 20,
+local!rates: if(
+  local!destination = "International",
+  { base: 10, premium: 12 },
+  { base: 5, premium: 7 }
+),
+local!shippingCost: if(
+  local!weight &lt;= local!threshold,
+  local!weight * local!rates.base,
+  (local!threshold * tointeger((local!rates.base)) + (
+    (local!weight - local!threshold) * tointeger(local!rates.premium)
+  )
+)
+),
+
+/*37. A password has length 10, contains numbers = true, contains symbols = false. Write an
+expression to return strength: "Strong" if length &gt;= 10 AND contains numbers AND contains
+symbols, "Medium" if length &gt;= 8 AND (contains numbers OR contains symbols), "Weak"
+otherwise*/
+local!passwordlength: 10,
+local!containsnumber:true(),
+local!containssymbols:false(),
+local!checkpassword:a!match(
+  value: true(),
+  whenTrue: and(local!passwordlength&gt;=10,and(local!containsnumber,local!containssymbols)),then: "Strong",
+  whenTrue: and(local!passwordlength&gt;=8,or(local!containsnumber,local!containssymbols)),then: "Medium",
+  default: "Weak"
+),
+/*38. A subscription expires on date(2024, 12, 31) and today is date(2024, 12, 15). Write an
+expression to return "Expiring Soon" if expires within 30 days, "Active" if more than 30 days
+remain, "Expired" if expiry date has passed.*/
+local!lastdate:day(date(2024,12,31)),
+local!todaydate:day(date(2024,12,15)),
+local!currentdate:tointeger(local!lastdate-local!todaydate),
+local!value:if(
+  local!currentdate&gt;30,
+  "Active",
+  if(
+    local!currentdate&lt;30,
+    "InActive",
+    "Expried"
+  )
+),
+/*39. Multiple conditions: isWeekend = false, isHoliday = true, isEmergency = false. Write an
+expression to determine if office is open: Closed if weekend OR (holiday AND NOT emergency),
+Open otherwise.*/
+local!isWeekend:false(),
+local!isHoliday:true(),
+local!isEmergency:false(),
+local!checking:if(
+  or(local!isWeekend,and(local!isHoliday,not(local!isEmergency))),
+  "Closed",
+  "Open"
+),
+
+/*40. A score is 85 on a test with curve = 5 and extraPoints = 2. Write an expression to determine
+f
+inal grade: A (90+), B (80-89), C (70-79), D (60-69), F (below 60) after adding curve and
+extraPoints.*/
+local!score:85,
+local!curve:5,
+local!extrapoints:2,
+local!total:sum(local!score,local!curve,local!extrapoints),
+local!finalgrade:a!match(
+  value: local!total,
+  whenTrue: (local!total&gt;=90), then: "A",
+  whenTrue: (local!total&gt;=80), then: "B",
+  whenTrue: (local!total&gt;=70), then: "C",
+  whenTrue: (local!total&gt;=60), then: "D",
+  default: "F"
+),
+{
+    local!condition,
+    local!result,
+    local!finalamount,
+    local!checkavailability,
+   
+    local!result1,
+    local!approve,
+    
+    local!quarter,
+    local!escalation,
+    local!pageaccess,
+    local!passorfail,
+    local!comfortlevel,
+    local!tax,
+    local!list,
+    local!return,
+    local!checktime,
+    local!shippingCost,
+    local!checkpassword,
+    local!value,
+    local!checking,
+    local!finalgrade
+  }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1319877"/>
+        <historyInfo versionUuid="_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1326376"/>
+    </history>
+</contentHaul>

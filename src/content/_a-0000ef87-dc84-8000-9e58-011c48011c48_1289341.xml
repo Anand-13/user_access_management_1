@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352075</versionUuid>
+    <rule>
+        <name>UAM_generateEmailBodyForReject</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1289341</uuid>
+        <description>To generate the email body for Reject</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!teamDetails: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1132811"(TeamId: ri!teamid),
+  local!teamNames: joinarray(
+    index(
+      local!teamDetails,
+      #"urn:appian:record-field:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a",
+      {}
+    ),
+    ", "
+  ),
+  local!orgDetails: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1123673"(orgId: ri!orgid),
+  local!orgName: index(
+    local!orgDetails,
+    #"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9",
+    "–"
+  ),
+  local!teamroles: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1138645"(teamid: ri!teamid, isActive: true()),
+  local!teamgroupids: index(
+    local!teamroles,
+    #"urn:appian:record-field:v1:139cb21e-dd78-4694-a8ad-b43e2d51226f/da39fffc-c223-49f0-b99c-5a3a8f8ad3b8",
+    {}
+  ),
+  local!groupdetails: if(
+    a!isNotNullOrEmpty(local!teamgroupids),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136584"(groupid: local!teamgroupids),
+    {}
+  ),
+  local!groupnames: if(
+    a!isNotNullOrEmpty(local!groupdetails),
+    index(
+      local!groupdetails,
+      #"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c",
+      {}
+    ),
+    {}
+  ),
+  /* Format group names as HTML list */
+  local!groupNamesHtmlList: if(
+    a!isNotNullOrEmpty(local!groupnames),
+    "&lt;ul style=""margin: 5px 0; padding-left: 20px;""&gt;" &amp; joinarray(
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!groupnames,
+        expression: "&lt;li&gt;" &amp; fv!item &amp; "&lt;/li&gt;"
+      ),
+      ""
+    ) &amp; "&lt;/ul&gt;",
+    "&lt;em&gt;No roles requested&lt;/em&gt;"
+  ),
+  local!userName: tostring(ri!username),
+  
+  "&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=""UTF-8""&gt;
+&lt;title&gt;Team Access Request Rejected&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style=""font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6;""&gt;
+&lt;p&gt;Dear " &amp; local!userName &amp; ",&lt;/p&gt;
+&lt;p&gt;This email is to notify you that your Team Access Request has been &lt;strong style=""color: red;""&gt;Rejected&lt;/strong&gt;.&lt;/p&gt;
+&lt;table style=""border-collapse: collapse; margin: 15px 0;""&gt;
+&lt;tr&gt;
+&lt;td style=""padding: 5px 15px 5px 0;""&gt;&lt;strong&gt;Organization:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=""padding: 5px 0;""&gt;" &amp; local!orgName &amp; "&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=""padding: 5px 15px 5px 0;""&gt;&lt;strong&gt;Team Name:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=""padding: 5px 0;""&gt;" &amp; local!teamNames &amp; "&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=""padding: 5px 15px 5px 0; vertical-align: top;""&gt;&lt;strong&gt;Requested Roles:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=""padding: 5px 0;""&gt;" &amp; local!groupNamesHtmlList &amp; "&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;Please contact your administrator if you have any questions.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;em&gt;This is a system generated mail.&lt;/em&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;"
+)</definition>
+        <namedTypedValue>
+            <name>userName</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1289353"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352075"/>
+    </history>
+</contentHaul>

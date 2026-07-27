@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1223228</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_taskRequestTeam</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1223026</uuid>
+        <description>Task Request Team </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_gridField_v5"(
+    label: "Task Request Team",
+    labelPosition: "ABOVE",
+    data: #"SYSTEM_SYSRULES_recordData"(
+      recordType: #"urn:appian:record-type:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/31fb444a-b274-4b08-9a8b-90cc283e3060",
+          operator: "=",
+          value: loggedInUser()
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/74c3b022-8822-4346-ac87-fd2bd6f9f05e",
+          operator: "=",
+          value: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204741"[1]
+        )
+      }
+    ),
+    showRefreshButton: true,
+    showSearchBox: true,
+    similarityScoreThreshold: 1.0,
+    columns: {
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: "Task Name",
+        value: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223038"(
+          TaskDefid: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a74d0f31-a451-49b4-abbd-a0c9c5f83f24"],
+          taskname: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/40f58e90-9586-4243-ad02-95c88f7aed79"],
+          assignedby: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3"],
+          assignedon: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db"],
+          orgid: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/07705049-9429-45c0-9e76-73ac7197597b"],
+          orgname: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/f06582aa-2799-43a3-87e3-00fdeff07d49/0f073a93-5255-4fd3-bdba-87d2febf50e9"],
+          taskid: fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4"]
+        ),
+        sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/40f58e90-9586-4243-ad02-95c88f7aed79"
+      ),
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: "Task Status",
+        value: a!defaultValue(
+          fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/1769b12a-e2db-4dca-b178-7606720d6435/afa0d871-5650-48d6-82ca-b75cecc41f04"],
+          "–"
+        ),
+        sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/1769b12a-e2db-4dca-b178-7606720d6435/afa0d871-5650-48d6-82ca-b75cecc41f04",
+        align: "END"
+      ),
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: "Assigned On",
+        value: if(
+          isnull(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db"]
+          ),
+          "–",
+          datetext(
+            fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db"],
+            "default"
+          )
+        ),
+        sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db",
+        align: "END",
+        width: "NARROW_PLUS"
+      ),
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: "Assigned By",
+        value: a!defaultValue(
+          fv!row[#"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3"],
+          "–"
+        ),
+        sortField: #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3"
+      ),
+      
+    },
+    refreshAfter: "RECORD_ACTION",
+    validations: {}
+  )
+}</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1223228"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1128925</versionUuid>
+    <interface>
+        <name>UAM_sectionlayout_CreateOrganizationDetails</name>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1084631</uuid>
+        <description>To create Organization </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  {
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      label: "DETAILS",
+      contents: {
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_textField"(
+                  label: "ORGANIZATION NAME",
+                  labelPosition: "ABOVE",
+                  placeholder: "Enter The Organization Name",
+                  value: ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"],
+                  saveInto: {
+                    ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"]
+                    
+                  },
+                  refreshAfter: "KEYPRESS",
+                  required: true(),
+                  requiredMessage: "Please enter the Organization Name",
+                  validations: {
+                    if(
+                      len(
+                        ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/0f073a93-5255-4fd3-bdba-87d2febf50e9"]
+                      ) &lt; 3,
+                      "Must be at least 3 characters",
+                      ""
+                    )
+                  
+                  }
+                ),
+                
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+               #"SYSTEM_SYSRULES_pickerFieldUsers"(
+                 label: "Project Manager",
+                 required: true(),
+                 maxSelections: 1,
+                groupFilter: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1128889",
+                 value: ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2"],
+                 saveInto: ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b67e544-964e-485d-90df-3947cc4b80b2"]
+               )
+
+              }
+            )
+           
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_radioButtonField_v1"(
+                label: "Parent Organization",
+                labelPosition: "ABOVE",
+                value: ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/56279cd7-e7c5-4577-9c40-eae4b315ac12"],
+                saveInto: {
+                  ri!organizationdetails[#"urn:appian:record-field:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/56279cd7-e7c5-4577-9c40-eae4b315ac12"]
+                },
+                choiceLabels: {"Yes", "No"},
+                choiceValues: {true(), false()},
+                validations: {},
+                choiceLayout: "STACKED"
+                )
+
+              }
+            )
+
+          }
+        )
+        
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>organizationdetails</name>
+            <type>
+                <name>008dc9c2-5821-421b-b1dd-e322b8e6665f</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:description/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>organizationdetails</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1128925"/>
+    </history>
+</contentHaul>

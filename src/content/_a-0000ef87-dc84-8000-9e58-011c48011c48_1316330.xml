@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1318889</versionUuid>
+    <interface>
+        <name>UAM_editablegridlayout_addOrRemoveApplication</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1316330</uuid>
+        <description>To Add or Remove The application</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!allapplications: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1316451"(isActive: true()),
+  local!applicationids: if(
+    a!isNotNullOrEmpty(local!allapplications),
+    tointeger(index(
+      local!allapplications,
+      #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2",
+      null()
+    )),
+    tointeger({})
+  ),
+  local!orgapplication: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1142076"(
+    orgId: ri!orgid,
+    isActive: true()
+  ),
+  local!orgapplicationids: if(
+    a!isNotNullOrEmpty(local!orgapplication),
+    tointeger(index(
+      local!orgapplication,
+      #"urn:appian:record-field:v1:0723a91a-4d09-404f-821d-4296dd50e6c6/26a43997-9c33-40cd-a0e1-cf6a4c80387b",
+      null()
+    )),
+    tointeger({})
+  ),
+  local!availableapplicationids: difference(
+    local!applicationids,
+    local!orgapplicationids
+  ),
+  local!assignedapplicationids: if(
+    a!isNotNullOrEmpty(local!orgapplicationids),
+    local!orgapplicationids,
+    tointeger({})
+  ),
+  local!addapplicationids: tointeger({}),
+  local!removeapplicationids: tointeger({}),
+
+  #"SYSTEM_SYSRULES_formLayout_v2"(
+    titleBar: #"SYSTEM_SYSRULES_headerTemplateFull"(
+      title: "Manage Applications",
+      secondaryText: "To Add Or Remove Applications"
+    ),
+    contents: {
+
+      /* ✅ a!columnsLayout directly inside formLayout contents */
+      #"SYSTEM_SYSRULES_columnsLayout"(#"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_sectionLayout_v1"(
+            label: "Assigned Applications",
+            contents: {
+              #"SYSTEM_SYSRULES_gridLayout"(
+                headerCells: {
+                  #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Application Name"),
+                  #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Remove")
+                },
+                columnConfigs: {
+                  #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                  #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                },
+                rows: #"SYSTEM_SYSRULES_forEach"(
+                  items: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1316451"(
+                    AppId: local!assignedapplicationids,
+                    isActive: true()
+                  ),
+                  expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                    
+                    contents: {
+                      #"SYSTEM_SYSRULES_textField"(
+                        value: fv!item[
+                          #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/934fe72d-d285-4f56-bb33-55edd415c5de"
+                        ],
+                        readOnly: true()
+                      ),
+                      #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          #"SYSTEM_SYSRULES_richTextIcon"(
+                            icon: "minus-circle",
+                            link: #"SYSTEM_SYSRULES_dynamicLink"(
+                              value: tointeger(
+                                fv!item[
+                                  #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2"
+                                ]
+                              ),
+                              saveInto: {
+                                a!save(
+                                  local!availableapplicationids,
+                                  union(local!availableapplicationids, tointeger(save!value))
+                                ),
+                                a!save(
+                                  local!assignedapplicationids,
+                                  difference(local!assignedapplicationids, tointeger(save!value))
+                                ),
+                                a!save(
+                                  local!removeapplicationids,
+                                  union(local!removeapplicationids, tointeger(save!value))
+                                ),
+                                a!save(
+                                  local!addapplicationids,
+                                  difference(local!addapplicationids, tointeger(save!value))
+                                )
+                              }
+                            ),
+                            linkStyle: "INLINE",
+                            color: "SECONDARY",
+                            size: "MEDIUM"
+                          )
+                        }
+                      )
+                    }
+                  )
+                ),
+                showWhen: a!isNotNullOrEmpty(local!assignedapplicationids),
+                rowHeader: 1
+              ),
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                labelPosition: "COLLAPSED",
+                value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: "No applications assigned.",
+                  color: "SECONDARY",
+                  style: "EMPHASIS"
+                ),
+                showWhen: a!isNullOrEmpty(local!assignedapplicationids),
+                align: "CENTER"
+              )
+            }
+          )
+        }
+      )),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+
+          /* ── LEFT: AVAILABLE APPLICATIONS ── */
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                label: "Available Applications",
+                contents: {
+                  #"SYSTEM_SYSRULES_gridLayout"(
+                    headerCells: {
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Application Name"),
+                      #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "Add")
+                    },
+                    columnConfigs: {
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE", weight: 3),
+                      #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+                    },
+                    rows: #"SYSTEM_SYSRULES_forEach"(
+                      items: #"_a-0000ef87-dc84-8000-9e58-011c48011c48_1316451"(
+                        AppId: local!availableapplicationids,
+                        isActive: true()
+                      ),
+                      expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+                        
+                        contents: {
+                          #"SYSTEM_SYSRULES_textField"(
+                            value: fv!item[
+                              #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/934fe72d-d285-4f56-bb33-55edd415c5de"
+                            ],
+                            readOnly: true()
+                          ),
+                          #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "plus-square-o",
+                                link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                  value: tointeger(
+                                    fv!item[
+                                      #"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2"
+                                    ]
+                                  ),
+                                  saveInto: {
+                                    a!save(
+                                      local!availableapplicationids,
+                                      difference(local!availableapplicationids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!assignedapplicationids,
+                                      union(local!assignedapplicationids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!addapplicationids,
+                                      union(local!addapplicationids, tointeger(save!value))
+                                    ),
+                                    a!save(
+                                      local!removeapplicationids,
+                                      difference(local!removeapplicationids, tointeger(save!value))
+                                    )
+                                  }
+                                ),
+                                linkStyle: "INLINE",
+                                color: "ACCENT",
+                                size: "MEDIUM"
+                              )
+                            }
+                          )
+                        }
+                      )
+                    ),
+                    showWhen: a!isNotNullOrEmpty(local!availableapplicationids),
+                    rowHeader: 1
+                  ),
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: "No applications available to add.",
+                      color: "SECONDARY",
+                      style: "EMPHASIS"
+                    ),
+                    showWhen: a!isNullOrEmpty(local!availableapplicationids),
+                    align: "CENTER"
+                  )
+                }
+              )
+            }
+          ),
+
+          /* ── RIGHT: ASSIGNED APPLICATIONS ── */
+          
+
+        }
+      ),
+      
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Submit",
+          submit: true(),
+          loadingIndicator: true(),
+          style: "SOLID",
+          disabled: and(
+            a!isNullOrEmpty(local!addapplicationids),
+            a!isNullOrEmpty(local!removeapplicationids)
+          ),
+          saveInto: {
+            a!save(ri!applicationsToAdd, local!addapplicationids),
+            a!save(ri!applicationsToRemove, local!removeapplicationids),
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085463")
+          }
+        )
+      },
+      secondaryButtons: {
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          label: "Cancel",
+          submit: true(),
+          validate: false(),
+          style: "OUTLINE",
+          saveInto: {
+            a!save(ri!button, #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085469")
+          }
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>button</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicationsToAdd</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicationsToRemove</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:description/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">34</a:value>
+                    <a:nameRef>orgid</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>button</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>applicationsToAdd</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>applicationsToRemove</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1318889"/>
+    </history>
+</contentHaul>

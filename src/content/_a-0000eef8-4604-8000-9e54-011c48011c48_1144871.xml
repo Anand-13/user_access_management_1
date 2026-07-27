@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1144959</versionUuid>
+    <interface>
+        <name>UAM_textfield_createUser</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1144871</uuid>
+        <description>Here we are creating user</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_columnsLayout"(
+    columns: {
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_textField"(
+            label: "User Name",
+            labelPosition: "ABOVE",
+            value: ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b6956f1b-0674-4b2a-a808-051a41257c01"],
+            saveInto: {ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/b6956f1b-0674-4b2a-a808-051a41257c01"]},
+            refreshAfter: "UNFOCUS",
+            validations: {}
+          ),
+          #"SYSTEM_SYSRULES_textField"(
+            label: "First Name",
+            labelPosition: "ABOVE",
+            value: ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/432735ea-6585-464d-b6e4-77009d9bcf1d"],
+            saveInto: {ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/432735ea-6585-464d-b6e4-77009d9bcf1d"]},
+            refreshAfter: "UNFOCUS",
+            validations: {}
+          ),
+          #"SYSTEM_SYSRULES_textField"(
+            label: "Last Name",
+            labelPosition: "ABOVE",
+            value:ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/347f4da4-04e1-4eb5-b521-564f0e8be776"],
+            saveInto: {ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/347f4da4-04e1-4eb5-b521-564f0e8be776"]},
+            refreshAfter: "UNFOCUS",
+            validations: {}
+          ),
+          #"SYSTEM_SYSRULES_textField"(
+            label: "Email",
+            labelPosition: "ABOVE",
+            value:ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/7e7ff32d-c4e1-468a-964f-48933b28c91e"],
+            saveInto: {ri!user[#"urn:appian:record-field:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/7e7ff32d-c4e1-468a-964f-48933b28c91e"]},
+            refreshAfter: "UNFOCUS",
+            validations: {}
+          )
+        }
+      )
+    }
+  )
+}</definition>
+        <namedTypedValue>
+            <name>user</name>
+            <type>
+                <name>87d49c13-56b3-4601-a425-bfd5bdbef0fc</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1144959"/>
+    </history>
+</contentHaul>

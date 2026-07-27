@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352458</versionUuid>
+    <interface>
+        <name>UAM_richtextdisplay_toShowTheOrgTeamRoles</name>
+        <uuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1347749</uuid>
+        <description>To show the org team roles</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  a!localVariables(
+    local!team: #"_a-0000efd5-dd88-8000-9e5d-011c48011c48_1347755"(orgid: ri!orgid),
+    local!numCols: 3,
+    /* Change this to set a different number of columns. If you change this number, consider updating the stackWhen parameter on the columns layout */
+    local!openHistory,
+    local!user:touser("prabhakar"),
+    /* teamId of the card whose event history is expanded (accordion: one open at a time, null = none) */
+    {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: #"SYSTEM_SYSRULES_forEach"(
+          items: enumerate(local!numCols) + 1,
+          expression: a!localVariables(
+            local!colIndex: fv!index,
+            /* Here I am getting 1 */
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_forEach"(
+                  items: local!team,
+                  expression: a!localVariables(
+                    local!teamId: index(fv!item, "teamId", null()),
+                    /*Get the Team id and store it in this variable */
+                    local!rowIndex: fv!index,
+                    /* unique per card — accordion key so ONLY the clicked card opens (teamId repeats per role) */
+                    local!isOpen: and(
+                      a!isNotNullOrEmpty(local!openHistory),             /* In initial phase everything will be closed "view history" */
+                      
+                      local!openHistory = local!rowIndex
+                    ),
+                    #"SYSTEM_SYSRULES_cardLayout"(
+                      contents: {
+                        #"SYSTEM_SYSRULES_cardLayout"(
+                          contents: {
+                            #"SYSTEM_SYSRULES_sideBySideLayout"(
+                              items: {
+                                #"SYSTEM_SYSRULES_sideBySideItem"(),
+                                #"SYSTEM_SYSRULES_sideBySideItem"(
+                                  width: "MINIMIZE",
+                                  item: {
+                                    a!localVariables(
+                                      local!isuserpartofteam: isusermemberofgroups(
+                                        user: loggedInUser(),
+                                        groups: { index(fv!item, "rolegroups", null()) }
+                                      ),
+                                      #"SYSTEM_SYSRULES_tagField"(
+                                        labelPosition: "COLLAPSED",
+                                        tags: if(
+                                          local!isuserpartofteam,
+                                          #"SYSTEM_SYSRULES_tagItem_v1"(
+                                            text: "Granted",
+                                            backgroundColor: "POSITIVE"
+                                          ),
+                                          null()
+                                        )
+                                      )
+                                    ),
+                                    
+                                  }
+                                )
+                              }
+                            ),
+                            #"SYSTEM_SYSRULES_richTextDisplayField"(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                #"SYSTEM_SYSRULES_richTextItem_v1"(text: "Team name : ", color: "SECONDARY"),
+                                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                  text: a!defaultValue(index(fv!item, "teamname", null()), "-"),
+                                  style: "STRONG"
+                                )
+                              }
+                            ),
+                            #"SYSTEM_SYSRULES_richTextDisplayField"(
+                              labelPosition: "COLLAPSED",
+                              marginAbove: "EVEN_LESS",
+                              value: {
+                                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                  text: "Team description : ",
+                                  color: "SECONDARY"
+                                ),
+                                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                  text: index(fv!item, "teamdescription", null())
+                                )
+                              }
+                            ),
+                            #"SYSTEM_SYSRULES_richTextDisplayField"(
+                              labelPosition: "COLLAPSED",
+                              marginAbove: "EVEN_LESS",
+                              value: {
+                                #"SYSTEM_SYSRULES_richTextItem_v1"(text: "Role : ", color: "SECONDARY"),
+                                #"SYSTEM_SYSRULES_richTextBulletedList"(items: index(fv!item, "roles", null())),
+                                
+                              },
+                              
+                            ),
+                            #"SYSTEM_SYSRULES_sideBySideLayout"(
+                              items: {
+                                #"SYSTEM_SYSRULES_sideBySideItem"(),
+                                #"SYSTEM_SYSRULES_sideBySideItem"(
+                                  width: "MINIMIZE",
+                                  item: {
+                                    #"SYSTEM_SYSRULES_recordActionField_v1"(
+                                      actions: {
+                                        #"SYSTEM_SYSRULES_recordActionItem"(
+                                          action: #"urn:appian:record-action:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/e5960ebd-4c0f-4a32-b8b7-3c451a7953c0",
+                                          identifier: index(fv!item, "orgteamid", null())
+                                        )
+                                      },
+                                      style: "SIDEBAR_PRIMARY",
+                                      align: "END",
+                                      showWhen: #"_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348384"(
+                                        teamid: index(fv!item, "teamId", null()),
+                                        groupids: index(fv!item, "rolegroups", null()),
+                                        user: local!user
+                                      )
+                                    )
+                                  }
+                                )
+                              }
+                            ),
+                            #"SYSTEM_SYSRULES_sideBySideLayout"(
+                              items: {
+                                #"SYSTEM_SYSRULES_sideBySideItem"(),
+                                #"SYSTEM_SYSRULES_sideBySideItem"(
+                                  item: {
+                                    #"SYSTEM_SYSRULES_recordActionField_v1"(
+                                      actions: {
+                                        #"SYSTEM_SYSRULES_recordActionItem"(
+                                          action: #"urn:appian:record-action:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/036b569d-7be9-4073-910e-bec7eefabc4b",
+                                          identifier: index(fv!item, "orgteamid", null())
+                                        )
+                                      },
+                                      style: "SIDEBAR_PRIMARY",
+                                      align: "END",
+                                      showWhen: #"_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348498"(
+                                        teamid: index(fv!item, "teamId", null()),
+                                        groupids: index(fv!item, "rolegroups", null()),
+                                        user: local!user
+                                      )
+                                    )
+                                  }
+                                )
+                              }
+                            ),
+                            #"SYSTEM_SYSRULES_richTextDisplayField"(
+                              labelPosition: "COLLAPSED",
+                              value: a!localVariables(
+                                local!teamaccess: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223135"(
+                                  teamid: index(fv!item, "teamId", null()),
+                                  taskstatusid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204741"[1],
+                                  taskdefid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204747"[1]
+                                ),
+                                local!teamrevoke: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223135"(
+                                  teamid: index(fv!item, "teamId", null()),
+                                  taskstatusid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204741"[1],
+                                  taskdefid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204747"[2]
+                                ),
+                                if(
+                                  a!isNotNullOrEmpty(local!teamaccess),
+                                  #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                    text: "Team Access Request In-Progress",
+                                    style: "STRONG",
+                                    color: "POSITIVE",
+                                    size: "STANDARD"
+                                  ),
+                                  if(
+                                    a!isNotNullOrEmpty(local!teamrevoke),
+                                    #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                      text: "Revoke Request In-Progress",
+                                      style: "STRONG",
+                                      color: "NEGATIVE",
+                                      size: "STANDARD"
+                                    ),
+                                    null()
+                                  )
+                                )
+                              )
+                            ),
+                            /* ---- Visible "View History" link (dynamicLink on a richTextItem, not the card) ---- */
+                            #"SYSTEM_SYSRULES_richTextDisplayField"(
+                              labelPosition: "COLLAPSED",
+                              align: "RIGHT",
+                              marginAbove: "EVEN_LESS",
+                              value: {
+                                #"SYSTEM_SYSRULES_richTextIcon"(                                                          
+                                  icon: if(local!isOpen, "chevron-up", "history"),                         
+                                  color: "ACCENT"
+                                ),
+                                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                  text: if(
+                                    local!isOpen,
+                                    " Hide History",
+                                    " View History"
+                                  ),
+                                  link: #"SYSTEM_SYSRULES_dynamicLink"(
+                                    label: "View History",
+                                    saveInto: a!save(
+                                      local!openHistory,                                                      
+                                      if(local!isOpen, null, local!rowIndex)                   /*Here The value is stored in local!openHistory from the local!rowIndex*/
+                                    )
+                                  ),
+                                  linkStyle: "STANDALONE",
+                                  size: "SMALL"
+                                )
+                              }
+                            ),
+                            /* ---- Event history component: renders only for the expanded card ---- */
+                            #"SYSTEM_SYSRULES_cardLayout"(
+                              showWhen: local!isOpen,
+                              style: "NONE",
+                              padding: "EVEN_LESS",
+                              marginAbove: "EVEN_LESS",
+                              contents: #"_a-0000efd5-dd88-8000-9e5d-011c48011c48_1350419"(teamid: local!teamId, search: false),
+                              height: "AUTO"
+                            ),
+                            
+                          },
+                          showBorder: true(),
+                          padding: "LESS",
+                          height: "AUTO",
+                          /* was MEDIUM_PLUS — must be AUTO so the card grows when history expands */
+                          
+                        ),
+                        
+                      },
+                      /* This logic assigns each card to the right column */
+                      showWhen: or(
+                        mod(fv!index, local!numCols) = local!colIndex,
+                        and(
+                          mod(fv!index, local!numCols) = 0,
+                          local!colIndex = local!numCols
+                        )
+                      ),
+                      marginBelow: "STANDARD",
+                      padding: "NONE"
+                    )
+                  )
+                )
+              }
+            )
+          )
+        ),
+        stackWhen: { "PHONE", "TABLET_PORTRAIT" },
+        alignVertical: "TOP"
+      )
+    }
+  )
+}</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1349207"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1350998"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1352458"/>
+    </history>
+</contentHaul>

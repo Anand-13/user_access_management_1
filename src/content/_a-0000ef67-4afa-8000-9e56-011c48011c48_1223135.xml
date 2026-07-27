@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351437</versionUuid>
+    <rule>
+        <name>UAM_qrc_getTaskRequestDetails</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1223135</uuid>
+        <description>To query the get Task Request Details for update purpose</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!names:#"SYSTEM_SYSRULES_queryRecordType_v3"(
+    recordType: #"urn:appian:record-type:v1:4601b03e-24f0-4148-89af-df9734b39677",
+    fields: #"SYSTEM_SYSRULES_selectionFields"(
+      allFieldsFromRecordType: #"urn:appian:record-type:v1:4601b03e-24f0-4148-89af-df9734b39677"
+    ),
+    filters: #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      operator: "AND",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:4601b03e-24f0-4148-89af-df9734b39677/86f0ee32-2c89-45f4-868a-1022270a06a5", /* To the organization ID*/
+          operator: "=",
+          value: ri!taskId
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:4601b03e-24f0-4148-89af-df9734b39677/40bce6e6-6e0f-48a1-b648-b37086bdd9ed", /* To the organization ID*/
+          operator: "=",
+          value: ri!teamid
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:4601b03e-24f0-4148-89af-df9734b39677/72726dec-ed70-42b8-96fa-2c8de4216d88/74c3b022-8822-4346-ac87-fd2bd6f9f05e", /* To the organization ID*/
+          operator: "=",
+          value: ri!taskstatusid
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:4601b03e-24f0-4148-89af-df9734b39677/72726dec-ed70-42b8-96fa-2c8de4216d88/a74d0f31-a451-49b4-abbd-a0c9c5f83f24", /* To the organization ID*/
+          operator: "=",
+          value: ri!taskdefid
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:4601b03e-24f0-4148-89af-df9734b39677/72726dec-ed70-42b8-96fa-2c8de4216d88/07705049-9429-45c0-9e76-73ac7197597b", /* To the organization ID*/
+          operator: "=",
+          value: ri!orgid
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:4601b03e-24f0-4148-89af-df9734b39677/72726dec-ed70-42b8-96fa-2c8de4216d88/6cb77a5a-559e-459a-b0db-d9d86d0edbcc", /* To the organization ID*/
+          operator: "=",
+          value: ri!isActive
+        )
+      },
+      ignoreFiltersWithEmptyValues: true(),
+    )
+    ,
+    pagingInfo: a!defaultValue(
+      value: ri!paginginfo,
+      default:  #"SYSTEM_SYSRULES_pagingInfo"(
+        startIndex: 1,
+        batchSize: 5000
+      )
+    )
+  ),
+  local!data:index(local!names,"data",null()),
+  
+    local!data
+  
+)</definition>
+        <namedTypedValue>
+            <name>taskId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>paginginfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>teamid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskstatusid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskdefid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isActive</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1223154"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1348515"/>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351437"/>
+    </history>
+</contentHaul>

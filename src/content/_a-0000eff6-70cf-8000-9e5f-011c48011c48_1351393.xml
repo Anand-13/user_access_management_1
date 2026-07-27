@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351936</versionUuid>
+    <rule>
+        <name>UAM_qry_togetDetailsOfTask</name>
+        <uuid>_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351393</uuid>
+        <description>To get the details of the Task</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!detailsofinprogresstasks: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1223195"(
+    assginedto: ri!assginedto,
+    statusid: #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1204741"[1],
+    isteamdetail: true(),
+    isorgname: true(),
+    isrolename: true()
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: local!detailsofinprogresstasks,
+    expression: a!map(
+      orgid: index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/07705049-9429-45c0-9e76-73ac7197597b",
+        null()
+      ),
+      taskid:index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/ccb5a321-9c4c-47a2-9a59-17878d4f3cd4",
+        null()
+      ),
+      RequestedBy: index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/021645bc-b81c-46fe-854e-08e892e21ef3",
+        null()
+      ),
+      TeamName: index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a81c6077-73b1-4d51-9259-8f69e48dbe8f/f975a8fb-58b7-4cd7-af40-82feae15fea4/d4a08ef8-b6c6-4db9-bb25-3be3a8bcbf2a",
+        null()
+      ),
+      teamid:index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a81c6077-73b1-4d51-9259-8f69e48dbe8f/f975a8fb-58b7-4cd7-af40-82feae15fea4/4c75fc18-2599-4da4-b579-737570b6189c",
+        null()
+      ),
+      taskdef:index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a74d0f31-a451-49b4-abbd-a0c9c5f83f24",
+        null()
+      ),
+      RequestedOn:index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/10ec6fd4-4d55-4d37-8cc2-c4ee6ced76db",
+        null()
+      ),
+      OrgName:index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/f06582aa-2799-43a3-87e3-00fdeff07d49/0f073a93-5255-4fd3-bdba-87d2febf50e9",
+        null()
+      ),
+      
+      rolegroups: index(
+        fv!item,
+        #"urn:appian:record-field:v1:b8f3b3fb-4c21-4c30-a0ee-390699334a97/a81c6077-73b1-4d51-9259-8f69e48dbe8f/f975a8fb-58b7-4cd7-af40-82feae15fea4/22450fca-d1c6-407b-8511-ebf5097d2082/ef5f62ea-2050-4741-9023-aa3fceb8a7f3/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c",
+        null()
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>assginedto</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000eff6-70cf-8000-9e5f-011c48011c48_1351936"/>
+    </history>
+</contentHaul>

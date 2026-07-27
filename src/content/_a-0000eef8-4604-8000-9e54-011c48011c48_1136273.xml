@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1136284</versionUuid>
+    <interface>
+        <name>UAM_columnslayout_ApplicationInterface</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1136273</uuid>
+        <description>Columns layout for application Interface</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_columnsLayout"(
+    columns: {
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_textField"(
+            label: "Application Name",
+            required: true(),
+            value: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/934fe72d-d285-4f56-bb33-55edd415c5de"],
+            saveInto: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/934fe72d-d285-4f56-bb33-55edd415c5de"]
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_textField"(
+            label: "Application Description",
+            required: true(),
+            value: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/fe3c2d5d-d09f-48a6-9692-dd3ee4f80925"],
+            saveInto: ri!application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/fe3c2d5d-d09f-48a6-9692-dd3ee4f80925"]
+          )
+        }
+      )
+    }
+  )
+}</definition>
+        <namedTypedValue>
+            <name>application</name>
+            <type>
+                <name>d82b71ee-1dd1-46f0-ba3e-d6849d0512f7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1136284"/>
+    </history>
+</contentHaul>

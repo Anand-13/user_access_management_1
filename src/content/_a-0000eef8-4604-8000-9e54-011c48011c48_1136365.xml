@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1289307</versionUuid>
+    <interface>
+        <name>UAM_dropdownfield_selectingTheRole</name>
+        <uuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1136365</uuid>
+        <description>To select the role of application</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!roles: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136371"(),
+  local!roleName: index(
+    local!roles,
+    #"urn:appian:record-field:v1:fef16993-6c0f-4a45-884c-76b7dbbff983/299b80ba-6859-4a51-9327-066924ec76d4",
+    {}
+  ),
+  local!roleId: index(
+    local!roles,
+    #"urn:appian:record-field:v1:fef16993-6c0f-4a45-884c-76b7dbbff983/f8397cb5-6d5e-470b-8d1b-1e034fb7b25c",
+    {}
+  ),
+  local!groupdetails: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136584"(isactive: true()),
+  local!groupnames: index(
+    local!groupdetails,
+    #"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c",
+    {}
+  ),
+
+  /* Get current group name as text */
+  local!currentGroupName: tostring(
+    a!defaultValue(
+      ri!group[#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+      ""
+    )
+  ),
+
+  /* ✅ Simpler approach - check if name exists using wherecontains */
+  local!nameExists: if(
+    or(
+      a!isNullOrEmpty(local!groupnames),
+      a!isNullOrEmpty(local!currentGroupName)
+    ),
+    false,
+    count(
+      wherecontains(
+        upper(local!currentGroupName),
+        #"SYSTEM_SYSRULES_forEach"(
+          items: local!groupnames,
+          expression: upper(tostring(a!defaultValue(fv!item, "")))
+        )
+      )
+    ) &gt; 0
+  ),
+
+  {
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_textField"(
+              label: "Name Of The Group",
+              value: ri!group[#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+              saveInto: ri!group[#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/e8ca0cac-e7b4-4dfc-a87f-9c9f6e12a24c"],
+              required: true,
+              requiredMessage: "Group name is required",
+              validations: {
+                /* Check if group name already exists */
+                if(
+                  local!nameExists,
+                  "Group name already exists. Please choose a different name.",
+                  ""
+                ),
+
+                /* Check for illegal characters */
+                if(
+                  and(
+                    a!isNotNullOrEmpty(local!currentGroupName),
+                    regexreplaceall("[^a-zA-Z0-9\s\-_]", local!currentGroupName, "") &lt;&gt; local!currentGroupName
+                  ),
+                  "Group name contains illegal characters (@ # $ % / etc. not allowed)",
+                  ""
+                ),
+
+                /* Check minimum length */
+                if(
+                  and(
+                    a!isNotNullOrEmpty(local!currentGroupName),
+                    len(trim(local!currentGroupName)) &lt; 3
+                  ),
+                  "Group name must be at least 3 characters",
+                  ""
+                )
+              }
+            )
+          }
+        )
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_dropdownField_v1"(
+              label: "Select The Role",
+              labelPosition: "ABOVE",
+              placeholder: "--- Select a Role ---",
+              value: ri!group[#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/14bd0629-b396-47cb-af9a-982e31d3ebee"],
+              saveInto: ri!group[#"urn:appian:record-field:v1:c4386edd-8146-4849-a78b-d8ad760265af/14bd0629-b396-47cb-af9a-982e31d3ebee"],
+              choiceLabels: local!roleName,
+              choiceValues: local!roleId,
+              required: true,
+              requiredMessage: "Please select a role",
+              searchDisplay: "AUTO"
+            )
+          }
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>group</name>
+            <type>
+                <name>c4386edd-8146-4849-a78b-d8ad760265af</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1137800"/>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1289307"/>
+    </history>
+</contentHaul>

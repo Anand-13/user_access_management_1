@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1221141</versionUuid>
+    <rule>
+        <name>UAM_consuctor_UserTeamData</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1220230</uuid>
+        <description>Constructor to store the team and user data</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!selectedids,
+  expression: #"urn:appian:record-type:v1:4356d859-6f7e-4040-8f2a-649c4885a415"(
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/3337ac81-68d6-48d7-a1e1-c5c220c28b3b": null(),
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/2446f425-e513-4053-8151-47012ca1e09f": #"_a-0000ef67-4afa-8000-9e56-011c48011c48_1206088"(ppinitator: ri!ppinitator),
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/b29bb5e9-ee3a-43aa-8ad0-0924cdc69a19": fv!item,
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/65b9df0f-01e5-42e6-a136-e9e72e801224": true(),
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/72c871bc-a0cc-456d-b181-95074525096f": #"_a-0000eef8-4604-8000-9e54-011c48011c48_1088723"(orgid: ri!orgid),
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/cbf58c23-afdd-446d-a752-5ba5a0c3fd41": now(),
+    #"urn:appian:record-field:v1:4356d859-6f7e-4040-8f2a-649c4885a415/3a265d67-f994-4875-af46-4f886f8d970b": ri!orgid
+  )
+)</definition>
+        <namedTypedValue>
+            <name>selectedids</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>ppinitator</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1221141"/>
+    </history>
+</contentHaul>

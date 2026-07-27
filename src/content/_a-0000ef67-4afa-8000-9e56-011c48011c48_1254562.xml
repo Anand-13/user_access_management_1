@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1277758</versionUuid>
+    <interface>
+        <name>UAM_selectable_applicationGroup</name>
+        <uuid>_a-0000ef67-4afa-8000-9e56-011c48011c48_1254562</uuid>
+        <description>To show the groups that are related to the application </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!appid: #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136641"(applicationid: ri!appid,isActive: true()),
+  local!groupid: if(
+    a!isNotNullOrEmpty(local!appid),
+    index(
+      local!appid,
+      #"urn:appian:record-field:v1:a54a3394-393d-4e6a-8737-0e73bb9b47e6/8dc81246-29c1-4324-803b-d2686f3304b2",
+      {}
+    ),
+    {-1}
+  ),
+
+  #"_a-0000eef8-4604-8000-9e54-011c48011c48_1136654"(
+    groupid: local!groupid,
+    search: false(),
+    selectable: true(),
+    selectedgroupids: ri!selectedgroups  /* ← Add this output */
+  )
+)</definition>
+        <namedTypedValue>
+            <name>appid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedgroups</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1254596"/>
+        <historyInfo versionUuid="_a-0000ef67-4afa-8000-9e56-011c48011c48_1277758"/>
+    </history>
+</contentHaul>

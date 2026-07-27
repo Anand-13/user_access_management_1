@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eef8-4604-8000-9e54-011c48011c48_1094522</versionUuid>
+    <interface>
+        <name>UAM_sectionlayout_OrganizationAddressDetails</name>
+        <uuid>_a-0000eeda-0177-8000-9e52-011c48011c48_1085102</uuid>
+        <description>In this Interface organization address details are stored </description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Here we will query the data of countries */
+  local!countrydata: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085172"(),
+  local!countryNames: index(
+    local!countrydata,
+    #"urn:appian:record-field:v1:c3e73c8a-ec0a-407f-9907-916f11fdce5d/1f76749a-fbe8-4ba5-b8f2-097dcecb789d",
+    null()
+  ),
+  local!countryids: index(
+    local!countrydata,
+    #"urn:appian:record-field:v1:c3e73c8a-ec0a-407f-9907-916f11fdce5d/a50adea3-5e12-4cf2-99c5-22074722d770",
+    null()
+  ),
+  /*Here we will query the data of states */
+  local!statedata: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085159"(
+    countryId: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/7ec5745a-6be6-412a-abf2-d68d7d7f57ee"],
+    isActive: true()
+  ),
+  local!stateNames: index(
+    local!statedata,
+    #"urn:appian:record-field:v1:bc5e6a76-7744-4085-b06e-7d720168e945/6e63fcd6-66c8-4856-9b35-cd8fc9593e26",
+    null()
+  ),
+  local!stateids: index(
+    local!statedata,
+    #"urn:appian:record-field:v1:bc5e6a76-7744-4085-b06e-7d720168e945/727b739d-327a-4d16-8462-497c000d0476",
+    null()
+  ),
+  /*Here we will query the data of cities */
+  local!citydata: #"_a-0000eeda-0177-8000-9e52-011c48011c48_1085146"(
+    stateid: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/a6bf3cce-653c-49f3-a581-d3c586987942"],
+    isActive: true()
+  ),
+  local!citynames: index(
+    local!citydata,
+    #"urn:appian:record-field:v1:c155a5df-b848-4d0e-b02f-89afb731210d/2ce57781-e8d2-4da6-b4df-f1770d496384",
+    null()
+  ),
+  local!cityids: index(
+    local!citydata,
+    #"urn:appian:record-field:v1:c155a5df-b848-4d0e-b02f-89afb731210d/6005a254-28f5-47b6-9d00-f0e25c605cc2",
+    null()
+  ),
+  {
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      label: "Address Details",
+      contents: {
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_textField"(
+                  label: "Address Line 1",
+                  labelPosition: "ABOVE",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/f19ea19e-f942-445d-a2b3-1e55c08cf38b"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/f19ea19e-f942-445d-a2b3-1e55c08cf38b"]
+                  },
+                  refreshAfter: "UNFOCUS",
+                  required: true(),
+                  validations: {}
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_textField"(
+                  label: "Address Line 2",
+                  labelPosition: "ABOVE",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/365502f4-1385-487e-8c76-308a93f5f915"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/365502f4-1385-487e-8c76-308a93f5f915"]
+                  },
+                  refreshAfter: "UNFOCUS",
+                  validations: {}
+                )
+              }
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_dropdownField_v1"(
+                  choiceLabels: local!countryNames,
+                  choiceValues: local!countryids,
+                  label: "Country",
+                  labelPosition: "ABOVE",
+                  placeholder: "----select your country----",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/7ec5745a-6be6-412a-abf2-d68d7d7f57ee"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/7ec5745a-6be6-412a-abf2-d68d7d7f57ee"],
+                    a!save(
+                      ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/a6bf3cce-653c-49f3-a581-d3c586987942"],    /*Here we will make sure city and state value changes to null every time*/
+                      null()
+                    ),
+                    a!save(
+                      ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a240dc2-acae-46f5-8519-4417d4d72358"],  /*Here we will make sure state value is disabled every time*/
+                      null()
+                    )
+                  },
+                  required: true()
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_dropdownField_v1"(
+                  choiceLabels: local!statenames,
+                  choiceValues: local!stateids,
+                  label: "State",
+                  labelPosition: "ABOVE",
+                  placeholder: "----select your state----",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/a6bf3cce-653c-49f3-a581-d3c586987942"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/a6bf3cce-653c-49f3-a581-d3c586987942"],
+                    a!save(
+                      ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a240dc2-acae-46f5-8519-4417d4d72358"],/*Here we will make sure city  value changes to null every time*/
+                      null()
+                    )
+                  },
+                  required: true(),
+                  disabled: if(
+                    a!isNullOrEmpty(
+                      ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/7ec5745a-6be6-412a-abf2-d68d7d7f57ee"]
+                    ),
+                    true(),
+                    false()
+                  )
+                )
+              }
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_dropdownField_v1"(
+                  choiceLabels: local!citynames,
+                  choiceValues: local!cityids,
+                  label: "City",
+                  labelPosition: "ABOVE",
+                  placeholder: "--- Select a City ---",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a240dc2-acae-46f5-8519-4417d4d72358"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a240dc2-acae-46f5-8519-4417d4d72358"]
+                  },
+                  searchDisplay: "AUTO",
+                  required: true(),
+                  disabled: if(
+                    a!isNullOrEmpty(
+                      ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/a6bf3cce-653c-49f3-a581-d3c586987942"]
+                    ),
+                    true(),
+                    false()
+                  ),
+                  validations: {}
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_textField"(
+                  label: "Postal Code",
+                  labelPosition: "ABOVE",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/1edbf58a-d2c0-49a8-942c-8dcc8e7d91bc"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/1edbf58a-d2c0-49a8-942c-8dcc8e7d91bc"]
+                  },
+                  refreshAfter: "UNFOCUS",
+                  required: true(),
+                  disabled: if(
+                    a!isNullOrEmpty(
+                      ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a240dc2-acae-46f5-8519-4417d4d72358"]
+                    ),
+                    true(),
+                    false()
+                  ),
+                  validations: {}
+                )
+              }
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"SYSTEM_SYSRULES_radioButtonField_v1"(
+                  choiceLabels: { "Yes", "No" },
+                  choiceValues: { true(), false() },
+                  label: "Is this primary address?",
+                  labelPosition: "ABOVE",
+                  value: ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a856481-c93b-4410-b989-e6305457ebbd"],
+                  saveInto: {
+                    ri!organizationAddress[#"urn:appian:record-field:v1:c88789e1-f61f-486d-8102-47dde29086d7/6a856481-c93b-4410-b989-e6305457ebbd"]
+                  },
+                  required: true(),
+                  choiceLayout: "STACKED",
+                  validations: {}
+                ),
+                
+              }
+            )
+          }
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>organizationAddress</name>
+            <type>
+                <name>c88789e1-f61f-486d-8102-47dde29086d7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:description/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>organizationAddress</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000eef8-4604-8000-9e54-011c48011c48_1094522"/>
+    </history>
+</contentHaul>

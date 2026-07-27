@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efd5-dd88-8000-9e5d-011c48011c48_1345256</versionUuid>
+    <interface>
+        <name>UAM_gridlayout_teamAndUserDetails</name>
+        <uuid>_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328966</uuid>
+        <description>select team and user details as well</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!orgteam: if(
+    a!isNotNullOrEmpty(ri!orgid),
+    #"_a-0000eef8-4604-8000-9e54-011c48011c48_1134349"(orgId: ri!orgid, isActive: true()),
+    null()
+  ),
+  local!teamidassoicatedwithorg: if(
+    a!isNotNullOrEmpty(local!orgteam),
+    index(
+      local!orgteam,
+      #"urn:appian:record-field:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/4889b852-272c-42a8-81e1-414933737923",
+      null()
+    ),
+    null()
+  ),
+  local!selectedteamid: null,
+  local!selectedrowid: null,
+  local!selectedrowids: null(),
+  {
+    if(
+      a!isNotNullOrEmpty(local!teamidassoicatedwithorg),
+      {
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            /* LEFT: Teams grid - full width when nothing selected, shrinks when team selected */
+            #"SYSTEM_SYSRULES_columnLayout"(
+              width: if(
+                a!isNullOrEmpty(local!selectedteamid),
+                "EXTRA_WIDE",
+                "WIDE"
+              ),
+              contents: {
+                #"SYSTEM_SYSRULES_sideBySideLayout"(
+                  items: {
+                    #"SYSTEM_SYSRULES_sideBySideItem"(),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: {
+                        #"SYSTEM_SYSRULES_recordActionField_v1"(
+                          actions: {
+                            #"SYSTEM_SYSRULES_recordActionItem"(
+                              action: #"urn:appian:record-action:v1:bb51e73c-01e7-4e73-8a7b-4187491dde54/b166a57e-b59e-411d-ab5d-aa15ad201762",
+                              identifier: local!selectedteamid
+                            )
+                          },
+                          showWhen: a!isNotNullOrEmpty(local!selectedteamid),
+                          style: "SIDEBAR_PRIMARY",
+                          align: "END"
+                        )
+                      }
+                    ),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: {
+                        #"SYSTEM_SYSRULES_recordActionField_v1"(
+                          actions: {
+                            #"SYSTEM_SYSRULES_recordActionItem"(
+                              action: #"urn:appian:record-action:v1:008dc9c2-5821-421b-b1dd-e322b8e6665f/4b68118b-a133-4cfe-a12b-0b896ea662bd",
+                              identifier: ri!orgid
+                            )
+                          },
+                          style: "SIDEBAR_PRIMARY",
+                          align: "END"
+                        )
+                      }
+                    ),
+                    if(
+                      isusermemberofallgroups(user: loggedInUser(),groups: #"_a-0000efc0-69e9-8000-9e5b-011c48011c48_1342328"(orgid: ri!orgid,teamid: local!selectedteamid)),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: {
+                          #"SYSTEM_SYSRULES_recordActionField_v1"(
+                            actions: {
+                              #"SYSTEM_SYSRULES_recordActionItem"(
+                                action: #"urn:appian:record-action:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/697815a3-2d53-4fd0-b823-3aaaa69a8f02",
+                                identifier: local!selectedrowids
+                              )
+                            },
+                            showWhen: a!isNotNullOrEmpty(local!selectedteamid),
+                            style: "SIDEBAR_PRIMARY",
+                            align: "END"
+                          )
+                        }
+                      ),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: {
+                          #"SYSTEM_SYSRULES_recordActionField_v1"(
+                            actions: {
+                              #"SYSTEM_SYSRULES_recordActionItem"(
+                                action: #"urn:appian:record-action:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/6709df2b-aa7e-42cd-a8a5-02c49ddc7c08",
+                                identifier: local!selectedrowids
+                              )
+                            },
+                            showWhen: a!isNotNullOrEmpty(local!selectedteamid),
+                            style: "SIDEBAR_PRIMARY",
+                            align: "END"
+                          )
+                        }
+                      )
+                    ),
+                    
+                  }
+                ),
+                #"SYSTEM_SYSRULES_cardLayout"(
+                  contents: {
+                    #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1328203"(
+                      teamid: local!teamidassoicatedwithorg,
+                      search: false(),
+                      refresh: false(),
+                      selected: local!selectedteamid,
+                      orgid: ri!orgid,
+                      selectedid: local!selectedrowids,
+                      
+                    )
+                  }
+                )
+              }
+            ),
+            /* MIDDLE: Team users + roles - only renders when a team is selected */
+            #"SYSTEM_SYSRULES_columnLayout"(
+              width: if(
+                a!isNullOrEmpty(local!selectedteamid),
+                "",
+                "WIDE"
+              ),
+              contents: if(
+                a!isNullOrEmpty(local!selectedteamid),
+                {},
+                {
+                  #"SYSTEM_SYSRULES_sideBySideLayout"(
+                    items: {
+                      #"SYSTEM_SYSRULES_sideBySideItem"(),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: {
+                          #"SYSTEM_SYSRULES_recordActionField_v1"(
+                            actions: {
+                              #"SYSTEM_SYSRULES_recordActionItem"(
+                                action: #"urn:appian:record-action:v1:87d49c13-56b3-4601-a425-bfd5bdbef0fc/46040161-915c-41e6-a5eb-7a886fe070d2",
+                                identifier: local!selectedrowid
+                              )
+                            },
+                            showWhen: a!isNotNullOrEmpty(local!selectedrowid),
+                            style: "SIDEBAR_PRIMARY",
+                            align: "END"
+                          )
+                        }
+                      ),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: {
+                          #"SYSTEM_SYSRULES_recordActionField_v1"(
+                            actions: {
+                              #"SYSTEM_SYSRULES_recordActionItem"(
+                                action: #"urn:appian:record-action:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/3b2d491b-09b1-4599-b752-7750bd747c9d",
+                                identifier: local!selectedrowids
+                              )
+                            },
+                            style: "SIDEBAR_PRIMARY",
+                            align: "END"
+                          )
+                        }
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_cardLayout"(
+                    contents: {
+                      #"_a-0000ef9e-7f0c-8000-9e5a-011c48011c48_1331445"(
+                        teamid: local!selectedteamid,
+                        search: false(),
+                        refresh: false(),
+                        orgid: ri!orgid,
+                        selected: local!selectedrowid
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideLayout"(
+                    items: {
+                      #"SYSTEM_SYSRULES_sideBySideItem"(),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: {
+                          #"SYSTEM_SYSRULES_recordActionField_v1"(
+                            actions: {
+                              #"SYSTEM_SYSRULES_recordActionItem"(
+                                action: #"urn:appian:record-action:v1:4eb1fdb2-adfe-4b4b-8a61-ccc9f1f5f947/1f010492-7d90-4be4-b9b6-c043e3f4627d",
+                                identifier: local!selectedrowids
+                              )
+                            },
+                            style: "SIDEBAR_PRIMARY",
+                            align: "END"
+                          )
+                        }
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_cardLayout"(
+                    contents: {
+                      #"_a-0000efc0-69e9-8000-9e5b-011c48011c48_1332702"(
+                        teamid: local!selectedteamid,
+                        search: false(),
+                        refresh: false()
+                      )
+                    }
+                  )
+                }
+              )
+            ),
+            /* RIGHT: User detail summary - only renders when a user row is selected */
+            #"SYSTEM_SYSRULES_columnLayout"(
+              width: if(
+                a!isNullOrEmpty(local!selectedrowid),
+                "",
+                "WIDE"
+              ),
+              contents: if(
+                a!isNullOrEmpty(local!selectedrowid),
+                {},
+                {
+                  #"SYSTEM_SYSRULES_cardLayout"(
+                    contents: {
+                      #"_a-0000efc0-69e9-8000-9e5b-011c48011c48_1332807"(
+                        userid: local!selectedrowid,
+                        selectable: false(),
+                        refresh: false(),
+                        search: false()
+                      )
+                    }
+                  )
+                }
+              )
+            )
+          }
+        )
+      },
+      {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>orgid</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selected</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedid</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>user</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1339199"/>
+        <historyInfo versionUuid="_a-0000efc0-69e9-8000-9e5b-011c48011c48_1341561"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1344244"/>
+        <historyInfo versionUuid="_a-0000efd5-dd88-8000-9e5d-011c48011c48_1345256"/>
+    </history>
+</contentHaul>

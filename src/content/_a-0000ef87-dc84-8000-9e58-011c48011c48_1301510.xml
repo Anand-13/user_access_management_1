@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1301743</versionUuid>
+    <rule>
+        <name>UAM_coding_functionKnowledge</name>
+        <uuid>_a-0000ef87-dc84-8000-9e58-011c48011c48_1301510</uuid>
+        <description>Function knowledge</description>
+        <parentUuid>d697af9a-04b4-44be-a290-57a27daea979</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*a!localVariables(*/
+  /*1. You have a list of employee IDs: {101, 102, 103, 104, 105}. Write an expression to add a new employee ID*/
+  /*106 to the end of this list.*/
+  /*local!employeelist:{101,102,103,104,105},*/
+  /*local!addemployee:append(local!employeelist,106),*/
+    /*2.  A shopping cart contains items: {"Laptop", "Mouse", "Keyboard", "Monitor"}. Write an expression to*/
+/*count how many items are in the cart.*/
+  /*local!shoppingcart:{"laptop", "Mouse", "Keyboard", "Monitor"},*/
+  /*local!numberofitems:count(local!shoppingcart),*/
+   /*3. You have two lists of departments: List1 = {"HR", "IT", "Finance"} and List2 = {"IT", "Marketing",*/
+/*"Sales"}. Write an expression to find the common department(s) between both lists. */
+  /*local!list1:{"HR", "IT", "Finance"},*/
+  /*local!list2:{"IT", "Marketing",*/
+  /*"Sales"},*/
+  /*local!commondepartment:intersection(local!list1,local!list2),*/
+    /*4.  A task list contains: {"Task1", "Task2", "Task3", "Task4"}. Write an expression to get the second task from*/
+/*the list.*/
+  /*local!task:{"Task1", "Task2", "Task3", "Task4"},*/
+  /*local!tasksecond:index(local!task,wherecontains("Task2",local!task),null()),*/
+    /*5. You have a list of product codes: {"P001", "P002", "P003"}. Write an expression to check if "P002" exists*/
+/*in the list.*/
+  /*local!productcodes:{"P001", "P002", "P003"},*/
+  /*local!check:contains(local!productcodes,"P002"),*/
+   /*6. A manager needs to combine two team lists: Team A = {"John", "Sarah"} and Team B = {"Mike", "Lisa"}.*/
+/*Write an expression to merge both teams into one list. */
+  /*local!TeamA : {"John", "Sarah"},*/
+  /*local!TeamB : {"Mike", "Lisa"},*/
+  /*local!merge: union(local!TeamA,local!TeamB),*/
+    /*Q7. You have a list of cities: {"New York", "London", "Tokyo", "Paris"}. Write an expression to reverse the*/
+/*order of this list.*/
+  /*local!cities:{"New York", "London", "Tokyo", "Paris"},*/
+  /*local!reversecities:reverse(local!cities),*/
+   /*8 A registration form collected names: {"Alice", "Bob", "Charlie"}. Write an expression to insert "David" at*/
+/*the beginning of the list.*/
+  /*local!colletednames:{"Alice", "Bob", "Charlie"},*/
+  /*local!begin:insert(local!colletednames,"David",1),*/
+  /*9  You have attendance records: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}. Write an expression to create a simple numbered*/
+/*list from 1 to 10 without hardcoding */
+  /*local!attendance:enumerate(10)+1,*/
+  /*10  A list of tags contains: {"urgent", "review", "approved", "pending"}. Write an expression to convert this*/
+/*list into a comma-separated text string. */
+  /*local!tags: {"urgent", "review", "approved", "pending"},*/
+  /*local!separated:joinarray(local!tags,","),*/
+   /*11 . A product inventory has quantities: {5, 10, 15, 20, 25}. Write an expression to get the third quantity from*/
+/*the list.*/
+  /*local!quantities:{5,10,15,20,25},*/
+  /*local!find:index(local!quantities,3,null()),*/
+    /*Q12. Two project lists need merging: Projects1 = {"Alpha", "Beta"} and Projects2 = {"Gamma", "Delta"}.*/
+/*However, you want only unique projects. Write an expression to combine them.*/
+  /*local!project1:{"Alpha", "Beta"},*/
+  /*local!project2:{"Gamma", "Delta"},*/
+  /*local!unique:union(local!project1,local!project2),*/
+    /*13 A survey collected responses: {"Yes", "No", "Yes", "Maybe", "Yes"}. Write an expression to count how*/
+/*many responses are in the list.*/
+  /*local!responses:{"Yes", "No", "Yes", "Maybe", "Yes"},*/
+  /*local!many:count(local!responses),*/
+   /*14 A list of order numbers is {1001, 1002, 1003, 1004}. Write an expression to remove order number 1002*/
+/*from the list. */
+  /*local!orders:{1001, 1002, 1003, 1004},*/
+  /*local!removeorder:remove(local!orders,wherecontains(1002,local!orders)),*/
+    /*15. You have a list of colors: {"Red", "Blue", "Green"}. Write an expression to add "Yellow" as the second*/
+/*item in the list.*/
+  /*local!colors:{"Red", "Blue", "Green"},*/
+  /*local!add:insert(local!colors,"Yellow",2),*/
+  /*16. A notification list contains: {"Email", "SMS", "Push"}. Write an expression to check if "SMS" is in the list*/
+/*and return true or false.  */
+  /*local!noti:{"Email", "SMS", "Push"},*/
+  /*local!istrue:contains(local!noti,"SMS"),*/
+   /*17. Three separate lists contain data: List1 = {1, 2}, List2 = {3, 4}, List3 = {5, 6}. Write an expression to*/
+/*flatten them into a single list: {1, 2, 3, 4, 5, 6}. */
+  /*local!list:{1,2},*/
+  /*local!listsec:{3,4},*/
+  /*local!list3:{5,6},*/
+  /*local!singlelist:union(local!list,local!listsec,local!list3),*/
+   /*Q18. A priority list is: {"High", "Medium", "Low", "Critical"}. Write an expression to sort this list*/
+/*alphabetically */
+  /*local!priority: {"High", "Medium", "Low", "Critical"},*/
+  /*local!asciiValues: a!forEach(*/
+    /*items: local!priority,*/
+    /*expression: code(left(fv!item, 1))*/
+  /*),*/
+/*local!rankValues: a!forEach(*/
+    /*items: local!asciiValues,*/
+    /*expression: wherecontains(fv!item,rank(fv!item, local!asciiValues, true()))*/
+  /*),*/
+    /*19. A membership list has: {"Gold", "Silver", "Bronze", "Platinum"}. Write an expression to join these with " |*/
+/*" as separator to create: "Gold | Silver | Bronze | Platinum".*/
+  /*local!membership:{"Gold", "Silver", "Bronze", "Platinum"},*/
+  /*local!join:joinarray(local!membership,"|"),*/
+   /*20. You have a list {10, 20, 30, 40, 50}. Write an expression to get the last item in the list. */
+  /*local!array:{10,20,30,40,50},*/
+  /*local!lastitem:length(local!array),*/
+  /*local!removelastitem:remove(local!array,local!lastitem),*/
+  /*{*/
+    /*local!addemployee,*/
+    /*local!numberofitems,*/
+    /*local!commondepartment,*/
+    /*local!tasksecond,*/
+    /*local!check,*/
+    /*local!merge,*/
+    /*local!reversecities,*/
+    /*local!begin,*/
+    /*local!attendance,*/
+    /*local!separated,*/
+    /*local!find,*/
+    /*local!unique,*/
+    /*local!many,*/
+    /*local!removeorder,*/
+    /*local!add,*/
+    /*local!istrue,*/
+    /*local!singlelist,*/
+    /*local!join,*/
+    /*local!removelastitem,*/
+    /*local!rankValues*/
+  /*}*/
+/*  */
+/*,*/
+/*a!localVariables(*/
+    /*21. An employee's age is 65. Write an expression to check if the employee is eligible for retirement (age &gt;=*/
+/*65). Return "Eligible" or "Not Eligible".*/
+  /*local!age:65,*/
+  /*local!condition:if(local!age&gt;=65,"Eligible","Not Eligible"),*/
+    /*22. A student scored 75 marks. Write an expression that returns "Pass" if marks &gt;= 50, otherwise "Fail".*/
+  /*local!marks:50,*/
+  /*local!condition1:if(local!marks&gt;=50,"Pass","Fail"),*/
+    /*23. A variable */
+/*userInput might be null. Write an expression to check if it is null and return "No input*/
+/*provided" if true, otherwise return the value.*/
+  /*local!variable:{},*/
+  /*local!condition2:if(a!isNullOrEmpty(local!variable),true(),local!variable),*/
+    /*24. A product price is $45. Write an expression to check if the price is between $30 and $50 (inclusive) and*/
+/*return true or false.*/
+  /*local!product:45,*/
+  /*local!condition3:if(and(local!product&gt;=30,local!product&lt;=50),true(),false()),*/
+   /*25. An order status can be "Pending", "Shipped", or "Delivered". Write an expression using a!match to return*/
+/*"In Progress" for "Pending" or "Shipped", and "Completed" for "Delivered". */
+  /*local!order:"Delivered",*/
+  /*local!condition4:a!match(*/
+    /*value: local!order,*/
+    /*equals: "Pending",*/
+    /*then: "In Progress",*/
+    /*equals: "Shipped",*/
+    /*then: "Shipped",*/
+    /*equals: "Delivered",*/
+    /*then:"Completed",*/
+    /*default: "Unknown"*/
+  /*),*/
+   /*A user's role is "Admin". Write an expression to check if the role is either "Admin" or "Manager" and*/
+/*return true if yes. */
+  /*local!userrole:"Admin",*/
+  /*local!condition5:if(or(local!userrole = "Admin", local!userrole="Manager"),true(),false()),*/
+   /*27. Two passwords are entered: password1 = "secure123" and password2 = "secure123". Write an expression*/
+/*to check if both passwords match exactly. */
+  /*local!password:"secure123",*/
+  /*local!renter:"secure13",*/
+  /*local!ismatch:exact(local!password,local!renter),*/
+    /*28. A list of statuses is {true, true, false, true}. Write an expression to check if all values are true.*/
+   /*29. A form has three checkboxes with values {false, false, true}. Write an expression to check if at least one*/
+/*checkbox is selected.*/
+  /*30. A customer's email field is empty (null). Write an expression to return "Email not provided" if null,*/
+/*otherwise return "Email provided". */
+  /*local!email:"",*/
+  /*local!field:if(a!isNullOrEmpty(local!email),"Email not provided","Email provided"),*/
+    /*Q31. A temperature reading is 32. Write an expression to return "Freezing" if temperature &lt;= 32, otherwise*/
+/*"Above Freezing".*/
+  /*local!temperature:32,*/
+  /*local!condition6:if(local!temperature&lt;=32,"Freezing","Above Freezing"),*/
+    /*32. An invoice amount is $1000. Write an expression to check if it's greater than $500 and return "High Value"*/
+/*or "Standard Value".*/
+  /*local!invoice:1000,*/
+  /*local!condition7:if(local!invoice&gt;500,"High Value","Standard Value"),*/
+    /*33. A user's subscription status is "Active". Write an expression to return true if status is "Active", otherwise*/
+/*false.*/
+  /*local!status:"",*/
+  /*local!condition8:if(local!status="Active",true(),false()),*/
+    /*Q34. A product rating is 4.5 out of 5. Write an expression to return "Excellent" if rating &gt;= 4, otherwise "Good".*/
+  /*local!rating:3,*/
+  /*local!condition9:if(local!rating&gt;=4,"Excellent","Good"),*/
+    /*35.  Three conditions are checked: condition1 = true, condition2 = false, condition3 = true. Write an expression*/
+/*to see if at least one is true.*/
+  /*local!cond:false(),*/
+  /*local!cond1:true(),*/
+  /*local!cond2:true(),*/
+  /*local!condition10:if(or(local!cond,local!cond1,local!cond2),true(),false()),*/
+    /*36. A shipping option is "Express". Use a!match to return "1-2 days" for "Express", "3-5 days" for "Standard",*/
+/*and "5-7 days" for "Economy".*/
+  /*local!shipping:"Express",*/
+  /*local!condition11:a!match(*/
+    /*value: local!shipping,*/
+    /*equals: "Express",*/
+    /*then:"1-2 days",*/
+    /*equals: "Standard",*/
+    /*then: "3-5 days",*/
+    /*equals: "Economy",*/
+    /*then: "5-7 days",*/
+    /*default: "Unknown"*/
+  /*),*/
+    /*37. A variable discount has value null. Write an expression to return 0 if null, otherwise return the discount*/
+/*value.*/
+  /*local!discount:50,*/
+  /*local!condition12:if(a!isNullOrEmpty(local!discount),0,local!discount),*/
+    /*38. An account balance is -50. Write an expression to return "Overdrawn" if balance &lt; 0, otherwise*/
+/*"Available".*/
+  /*local!balance:-50,*/
+  /*local!condition13:if(local!balance&lt;0,"Overdrawn","Available"),*/
+   /*39. Two boolean values are: isValid = true, isApproved = true. Write an expression to check if both are true. */
+  /*local!isValid:true(),*/
+  /*local!isapproved:false(),*/
+  /*local!condition14:if(and(local!isValid,local!isapproved),true(),false()),*/
+    /*40. A grade is "B". Write an expression to check if grade is "A" or "B" and return "Honor Roll", otherwise*/
+/*"Standard".*/
+  /*local!grade:"c",*/
+  /*local!condition15:if(or(local!grade="A",local!grade="B"),"Honor Roll","Standard"),*/
+  /*{*/
+    /*local!condition,*/
+    /*local!condition1,*/
+    /*local!condition2,*/
+    /*local!condition3,*/
+    /*local!condition4,*/
+    /*local!condition5,*/
+    /*local!ismatch,*/
+/*   */
+    /*local!condition6,*/
+    /*local!condition7,*/
+    /*local!condition8,*/
+    /*local!condition9,*/
+    /*local!condition10,*/
+    /*local!condition11,*/
+    /*local!condition12,*/
+    /*local!condition13,*/
+    /*local!condition14,*/
+    /*local!condition15*/
+  /*}*/
+/*)*/
+/*a!localVariables(*/
+  /*41. A user entered their name as "john doe". Write an expression to convert it to uppercase: "JOHN DOE".  */
+  /*local!name:"john doe",*/
+  /*local!text1:upper(local!name),*/
+    /*42. A product name is " Laptop " with extra spaces. Write an expression to remove the leading and trailing*/
+/*spaces.*/
+  /*local!productname:" Laptop ",*/
+  /*local!text2:trim(local!productname),*/
+   /*Q43. You have two strings: firstName = "Jane" and lastName = "Smith". Write an expression to combine them*/
+/*into "Jane Smith". */
+  /*local!firstname:"Jane",*/
+  /*local!secondname:"Smith",*/
+  /*local!text3:concat(local!firstname," ",local!secondname),*/
+    /*44. An email address is "USER@EXAMPLE.COM". Write an expression to convert it to lowercase.*/
+  /*local!emailaddress:"USER@EXAMPLE.COM",*/
+  /*local!text4:lower(local!emailaddress),*/
+    /*45. A phone number is stored as "1234567890". Write an expression to extract the first 3 digits (area code).*/
+  /*local!phonenumber:"1234567890",*/
+  /*local!text5:left(local!phonenumber,3),*/
+    /*46. A sentence is "Hello World". Write an expression to get the length (number of characters) of this text.*/
+  /*local!sentence:"Hello World",*/
+  /*local!text6:len(local!sentence),*/
+    /*47. A reference number is "INV-2024-001". Write an expression to extract the last 3 characters: "001".*/
+  /*local!referencenumber:"INV-2024-001",*/
+  /*local!text7:right(local!referencenumber,3),*/
+    /*48. A username is "johnsmith". Write an expression to convert it to proper case: "Johnsmith".*/
+  /*local!username:"johnsmith",*/
+  /*local!text8:proper(local!username),*/
+   /*49. A text string is "apple,banana,cherry". Write an expression to split it into a list using comma as the*/
+/*delimiter. */
+  /*local!textstring:"apple,banana,cherry",*/
+  /*local!text9:split(local!textstring,","),*/
+    /*50. A product code is "PROD-12345". Write an expression to replace "PROD" with "ITEM" to get "ITEM*/
+/*12345".*/
+  /*local!productcode:"PROD-12345",*/
+  /*local!text10:substitute(local!productcode,"PROD","ITEM"),*/
+   /*51. A customer's full name is "MARY JOHNSON". Write an expression to convert it to proper case: "Mary*/
+/*Johnson". */
+  /*local!customer:"MARY JOHNSON",*/
+  /*local!text11:proper(local!customer),*/
+   /*52. A description is "Product Description Here". Write an expression to extract the first 10 characters. */
+  /*local!description:"Product Description Here",*/
+  /*local!text12:left(local!description,10),*/
+    /*53. A URL is "*/
+/*www.example.com". Write an expression to add "https://" at the beginning to make*/
+/*"https://www.example.com".*/
+  /*local!url:"www.example.com",*/
+  /*local!text13:concat("https://",local!url),*/
+   /*54. A serial number is "SN123456789". Write an expression to extract characters from position 3 to 8 (the*/
+/*numbers "123456"). */
+  /*local!serialnumber:"SN123456789",*/
+  /*local!text14:extract(local!serialnumber,3,8),*/
+    /*55. A text is "Hello". Write an expression to repeat this text 3 times: "HelloHelloHello".*/
+  /*local!repeat:"Hello",*/
+  /*local!text15:rept(local!repeat,3),*/
+    /*56. A sentence is "The quick brown fox". Write an expression to find the position of the word "brown" in the*/
+/*sentence.*/
+  /*local!position:"The quick brown fox",*/
+  /*local!text16:find("brown",local!position),*/
+    /*57. An address is "123 Main St". Write an expression to extract the last 2 characters: "St".*/
+  /*local!address:"123 Main St",*/
+  /*local!text17:right(local!address,2),*/
+    /*58. A ticket number is "TKT-2024-500". Write an expression to replace "2024" with "2025".*/
+  /*local!ticketnumber:"TKT-2024-500",*/
+  /*local!text18:substitute(local!ticketnumber,"2024","2025"),*/
+    /*59. A list of words is {"apple", "banana", "cherry"}. Write an expression to join them with "-" to create*/
+/*"apple-banana-cherry".*/
+  /*local!words:{"apple", "banana", "cherry"},*/
+  /*local!text19:joinarray(local!words,"-"),*/
+   /*Q60. A string is "Hello-World-Test". Write an expression to split it by "-" into a list: {"Hello", "World", "Test"}. */
+  /*local!string: "Hello-World-Test",*/
+  /*local!test20: split(local!string, "-"),*/
+  /*{*/
+    /*local!text1,*/
+    /*local!text2,*/
+    /*local!text3,*/
+    /*local!text4,*/
+    /*local!text5,*/
+    /*local!text6,*/
+    /*local!text7,*/
+    /*local!text8,*/
+    /*local!text9,*/
+    /*local!text10,*/
+    /*local!text11,*/
+    /*local!text12,*/
+    /*local!text13,*/
+    /*local!text14,*/
+    /*local!text15,*/
+    /*local!text16,*/
+    /*local!text17,*/
+    /*local!text18,*/
+    /*local!text19,*/
+    /*local!test20*/
+  /*}*/
+/*),*/
+/*a!localVariables(*/
+    /*61. Write an expression to get today's date.*/
+  /*local!date1:today(),*/
+    /*62. Write an expression to get the current date and time.*/
+  /*local!date2:now(),*/
+    /*63. A date is stored as date(2024, 3, 15). Write an expression to extract just the year from this date.*/
+  /*local!just:date(2024,3,15),*/
+  /*local!date3:year(local!just),*/
+   /*64. A date is date(2024, 12, 25). Write an expression to extract the month number. */
+  /*local!number:date(2024,12,25),*/
+  /*local!date4:month(local!number),*/
+   /*65. Write an expression to format today's date as "DD/MM/YYYY" (e.g., "30/12/2024"). */
+  /*local!date5:text(today(),"DD/MM/YYYY"),*/
+   /*66. An employee joined on date(2024, 1, 15). Write an expression to add 90 days to this date (probation*/
+/*period end date). */
+  /*local!employee:date(2024,1,15),*/
+  /*local!date6:local!employee+90,*/
+    /*67. A project started on date(2024, 1, 1) and ended on date(2024, 12, 31). Write an expression to calculate the*/
+/*number of days between these dates.*/
+  /*local!startdate:date(2024, 1, 1),*/
+  /*local!enddate:date(2024, 12, 31),*/
+  /*local!date7:tointeger(local!enddate-local!startdate),*/
+   /*68. Write an expression to get the last day of the current month. */
+  /*local!last:eomonth(today(),0),*/
+   /*69. A timestamp is datetime(2024, 12, 30, 14, 30, 0). Write an expression to extract just the hour (14). */
+  /*local!timestamp:datetime(2024, 12, 30, 14, 30, 0),*/
+  /*local!date8:hour(local!timestamp),*/
+   /*70. Write an expression to get the current day of the month (e.g., 30 for December 30th). */
+  /*local!date9:day(today()),*/
+   /*71. A birthday is date(1990, 5, 20). Write an expression to extract the day of the month (20). */
+  /*local!birthday:date(1990,5,20),*/
+  /*local!date10:day(local!birthday),*/
+   /*72. Write an expression to format a date as "Month DD, YYYY" (e.g., "December 30, 2024"). */
+  /*local!date: date(2024, 12, 30),*/
+  /*local!formatted: datetext(local!date, "MMMM dd, YYYY"),*/
+   /*73. A meeting is scheduled for datetime(2024, 12, 30, 15, 0, 0). Write an expression to extract the minute*/
+/*value (0). */
+  /*local!datetime:datetime(2024, 12, 30, 15, 0, 0),*/
+  /*local!date12:minute(local!datetime),*/
+   /*74. Write an expression to add 1 year to date(2024, 6, 15). */
+  /*local!add:date(2024, 6, 15),*/
+  /*local!date13:edate(local!add,12),*/
+  /*75. A contract starts on date(2024, 1, 1). Write an expression to subtract 30 days from this date.  */
+  /*local!contract:date(2024,1,1),*/
+  /*local!date14:local!contract-30,*/
+   /*76. Write an expression to get the current year. */
+  /*local!date15:year(today()),*/
+   /*77. A delivery date is date(2024, 12, 25). Write an expression to format it as "DD-MM-YYYY" (e.g., "25-12*/
+/*2024"). */
+  /*local!del:date(2024,12,25),*/
+  /*local!date16:datetext(local!del,"dd-MM-yyyy"),*/
+   /*78. Write an expression to get the current month number (e.g., 12 for December). */
+  /*local!date17:month(today()),*/
+   /*79. A timestamp is datetime(2024, 12, 30, 9, 45, 30). Write an expression to extract the seconds (30). */
+  /*local!date18:second(datetime(2024, 12, 30, 9, 45, 30)),*/
+   /*80. Two dates are: startDate = date(2024, 6, 1) and endDate = date(2024, 6, 30). Write an expression to find*/
+/*how many days are between them. */
+  /*local!start: date(2024, 6, 1),*/
+  /*local!end:date(2024, 6, 30),*/
+  /*local!calculate:tointeger(local!end-local!start+1),*/
+  /*{*/
+    /*local!date1,*/
+    /*local!date2,*/
+    /*local!date3,*/
+    /*local!date4,*/
+    /*local!date5,*/
+    /*local!date6,*/
+    /*local!date7,*/
+    /*local!last,*/
+    /*local!date8,*/
+    /*local!date9,*/
+    /*local!date10,*/
+    /*local!formatted,*/
+    /*local!date12,*/
+    /*local!date13,*/
+    /*local!date14,*/
+    /*local!date15,*/
+    /*local!date16,*/
+    /*local!date17,*/
+    /*local!date18,*/
+    /*local!calculate*/
+  /*}*/
+/*),*/
+/*a!localVariables(*/
+   /*Q81. A student scored marks in three subjects: 85, 90, 78. Write an expression to calculate the total marks. */
+  /*local!subject1:85,*/
+  /*local!subject2:90,*/
+  /*local!subject3:78,*/
+  /*local!math1:sum(local!subject1,local!subject2,local!subject3),*/
+   /*Q82. A product costs $125.50. Write an expression to round this to the nearest whole number. */
+  /*local!product:125.50,*/
+  /*local!math2:ceiling(local!product),*/
+   /*Four employees worked 8, 7, 9, and 6 hours respectively. Write an expression to calculate the average*/
+/*hours worked.  */
+  /*local!employees:8,*/
+  /*local!employees1:7,*/
+  /*local!employees2:9,*/
+  /*local!employees3:6,*/
+  /*local!math3:average(local!employees,local!employees1,local!employees2,local!employees3),*/
+   /*84. A list of sales figures is {1200, 850, 1500, 900, 1100}. Write an expression to find the maximum value. */
+  /*local!sales:{1200, 850, 1500, 900, 1100},*/
+  /*local!math4:max(local!sales),*/
+   /*85. A discount calculation results in $45.75. Write an expression to round this up to $46 */
+  /*local!discount:45.75,*/
+  /*local!math5:round(local!discount,0),*/
+    /*An order total is $78.25. Write an expression to round this down to $78.*/
+  /*local!dis:78.25,*/
+  /*local!math6:rounddown(local!dis,0),*/
+   /*87. A number is -15. Write an expression to get its absolute (positive) value */
+  /*local!number:-15,*/
+  /*local!math7:abs(local!number),*/
+   /*Q88. Calculate 2 raised to the power of 5 using an Appian expression */
+  /*local!math8:power(2,5),*/
+  /*89. A list of product quantities is {10, 15, 8, 12, 5}. Write an expression to find the minimum quantity.*/
+  /*local!productquantities:{10,15,8,12,5},*/
+  /*local!math9:min(local!productquantities),*/
+  /* 90. An item costs $50 and there's a 15% discount. Write an expression to calculate the discount amount (50 *
+0.15) */
+  /*local!item:50,*/
+  /*local!discountamount: product(local!item,0.15),*/
+  /*local!math10:local!item - local!discountamount,*/
+  /* Q91. Five test scores are: {88, 92, 85, 90, 95}. Write an expression to calculate the average score. */
+  /*local!testscores:{88,92,85,90,95},*/
+  /*local!math11:average(local!testscores),*/
+  /* 92. A price is $99.99. Write an expression to round this to $100 */
+  /*local!math12:ceiling(99.99),*/
+  /* 93. Calculate the square root of 144 using an Appian expression. */
+  /*local!square:144,*/
+  /*local!math13:sqrt(local!square),*/
+  /* Q94. A division results in 17 ÷ 5. Write an expression to get the remainder (modulo). */
+  /*local!math14:mod(17,5),*/
+  /* 95. Three numbers are {25, 30, 20}. Write an expression to find the sum. */
+  /*local!threenumber:{25,30,20},*/
+  /*local!math15:sum(local!threenumber),*/
+  /* 96. A measurement is -8.5. Write an expression to get its absolute value. */
+  /*local!measurment:-8.5,*/
+  /*local!math16:abs(local!measurment),*/
+  /* 97. A price is $45.23. Write an expression to round down to $45. */
+  /*local!price:45.23,*/
+  /*local!math17:round(local!price,0),*/
+  /* 98. Numbers in a list are {100, 250, 175, 300, 225}. Write an expression to find the minimum. */
+  /*local!numbers:{100,250,175,300,225},*/
+  /*local!math18:min(local!numbers),*/
+  /*99. Calculate 10 raised to the power of 3 using an Appian expression.  */
+  /*local!math19:power(10,3),*/
+  /* 100. A discount is 12.5% and the original price is $200. Write an expression to calculate the final price after
+discount (200 - (200 * 0.125)). */
+  /*local!orginialprice:200,*/
+  /*local!standarddiscount:12.5,*/
+  /*local!discountapplied: (local!orginialprice*local!standarddiscount)/100,*/
+  /*local!math20:local!orginialprice-local!discountapplied,*/
+  /*{*/
+    /*local!math1,*/
+    /*local!math2,*/
+    /*local!math3,*/
+    /*local!math4,*/
+    /*local!math5,*/
+    /*local!math6,*/
+    /*local!math7,*/
+    /*local!math8,*/
+    /*local!math9,*/
+    /*local!math10,*/
+    /*local!math11,*/
+    /*local!math12,*/
+    /*local!math13,*/
+    /*local!math14,*/
+    /*local!math15,*/
+    /*local!math16,*/
+    /*local!math17,*/
+    /*local!math18,*/
+    /*local!math19,*/
+    /*local!math20*/
+  /*}*/
+/*),*/
+ concat(
+   "Application",
+   "-",
+   text(ri!Application[#"urn:appian:record-field:v1:d82b71ee-1dd1-46f0-ba3e-d6849d0512f7/3e4edb1b-316e-460a-81f3-b7e7315ce7c2"],"#00000")
+ )</definition>
+        <namedTypedValue>
+            <name>Application</name>
+            <type>
+                <name>d82b71ee-1dd1-46f0-ba3e-d6849d0512f7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <mcpEnabled>false</mcpEnabled>
+    <history>
+        <historyInfo versionUuid="_a-0000ef87-dc84-8000-9e58-011c48011c48_1301743"/>
+    </history>
+</contentHaul>
