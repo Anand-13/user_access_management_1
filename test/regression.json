@@ -1,0 +1,54 @@
+{
+  "feature": "regression",
+  "title": "Regression Suite (high-impact subset)",
+  "testCases": [
+    {
+      "tcId": "TC-REG-001",
+      "title": "Core create paths smoke: Organization, Team, Application, User",
+      "type": "regression",
+      "requirement": "FR-O1",
+      "entity": "UAM Organization",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "Smoke",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": [], "state": "Admin logged in"},
+      "steps": ["Run the happy-path create for each of Organization (TC-001), Team (TC-010), Application (TC-020), User (TC-030)"],
+      "expectedResults": ["All four core entities can be created without error"],
+      "assertions": ["Each entity's totalCount increases by 1"],
+      "cleanup": ["Soft-delete all four created records"]
+    },
+    {
+      "tcId": "TC-REG-002",
+      "title": "Access request end-to-end: grant then revoke",
+      "type": "regression",
+      "requirement": "FR-R1",
+      "entity": "UAM Task Request",
+      "workflow": "UAM User Team Request Access Approval",
+      "priority": "P1",
+      "testType": "Workflow",
+      "businessRules": ["BR-taskStatusLifecycle"],
+      "preconditions": {"user": "TU-004", "role": "ROLE-USER", "data": ["SEED-TEAM-001"], "state": "Clean access state for TU-004"},
+      "steps": ["Run TC-WF-001 (grant + approve)", "Then run TC-WF-003 (revoke + approve)"],
+      "expectedResults": ["Access is granted then cleanly revoked; event history records both"],
+      "assertions": ["After the cycle, UAM User Team for TU-004+team totalCount = 0"],
+      "cleanup": ["None required (revoke leaves clean state)"]
+    },
+    {
+      "tcId": "TC-REG-003",
+      "title": "RBAC smoke across all four roles",
+      "type": "regression",
+      "requirement": null,
+      "entity": null,
+      "workflow": null,
+      "priority": "P1",
+      "testType": "RBAC",
+      "businessRules": [],
+      "preconditions": {"user": null, "role": null, "data": [], "state": "Credentials configured for all four roles"},
+      "steps": ["Run TC-SEC-001 (admin), TC-SEC-002 (user), TC-SEC-003 (manager page visibility)"],
+      "expectedResults": ["Each role sees exactly the surface it should"],
+      "assertions": ["All three security cases pass"],
+      "cleanup": ["None required"]
+    }
+  ]
+}
