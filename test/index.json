@@ -1,0 +1,28 @@
+{
+  "appCode": "UAT_1",
+  "appName": "UAT_1",
+  "prefix": null,
+  "generatedAt": "2026-07-28T19:34:13.155Z",
+  "overview": {
+    "objectives": [],
+    "passCriteria": null,
+    "summary": {
+      "functional": 5,
+      "total": 5
+    }
+  },
+  "environment": {},
+  "blockers": [],
+  "testUsers": [],
+  "seedData": {
+    "lookups": [],
+    "entities": []
+  },
+  "features": [
+    {
+      "feature": "uam-gridlayout-team-names-only",
+      "file": "uam-gridlayout-team-names-only.json",
+      "count": 5
+    }
+  ]
+}
