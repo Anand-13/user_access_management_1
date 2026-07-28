@@ -1,0 +1,54 @@
+{
+  "feature": "application",
+  "title": "Application & Role Governance",
+  "testCases": [
+    {
+      "tcId": "TC-020",
+      "title": "Create Application (Happy Path)",
+      "type": "functional",
+      "requirement": "FR-A1",
+      "entity": "UAM Application",
+      "workflow": "UAM Create Application",
+      "priority": "P1",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": [], "state": "No application named 'Test App Delta' exists"},
+      "steps": ["Log in as TU-001", "Click New Application", "Enter name = 'Test App Delta'", "Attach an application group and roles", "Click Submit"],
+      "expectedResults": ["Application record created with name='Test App Delta', isActive=true", "UAM Application Role rows created for the attached roles"],
+      "assertions": ["a!queryRecordType(recordType!UAM_Application, filters: name='Test App Delta').totalCount = 1", "a!queryRecordType(recordType!UAM_ApplicationRole, filters: application=<newAppId>).totalCount >= 1"],
+      "cleanup": ["Soft-delete the created application and its roles"]
+    },
+    {
+      "tcId": "TC-021",
+      "title": "Map application to organization",
+      "type": "functional",
+      "requirement": "FR-A2",
+      "entity": "UAM Organization Application",
+      "workflow": "UAM Organization Application",
+      "priority": "P2",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-ORG-001", "SEED-APP-001"], "state": "Org and application exist"},
+      "steps": ["Log in as TU-001", "Open 'Test Org Alpha'", "Assign 'Test App Delta' via the organization-application form", "Submit"],
+      "expectedResults": ["A UAM Organization Application row links the org and application"],
+      "assertions": ["a!queryRecordType(recordType!UAM_OrganizationApplication, filters: organization=SEED-ORG-001 AND application=<appId>).totalCount = 1"],
+      "cleanup": ["Remove the org-application mapping"]
+    },
+    {
+      "tcId": "TC-022",
+      "title": "Remove application group",
+      "type": "functional",
+      "requirement": "FR-A3",
+      "entity": "UAM Application",
+      "workflow": "UAM Remove Application Group",
+      "priority": "P3",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-APP-001"], "state": "Application with an attached group exists"},
+      "steps": ["Log in as TU-001", "Open the application", "Remove the application group", "Confirm"],
+      "expectedResults": ["The application group association is removed"],
+      "assertions": ["The application's group association no longer returns rows"],
+      "cleanup": ["Re-attach the group via pre-provisioned data reset"]
+    }
+  ]
+}

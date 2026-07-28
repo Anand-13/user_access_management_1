@@ -1,0 +1,72 @@
+{
+  "feature": "security",
+  "title": "Roles, Permissions & Page Visibility",
+  "testCases": [
+    {
+      "tcId": "TC-SEC-001",
+      "title": "Administrator can create org/team/app/user",
+      "type": "security",
+      "requirement": null,
+      "entity": null,
+      "workflow": null,
+      "priority": "P1",
+      "testType": "RBAC",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": [], "state": "Logged in as an administrator"},
+      "steps": ["Log in as TU-001", "Confirm the New Organization / New Team / New Application / New User actions are available and functional"],
+      "expectedResults": ["Administrator has full create/edit across the core entities"],
+      "assertions": ["Create actions succeed for TU-001"],
+      "cleanup": ["Soft-delete anything created"]
+    },
+    {
+      "tcId": "TC-SEC-002",
+      "title": "End user has read-only access and cannot edit records",
+      "type": "security",
+      "requirement": null,
+      "entity": null,
+      "workflow": null,
+      "priority": "P1",
+      "testType": "RBAC",
+      "businessRules": [],
+      "preconditions": {"user": "TU-004", "role": "ROLE-USER", "data": ["SEED-ORG-001"], "state": "Logged in as a viewer-level user"},
+      "steps": ["Log in as TU-004", "Open the organizations list", "Confirm no create/edit/delete controls are available"],
+      "expectedResults": ["User (viewer) can read records but sees no create/edit/delete controls"],
+      "assertions": ["Edit/Delete/New controls are not visible for TU-004"],
+      "cleanup": ["None required"]
+    },
+    {
+      "tcId": "TC-SEC-003",
+      "title": "Manager Tasks page is visible only to managers",
+      "type": "security",
+      "requirement": "FR-N3",
+      "entity": null,
+      "workflow": null,
+      "priority": "P1",
+      "testType": "RBAC",
+      "businessRules": ["BR-managersTaskVisibility"],
+      "preconditions": {"user": "TU-004", "role": "ROLE-USER", "data": [], "state": "Non-manager logged in"},
+      "steps": ["Log in as TU-004 (non-manager)", "Confirm the Manager Tasks page is not shown", "Log in as TU-003 (manager)", "Confirm the Manager Tasks page is shown"],
+      "expectedResults": ["Manager Tasks page hidden for non-managers (isUserMemberOfGroup on UAM managers), shown for managers"],
+      "assertions": ["TU-004 cannot see or reach the manager-tasks page; TU-003 can"],
+      "cleanup": ["None required"]
+    },
+    {
+      "tcId": "TC-SEC-004",
+      "title": "Access Status column shows Granted/Not Granted only to managers",
+      "type": "security",
+      "requirement": null,
+      "entity": "UAM Organization Team",
+      "workflow": null,
+      "priority": "P2",
+      "testType": "RBAC",
+      "businessRules": ["BR-managersTaskVisibility"],
+      "preconditions": {"user": "TU-003", "role": "ROLE-MANAGER", "data": ["SEED-ORG-001", "SEED-TEAM-001"], "state": "Manager viewing the team grid"},
+      "steps": ["Log in as TU-003", "Open a screen embedding the team grid (UAM_gridlayout_TeamNamesOnly) with orgid/teamid context", "Confirm the Access Status tag renders Granted or Not Granted per team", "Log in as TU-004 and confirm the Access Status column is not shown"],
+      "expectedResults": ["Access Status column is visible only to managers and reflects the user's team-group membership"],
+      "assertions": ["Column visible for TU-003, hidden for TU-004"],
+      "cleanup": ["None required"],
+      "blocked": true,
+      "blockerRef": "BLOCKER-001"
+    }
+  ]
+}

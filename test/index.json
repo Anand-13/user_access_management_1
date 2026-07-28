@@ -1,28 +1,255 @@
 {
   "appCode": "UAT_1",
-  "appName": "UAT_1",
-  "prefix": null,
+  "appName": "User Access Management",
+  "prefix": "UAM",
   "generatedAt": "2026-07-28T19:34:13.155Z",
   "overview": {
-    "objectives": [],
-    "passCriteria": null,
+    "objectives": [
+      "Validate all six UAM capabilities end to end (User lifecycle, Organization, Team, Application & Role governance, Org membership mapping, Access Request & Approval)",
+      "Verify CRUD for the core entities: Organization, Team, Application, User",
+      "Execute the access-request grant and revoke approval workflows, including reject and manager self-service paths",
+      "Confirm role-based access control for System Admin, Administrator, Manager, and User roles",
+      "Validate business rules: rejection reason required, no duplicate team requests, access-request status lifecycle",
+      "Exercise error handling and the known quality finding (the manager Access Status N+1 display)"
+    ],
+    "passCriteria": "All P1 cases pass; no CRITICAL defects; the manager Access Status display renders without performance-related timeouts.",
     "summary": {
-      "functional": 5,
-      "total": 5
+      "workflow": 4,
+      "error": 1,
+      "functional": 16,
+      "data-validation": 3,
+      "regression": 3,
+      "security": 4,
+      "total": 31
     }
   },
-  "environment": {},
-  "blockers": [],
-  "testUsers": [],
+  "environment": {
+    "appianVersion": "inferred 24.x+ (types namespace ae/types/2009)",
+    "databaseType": "MariaDB (JDBC) via the UAM Data Source connected system (UAMS schema)",
+    "browserViewport": "1440x900",
+    "notes": [
+      "All 31 record types are Appian synced records (RecordsReplica) from a single MariaDB schema.",
+      "The Manager Tasks site page is restricted to the UAM managers group via isUserMemberOfGroup; tests for it require a manager user.",
+      "Site URL parameters are encrypted (areUrlParamsEncrypted=true) — navigate via list views + row clicks, never deep-link to a record.",
+      "A non-production 'Test' site page and practice interfaces/rules exist and should not be exercised by acceptance tests."
+    ]
+  },
+  "blockers": [
+    {
+      "id": "BLOCKER-001",
+      "severity": "CRITICAL",
+      "finding": "PERF-INT-002",
+      "description": "N+1 query in UAM_gridlayout_TeamNamesOnly: the manager-only Access Status column runs UAM_qry_togetRolesFromTeam (3 chained queries) plus a per-group membership loop, per rendered row.",
+      "affectedTests": [
+        "TC-SEC-004",
+        "TC-WF-001",
+        "TC-WF-002"
+      ]
+    }
+  ],
+  "testUsers": [
+    {
+      "id": "U-001",
+      "ref": "TU-001",
+      "username": "uam_admin",
+      "displayName": "UAM Administrator",
+      "role": "ROLE-ADMIN",
+      "roleName": "UAM Administrators",
+      "groups": [
+        "UAM Administrators"
+      ],
+      "envUsernameKey": "TU_001_USERNAME",
+      "envPasswordKey": "TU_001_PASSWORD"
+    },
+    {
+      "id": "U-002",
+      "ref": "TU-002",
+      "username": "uam_sysadmin",
+      "displayName": "UAM System Administrator",
+      "role": "ROLE-SYSADMIN",
+      "roleName": "UAM System Admins",
+      "groups": [
+        "UAM System Admins"
+      ],
+      "envUsernameKey": "TU_002_USERNAME",
+      "envPasswordKey": "TU_002_PASSWORD"
+    },
+    {
+      "id": "U-003",
+      "ref": "TU-003",
+      "username": "uam_manager",
+      "displayName": "UAM Manager",
+      "role": "ROLE-MANAGER",
+      "roleName": "UAM managers",
+      "groups": [
+        "UAM managers"
+      ],
+      "envUsernameKey": "TU_003_USERNAME",
+      "envPasswordKey": "TU_003_PASSWORD"
+    },
+    {
+      "id": "U-004",
+      "ref": "TU-004",
+      "username": "uam_user",
+      "displayName": "UAM End User",
+      "role": "ROLE-USER",
+      "roleName": "UAM Users",
+      "groups": [
+        "UAM Users"
+      ],
+      "envUsernameKey": "TU_004_USERNAME",
+      "envPasswordKey": "TU_004_PASSWORD"
+    }
+  ],
   "seedData": {
-    "lookups": [],
-    "entities": []
+    "lookups": [
+      {
+        "table": "UAM Task Status",
+        "rows": [
+          {
+            "id": 1,
+            "name": "In progress",
+            "isActive": true
+          },
+          {
+            "id": 2,
+            "name": "Approved",
+            "isActive": true
+          },
+          {
+            "id": 3,
+            "name": "Rejected",
+            "isActive": true
+          },
+          {
+            "id": 4,
+            "name": "Cancelled",
+            "isActive": true
+          }
+        ]
+      },
+      {
+        "table": "UAM Task Definiation",
+        "rows": [
+          {
+            "id": 1,
+            "name": "Team Access Add Approval Task",
+            "isActive": true
+          },
+          {
+            "id": 2,
+            "name": "Team Access Revoke Approval Task",
+            "isActive": true
+          }
+        ]
+      }
+    ],
+    "entities": [
+      {
+        "seedId": "SEED-ORG-001",
+        "entityType": "UAM Organization",
+        "fields": {
+          "name": "Test Org Alpha",
+          "isActive": true
+        },
+        "relationships": {}
+      },
+      {
+        "seedId": "SEED-ORG-002",
+        "entityType": "UAM Organization",
+        "fields": {
+          "name": "Test Sub-Org Beta",
+          "isActive": true
+        },
+        "relationships": {
+          "parentorganizationData": "SEED-ORG-001"
+        }
+      },
+      {
+        "seedId": "SEED-TEAM-001",
+        "entityType": "UAM Team",
+        "fields": {
+          "name": "Test Team Gamma",
+          "isActive": true
+        },
+        "relationships": {
+          "organization": "SEED-ORG-001"
+        }
+      },
+      {
+        "seedId": "SEED-APP-001",
+        "entityType": "UAM Application",
+        "fields": {
+          "name": "Test App Delta",
+          "isActive": true
+        },
+        "relationships": {}
+      },
+      {
+        "seedId": "SEED-USER-001",
+        "entityType": "UAM User",
+        "fields": {
+          "isActive": true
+        },
+        "relationships": {
+          "userOrganization": "SEED-ORG-001"
+        }
+      },
+      {
+        "seedId": "SEED-TR-001",
+        "entityType": "UAM Task Request",
+        "fields": {
+          "taskStatusId": 1,
+          "taskDefinitionId": 1,
+          "isActive": true
+        },
+        "relationships": {
+          "orgid": "SEED-ORG-001",
+          "taskRequestTeam": "SEED-TEAM-001"
+        }
+      }
+    ]
   },
   "features": [
+    {
+      "feature": "access-request",
+      "file": "access-request.json",
+      "count": 5
+    },
+    {
+      "feature": "application",
+      "file": "application.json",
+      "count": 3
+    },
+    {
+      "feature": "organization",
+      "file": "organization.json",
+      "count": 5
+    },
+    {
+      "feature": "regression",
+      "file": "regression.json",
+      "count": 3
+    },
+    {
+      "feature": "security",
+      "file": "security.json",
+      "count": 4
+    },
+    {
+      "feature": "team",
+      "file": "team.json",
+      "count": 3
+    },
     {
       "feature": "uam-gridlayout-team-names-only",
       "file": "uam-gridlayout-team-names-only.json",
       "count": 5
+    },
+    {
+      "feature": "user",
+      "file": "user.json",
+      "count": 3
     }
   ]
 }

@@ -1,0 +1,54 @@
+{
+  "feature": "team",
+  "title": "Team & Role Management",
+  "testCases": [
+    {
+      "tcId": "TC-010",
+      "title": "Create Team (Happy Path)",
+      "type": "functional",
+      "requirement": "FR-T1",
+      "entity": "UAM Team",
+      "workflow": "UAM Create or Update Team",
+      "priority": "P1",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-ORG-001"], "state": "Organization 'Test Org Alpha' exists"},
+      "steps": ["Log in as TU-001", "Open the console", "Click New Team", "Enter name = 'Test Team Gamma'", "Assign at least one team role", "Click Submit"],
+      "expectedResults": ["Team record created with name='Test Team Gamma', isActive=true", "A UAM Team Role row is created linking the team to a group"],
+      "assertions": ["a!queryRecordType(recordType!UAM_Team, filters: name='Test Team Gamma').totalCount = 1", "a!queryRecordType(recordType!UAM_TeamRole, filters: teamId=<newTeamId>).totalCount >= 1"],
+      "cleanup": ["Soft-delete the created team and its team roles"]
+    },
+    {
+      "tcId": "TC-011",
+      "title": "Map team to organization",
+      "type": "functional",
+      "requirement": "FR-T2",
+      "entity": "UAM Organization Team",
+      "workflow": "UAM Map Org Team",
+      "priority": "P1",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-ORG-001", "SEED-TEAM-001"], "state": "Org and team exist, unmapped"},
+      "steps": ["Log in as TU-001", "Open 'Test Org Alpha'", "Use the org-team mapping to add 'Test Team Gamma'", "Click Submit"],
+      "expectedResults": ["A UAM Organization Team row links the org and team", "The team appears under the org's teams view"],
+      "assertions": ["a!queryRecordType(recordType!UAM_OrganizationTeam, filters: organizationId=SEED-ORG-001 AND teamId=<teamId>).totalCount = 1"],
+      "cleanup": ["Remove the org-team mapping"]
+    },
+    {
+      "tcId": "TC-012",
+      "title": "Assign and remove team application roles",
+      "type": "functional",
+      "requirement": "FR-T4",
+      "entity": "UAM Team Role",
+      "workflow": "UAM Team Application",
+      "priority": "P2",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-TEAM-001", "SEED-APP-001"], "state": "Team and application exist"},
+      "steps": ["Log in as TU-001", "Open the team", "Associate the application and select roles via the editable role grid", "Submit", "Then remove one role and submit"],
+      "expectedResults": ["Selected application roles are mapped to the team, then the removed role is de-mapped"],
+      "assertions": ["Team Role rows reflect the added then removed application roles"],
+      "cleanup": ["Remove any remaining test role mappings"]
+    }
+  ]
+}

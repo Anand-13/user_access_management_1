@@ -1,0 +1,54 @@
+{
+  "feature": "user",
+  "title": "User Lifecycle",
+  "testCases": [
+    {
+      "tcId": "TC-030",
+      "title": "Create User (Happy Path)",
+      "type": "functional",
+      "requirement": "FR-U1",
+      "entity": "UAM User",
+      "workflow": "UAM Create Or Update User",
+      "priority": "P1",
+      "testType": "CRUD",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": [], "state": "Target user does not yet exist"},
+      "steps": ["Log in as TU-001", "Click New User", "Enter the user's details", "Click Submit"],
+      "expectedResults": ["User record created with isActive=true", "The user is added to the UAM Active User group"],
+      "assertions": ["a!queryRecordType(recordType!UAM_User, filters: <username>).totalCount = 1", "record.isActive = true"],
+      "cleanup": ["Soft-delete the created user"]
+    },
+    {
+      "tcId": "TC-031",
+      "title": "Deactivate then reactivate a user",
+      "type": "functional",
+      "requirement": "FR-U2",
+      "entity": "UAM User",
+      "workflow": "UAM Deactivate The User",
+      "priority": "P1",
+      "testType": "Workflow",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-USER-001"], "state": "An active user exists"},
+      "steps": ["Log in as TU-001", "Open the user", "Run Deactivate", "Confirm the user is inactive", "Run Activate deactivated user", "Confirm the user is active again"],
+      "expectedResults": ["Deactivate sets isActive=false and adjusts group membership; Activate restores isActive=true and Active User membership"],
+      "assertions": ["After deactivate: record.isActive = false", "After activate: record.isActive = true"],
+      "cleanup": ["Leave the user active (pre-provisioned data reset)"]
+    },
+    {
+      "tcId": "TC-DV-003",
+      "title": "User active/inactive toggle reflects group membership",
+      "type": "data-validation",
+      "requirement": "FR-U4",
+      "entity": "UAM User",
+      "workflow": null,
+      "priority": "P2",
+      "testType": "Validation",
+      "businessRules": [],
+      "preconditions": {"user": "TU-001", "role": "ROLE-ADMIN", "data": ["SEED-USER-001"], "state": "User exists"},
+      "steps": ["Log in as TU-001", "Toggle the user active flag", "Verify the Active User group membership follows the flag"],
+      "expectedResults": ["isActive and UAM Active User membership stay consistent"],
+      "assertions": ["isActive true implies membership in UAM Active User group"],
+      "cleanup": ["Restore original state"]
+    }
+  ]
+}
