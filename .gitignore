@@ -1,0 +1,5 @@
+
+# Playwright test artifacts & runner node_modules symlink — local only
+test/playwright/.auth/
+tmp/test-results/
+node_modules

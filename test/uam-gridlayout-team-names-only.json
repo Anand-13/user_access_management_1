@@ -1,0 +1,168 @@
+{
+  "feature": "uam-gridlayout-team-names-only",
+  "title": "UAM Gridlayout Team Names Only (UAM_gridlayout_TeamNamesOnly)",
+  "testCases": [
+    {
+      "feature": "uam-gridlayout-team-names-only",
+      "requirement": null,
+      "entity": "UAM Gridlayout Team Names Only",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "GRID_WITH_ACTIONS",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_manager",
+        "data": [],
+        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
+      },
+      "steps": [
+        "Given I am authenticated in the Appian application",
+        "Given I navigate to the UAM Gridlayout Team Names Onlys page"
+      ],
+      "expectedResults": [
+        "the page content should be visible",
+        "no errors should be displayed"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-UAMGRIDLAYOU-001",
+      "title": "Page loads successfully",
+      "type": "functional"
+    },
+    {
+      "feature": "uam-gridlayout-team-names-only",
+      "requirement": null,
+      "entity": "UAM Gridlayout Team Names Only",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "GRID_WITH_ACTIONS",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_manager",
+        "data": [],
+        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
+      },
+      "steps": [
+        "Given I am authenticated in the Appian application",
+        "Given I navigate to the UAM Gridlayout Team Names Onlys page"
+      ],
+      "expectedResults": [
+        "the grid should be visible",
+        "the grid should contain at least 1 row"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-UAMGRIDLAYOU-002",
+      "title": "Grid loads with data",
+      "type": "functional"
+    },
+    {
+      "feature": "uam-gridlayout-team-names-only",
+      "requirement": null,
+      "entity": "UAM Gridlayout Team Names Only",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "GRID_WITH_ACTIONS",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_manager",
+        "data": [],
+        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
+      },
+      "steps": [
+        "Given I am authenticated in the Appian application",
+        "Given I navigate to the UAM Gridlayout Team Names Onlys page"
+      ],
+      "expectedResults": [
+        "the Team Details should display the expected columns"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-UAMGRIDLAYOU-003",
+      "title": "Grid displays expected columns",
+      "type": "functional"
+    },
+    {
+      "feature": "uam-gridlayout-team-names-only",
+      "requirement": null,
+      "entity": "UAM Gridlayout Team Names Only",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "GRID_WITH_ACTIONS",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_manager",
+        "data": [],
+        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
+      },
+      "steps": [
+        "Given I am authenticated in the Appian application",
+        "Given I navigate to the UAM Gridlayout Team Names Onlys page",
+        "When I click the \"Add\" action button"
+      ],
+      "expectedResults": [
+        "a form dialog should appear"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-UAMGRIDLAYOU-004",
+      "title": "Create new UAM Gridlayout Team Names Only",
+      "type": "functional"
+    },
+    {
+      "feature": "uam-gridlayout-team-names-only",
+      "requirement": null,
+      "entity": "UAM Gridlayout Team Names Only",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "GRID_WITH_ACTIONS",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_manager",
+        "data": [],
+        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
+      },
+      "steps": [
+        "Given I am authenticated in the Appian application",
+        "Given I navigate to the UAM Gridlayout Team Names Onlys page",
+        "When I click on the first record in the grid"
+      ],
+      "expectedResults": [
+        "I should be taken to the UAM Gridlayout Team Names Only detail view"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-UAMGRIDLAYOU-005",
+      "title": "Navigate to UAM Gridlayout Team Names Only detail",
+      "type": "functional"
+    }
+  ],
+  "compiler": {
+    "kind": "interface",
+    "interfaceName": "UAM_gridlayout_TeamNamesOnly",
+    "pattern": "GRID_WITH_ACTIONS",
+    "siteUrl": null,
+    "pageSlug": null,
+    "pageName": null,
+    "adminTab": null,
+    "triggerButton": null,
+    "prefix": null,
+    "fixtureEnabled": false,
+    "role": "uam_manager"
+  }
+}
