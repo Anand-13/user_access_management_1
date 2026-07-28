@@ -1,0 +1,49 @@
+{
+  "feature": "uam-cardgrid-organization-data",
+  "title": "UAM Cardgrid Organization Data (UAM_cardgrid_OrganizationData)",
+  "testCases": [
+    {
+      "feature": "uam-cardgrid-organization-data",
+      "requirement": null,
+      "entity": "UAM Cardgrid Organization Data",
+      "workflow": null,
+      "priority": "P1",
+      "testType": "DASHBOARD",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_admin",
+        "data": [],
+        "state": "I am authenticated in the Appian application; I navigate to the Test page"
+      },
+      "steps": [
+        "Given I am authenticated in the Appian application",
+        "Given I navigate to the Test page"
+      ],
+      "expectedResults": [
+        "the page content should be visible",
+        "no errors should be displayed"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-UAMCARDGRIDO-001",
+      "title": "Dashboard loads successfully",
+      "type": "functional"
+    }
+  ],
+  "compiler": {
+    "kind": "interface",
+    "interfaceName": "UAM_cardgrid_OrganizationData",
+    "pattern": "DASHBOARD",
+    "siteUrl": "/suite/sites/user-access-management-anand",
+    "pageSlug": "system-admin",
+    "pageName": "Test",
+    "adminTab": null,
+    "triggerButton": null,
+    "prefix": null,
+    "fixtureEnabled": false,
+    "role": "uam_admin"
+  }
+}

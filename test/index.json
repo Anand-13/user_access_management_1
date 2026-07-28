@@ -2,7 +2,7 @@
   "appCode": "UAT_1",
   "appName": "User Access Management",
   "prefix": "UAM",
-  "generatedAt": "2026-07-28T19:34:13.155Z",
+  "generatedAt": "2026-07-28T21:00:15.383Z",
   "overview": {
     "objectives": [
       "Validate all six UAM capabilities end to end (User lifecycle, Organization, Team, Application & Role governance, Org membership mapping, Access Request & Approval)",
@@ -16,11 +16,11 @@
     "summary": {
       "workflow": 4,
       "error": 1,
-      "functional": 16,
+      "functional": 18,
       "data-validation": 3,
       "regression": 3,
-      "security": 4,
-      "total": 31
+      "security": 6,
+      "total": 35
     }
   },
   "environment": {
@@ -242,9 +242,14 @@
       "count": 3
     },
     {
+      "feature": "uam-cardgrid-organization-data",
+      "file": "uam-cardgrid-organization-data.json",
+      "count": 1
+    },
+    {
       "feature": "uam-gridlayout-team-names-only",
       "file": "uam-gridlayout-team-names-only.json",
-      "count": 5
+      "count": 8
     },
     {
       "feature": "user",

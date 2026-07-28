@@ -1,168 +1,136 @@
 {
   "feature": "uam-gridlayout-team-names-only",
-  "title": "UAM Gridlayout Team Names Only (UAM_gridlayout_TeamNamesOnly)",
+  "title": "Team Names Grid (UAM_gridlayout_TeamNamesOnly) — all actions",
   "testCases": [
     {
-      "feature": "uam-gridlayout-team-names-only",
+      "tcId": "TC-TNO-001",
+      "title": "Grid renders when an org or team context is supplied",
+      "type": "functional",
       "requirement": null,
-      "entity": "UAM Gridlayout Team Names Only",
+      "entity": "UAM Organization Team",
       "workflow": null,
       "priority": "P1",
-      "testType": "GRID_WITH_ACTIONS",
+      "testType": "Grid",
       "businessRules": [],
-      "preconditions": {
-        "user": null,
-        "role": "uam_manager",
-        "data": [],
-        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
-      },
-      "steps": [
-        "Given I am authenticated in the Appian application",
-        "Given I navigate to the UAM Gridlayout Team Names Onlys page"
-      ],
-      "expectedResults": [
-        "the page content should be visible",
-        "no errors should be displayed"
-      ],
-      "assertions": [],
-      "cleanup": [],
-      "blocked": false,
-      "blockerRef": null,
-      "tcId": "TC-UAMGRIDLAYOU-001",
-      "title": "Page loads successfully",
-      "type": "functional"
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": ["SEED-ORG-001", "SEED-TEAM-001"], "state": "The grid is embedded on a screen that passes orgid (and/or teamid)"},
+      "steps": ["Log in as TU-003", "Open a screen embedding UAM_gridlayout_TeamNamesOnly with orgid = SEED-ORG-001", "Observe the 'Team Details' grid"],
+      "expectedResults": ["The grid is visible (showWhen: orgid or teamid is not empty)", "Rows are the active Organization Team records for the org"],
+      "assertions": ["The 'Team Details' grid is visible", "At least one team row is shown for SEED-ORG-001"],
+      "cleanup": ["None required"]
     },
     {
-      "feature": "uam-gridlayout-team-names-only",
+      "tcId": "TC-TNO-002",
+      "title": "Grid is hidden when neither org nor team context is supplied",
+      "type": "functional",
       "requirement": null,
-      "entity": "UAM Gridlayout Team Names Only",
+      "entity": "UAM Organization Team",
       "workflow": null,
-      "priority": "P1",
-      "testType": "GRID_WITH_ACTIONS",
+      "priority": "P2",
+      "testType": "Grid",
       "businessRules": [],
-      "preconditions": {
-        "user": null,
-        "role": "uam_manager",
-        "data": [],
-        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
-      },
-      "steps": [
-        "Given I am authenticated in the Appian application",
-        "Given I navigate to the UAM Gridlayout Team Names Onlys page"
-      ],
-      "expectedResults": [
-        "the grid should be visible",
-        "the grid should contain at least 1 row"
-      ],
-      "assertions": [],
-      "cleanup": [],
-      "blocked": false,
-      "blockerRef": null,
-      "tcId": "TC-UAMGRIDLAYOU-002",
-      "title": "Grid loads with data",
-      "type": "functional"
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": [], "state": "The grid is rendered with both orgid and teamid empty"},
+      "steps": ["Log in as TU-003", "Open the grid with no orgid and no teamid", "Observe that the grid does not render"],
+      "expectedResults": ["The grid is not shown (showWhen guard: or(isNotNullOrEmpty(orgid), isNotNullOrEmpty(teamid)))"],
+      "assertions": ["The 'Team Details' grid is not visible"],
+      "cleanup": ["None required"]
     },
     {
-      "feature": "uam-gridlayout-team-names-only",
+      "tcId": "TC-TNO-003",
+      "title": "Grid shows Organization Name and Team Name columns",
+      "type": "functional",
       "requirement": null,
-      "entity": "UAM Gridlayout Team Names Only",
+      "entity": "UAM Organization Team",
       "workflow": null,
       "priority": "P1",
-      "testType": "GRID_WITH_ACTIONS",
+      "testType": "Grid",
       "businessRules": [],
-      "preconditions": {
-        "user": null,
-        "role": "uam_manager",
-        "data": [],
-        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
-      },
-      "steps": [
-        "Given I am authenticated in the Appian application",
-        "Given I navigate to the UAM Gridlayout Team Names Onlys page"
-      ],
-      "expectedResults": [
-        "the Team Details should display the expected columns"
-      ],
-      "assertions": [],
-      "cleanup": [],
-      "blocked": false,
-      "blockerRef": null,
-      "tcId": "TC-UAMGRIDLAYOU-003",
-      "title": "Grid displays expected columns",
-      "type": "functional"
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": ["SEED-ORG-001"], "state": "Grid rendered with org context"},
+      "steps": ["Log in as TU-003", "Open the grid with orgid = SEED-ORG-001", "Inspect the column headers"],
+      "expectedResults": ["Columns 'Organization Name' and 'Team Name' are visible", "Empty cells render the '–' default value"],
+      "assertions": ["Column header 'Organization Name' is visible", "Column header 'Team Name' is visible"],
+      "cleanup": ["None required"]
     },
     {
-      "feature": "uam-gridlayout-team-names-only",
+      "tcId": "TC-TNO-004",
+      "title": "Search box filters the team rows",
+      "type": "functional",
       "requirement": null,
-      "entity": "UAM Gridlayout Team Names Only",
+      "entity": "UAM Organization Team",
       "workflow": null,
-      "priority": "P1",
-      "testType": "GRID_WITH_ACTIONS",
+      "priority": "P2",
+      "testType": "Grid",
       "businessRules": [],
-      "preconditions": {
-        "user": null,
-        "role": "uam_manager",
-        "data": [],
-        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
-      },
-      "steps": [
-        "Given I am authenticated in the Appian application",
-        "Given I navigate to the UAM Gridlayout Team Names Onlys page",
-        "When I click the \"Add\" action button"
-      ],
-      "expectedResults": [
-        "a form dialog should appear"
-      ],
-      "assertions": [],
-      "cleanup": [],
-      "blocked": false,
-      "blockerRef": null,
-      "tcId": "TC-UAMGRIDLAYOU-004",
-      "title": "Create new UAM Gridlayout Team Names Only",
-      "type": "functional"
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": ["SEED-ORG-001", "SEED-TEAM-001"], "state": "Grid rendered with ri!search = true so the search box is shown"},
+      "steps": ["Log in as TU-003", "Open the grid (search box enabled)", "Type 'Test Team Gamma' into the search box", "Observe the filtered rows"],
+      "expectedResults": ["Only rows matching 'Test Team Gamma' remain"],
+      "assertions": ["A row containing 'Test Team Gamma' is visible", "Non-matching team rows are not visible"],
+      "cleanup": ["Clear the search box"]
     },
     {
-      "feature": "uam-gridlayout-team-names-only",
+      "tcId": "TC-TNO-005",
+      "title": "Refresh button re-queries the grid",
+      "type": "functional",
       "requirement": null,
-      "entity": "UAM Gridlayout Team Names Only",
+      "entity": "UAM Organization Team",
+      "workflow": null,
+      "priority": "P3",
+      "testType": "Grid",
+      "businessRules": [],
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": ["SEED-ORG-001"], "state": "Grid rendered with ri!refresh = true so the refresh button is shown"},
+      "steps": ["Log in as TU-003", "Open the grid (refresh button enabled)", "Click the grid Refresh button"],
+      "expectedResults": ["The grid re-queries and re-renders without error"],
+      "assertions": ["The grid remains visible after refresh", "No error is displayed"],
+      "cleanup": ["None required"]
+    },
+    {
+      "tcId": "TC-TNO-006",
+      "title": "Single-row selection saves team name and id",
+      "type": "functional",
+      "requirement": null,
+      "entity": "UAM Organization Team",
       "workflow": null,
       "priority": "P1",
-      "testType": "GRID_WITH_ACTIONS",
+      "testType": "Grid",
       "businessRules": [],
-      "preconditions": {
-        "user": null,
-        "role": "uam_manager",
-        "data": [],
-        "state": "I am authenticated in the Appian application; I navigate to the UAM Gridlayout Team Names Onlys page"
-      },
-      "steps": [
-        "Given I am authenticated in the Appian application",
-        "Given I navigate to the UAM Gridlayout Team Names Onlys page",
-        "When I click on the first record in the grid"
-      ],
-      "expectedResults": [
-        "I should be taken to the UAM Gridlayout Team Names Only detail view"
-      ],
-      "assertions": [],
-      "cleanup": [],
-      "blocked": false,
-      "blockerRef": null,
-      "tcId": "TC-UAMGRIDLAYOU-005",
-      "title": "Navigate to UAM Gridlayout Team Names Only detail",
-      "type": "functional"
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": ["SEED-ORG-001", "SEED-TEAM-001"], "state": "Grid rendered with rows"},
+      "steps": ["Log in as TU-003", "Open the grid with org context", "Click a team row to select it", "Attempt to select a second row"],
+      "expectedResults": ["The clicked row is highlighted (ROW_HIGHLIGHT)", "Selection saves the team name to ri!selected and the org-team id to ri!selectedid", "maxSelections is 1 — selecting another row replaces the first"],
+      "assertions": ["Exactly one row is selected at a time (aria-selected='true' on a single row)"],
+      "cleanup": ["None required"]
+    },
+    {
+      "tcId": "TC-TNO-007",
+      "title": "Access Status shows Granted/Not Granted for a manager",
+      "type": "security",
+      "requirement": null,
+      "entity": "UAM Organization Team",
+      "workflow": null,
+      "priority": "P2",
+      "testType": "RBAC",
+      "businessRules": ["BR-managersTaskVisibility"],
+      "preconditions": {"user": "TU-003", "role": "uam_manager", "data": ["SEED-ORG-001", "SEED-TEAM-001"], "state": "Manager viewing the grid"},
+      "steps": ["Log in as TU-003", "Open the grid with org context", "Observe the 'Access Status' column"],
+      "expectedResults": ["The Access Status column is visible to the manager", "Each team shows a 'Granted' (positive) or 'Not Granted' (negative) tag based on the manager's team-group membership"],
+      "assertions": ["Column 'Access Status' is visible for TU-003", "Each row shows either 'Granted' or 'Not Granted'"],
+      "cleanup": ["None required"],
+      "blocked": true,
+      "blockerRef": "BLOCKER-001"
+    },
+    {
+      "tcId": "TC-TNO-008",
+      "title": "Access Status column is hidden from non-managers",
+      "type": "security",
+      "requirement": null,
+      "entity": "UAM Organization Team",
+      "workflow": null,
+      "priority": "P2",
+      "testType": "RBAC",
+      "businessRules": ["BR-managersTaskVisibility"],
+      "preconditions": {"user": "TU-004", "role": "uam_user", "data": ["SEED-ORG-001"], "state": "Non-manager viewing the grid"},
+      "steps": ["Log in as TU-004", "Open the grid with org context", "Observe the columns"],
+      "expectedResults": ["The Access Status column is NOT shown (showWhen gated to the UAM managers group)", "Organization Name and Team Name columns still render"],
+      "assertions": ["Column 'Access Status' is not visible for TU-004", "Columns 'Organization Name' and 'Team Name' are visible"],
+      "cleanup": ["None required"]
     }
-  ],
-  "compiler": {
-    "kind": "interface",
-    "interfaceName": "UAM_gridlayout_TeamNamesOnly",
-    "pattern": "GRID_WITH_ACTIONS",
-    "siteUrl": null,
-    "pageSlug": null,
-    "pageName": null,
-    "adminTab": null,
-    "triggerButton": null,
-    "prefix": null,
-    "fixtureEnabled": false,
-    "role": "uam_manager"
-  }
+  ]
 }
