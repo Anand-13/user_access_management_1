@@ -1,0 +1,12 @@
+{
+  "$schema": "aada:test-plan:v1",
+  "id": "8e61235d-a977-40e5-a3e3-9aa2a871e557",
+  "name": "request-approval",
+  "description": "A user submits a request to join a team; the system routes the request to the team's manager. The manager (reviewer) opens the Manager Tasks page, reviews the request, and approves it. Verify the request is created with status In progress, and after approval the status becomes Approved.",
+  "appCode": "UAT_1",
+  "createdAt": "2026-07-29T11:49:34.709Z",
+  "generatedBy": "generate_test_plan",
+  "scenarios": [],
+  "dataGaps": [],
+  "testData": {}
+}

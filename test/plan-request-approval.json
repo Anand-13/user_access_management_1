@@ -1,0 +1,289 @@
+{
+  "feature": "plan-request-approval",
+  "title": "request-approval",
+  "testCases": [
+    {
+      "feature": "plan-request-approval",
+      "requirement": null,
+      "entity": null,
+      "workflow": null,
+      "priority": "P1",
+      "testType": "Plan",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "UAM Users",
+        "data": [],
+        "state": "User is logged in as a member of UAM Users; At least one Organization with an associated Team exists; The team has an assigned manager"
+      },
+      "steps": [
+        "Navigate to the User Access Management console",
+        "Select the organization whose team the user wants to join",
+        "On the 'Assiged Teams' screen, select the team to request access to",
+        "Submit the team selection to create the access request"
+      ],
+      "expectedResults": [
+        "The console loads with the organizations/teams views",
+        "The organization's teams are listed under 'Select Teams to join'",
+        "The chosen team is selected; the 'Select The Team' button becomes enabled",
+        "The request is created and the user returns to the request tracking grid",
+        "The Task Request record is created with taskStatus = In progress and a Team Access Add Approval Task definition (verify in DB or record view)"
+      ],
+      "assertions": [
+        "The newly created request shows status In progress"
+      ],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "SCN-001",
+      "title": "User submits a team access request",
+      "type": "workflow"
+    },
+    {
+      "feature": "plan-request-approval",
+      "requirement": null,
+      "entity": null,
+      "workflow": null,
+      "priority": "P1",
+      "testType": "Plan",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "UAM managers",
+        "data": [],
+        "state": "A pending Team Access Add Approval request exists for a team the logged-in user manages (created by SCN-001 or seeded); User is logged in as a member of UAM managers"
+      },
+      "steps": [
+        "Navigate to the Manager Tasks page",
+        "Open the pending access request by clicking its task-name start-process link",
+        "Approve the request"
+      ],
+      "expectedResults": [
+        "The manager's pending approval tasks are listed, each as a task-name link",
+        "The approval interface opens showing the requester, team, and application roles",
+        "The task closes and the user is granted the team/roles",
+        "The Task Request record's taskStatus = Approved and a UAM User Team row is created granting access"
+      ],
+      "assertions": [
+        "The request status is now Approved"
+      ],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "SCN-002",
+      "title": "Manager approves the pending request",
+      "type": "workflow"
+    }
+  ],
+  "compiler": {
+    "kind": "plan",
+    "plan": {
+      "$schema": "aada:test-plan:v1",
+      "id": "8e61235d-a977-40e5-a3e3-9aa2a871e557",
+      "name": "request-approval",
+      "planName": "request-approval",
+      "appCode": "UAT_1",
+      "description": "A user submits a request to join a team; the system routes it to the team's manager, who reviews and approves it on the Manager Tasks page. Verify the request is created with status In progress and becomes Approved after approval.",
+      "variables": {},
+      "scenarios": [
+        {
+          "id": "SCN-001",
+          "name": "User submits a team access request",
+          "description": "A general user requests access to a team; the request is created with status In progress and notifies the team's manager.",
+          "priority": "P1",
+          "requiredRoles": [
+            "UAM Users"
+          ],
+          "preconditions": [
+            "User is logged in as a member of UAM Users",
+            "At least one Organization with an associated Team exists",
+            "The team has an assigned manager"
+          ],
+          "steps": [
+            {
+              "stepNumber": 1,
+              "description": "Navigate to the User Access Management console",
+              "interfaceName": "UAM_wrapper_systemAdmin",
+              "fields": [],
+              "actions": [
+                {
+                  "label": "Navigate",
+                  "type": "navigate",
+                  "target": "/suite/sites/user-access-management-anand/page/system-admin"
+                }
+              ],
+              "expectedOutcome": "The console loads with the organizations/teams views"
+            },
+            {
+              "stepNumber": 2,
+              "description": "Select the organization whose team the user wants to join",
+              "interfaceName": "UAM_readonly_teams",
+              "fields": [
+                {
+                  "name": "Organization",
+                  "componentType": "pickerFieldRecords",
+                  "required": true,
+                  "dataKey": "orgid",
+                  "value": "TODO: provide an existing Organization name",
+                  "valueSource": "gap",
+                  "gapRef": "GAP-001",
+                  "lookupTable": "UAM Organization"
+                }
+              ],
+              "actions": [],
+              "expectedOutcome": "The organization's teams are listed under 'Select Teams to join'"
+            },
+            {
+              "stepNumber": 3,
+              "description": "On the 'Assiged Teams' screen, select the team to request access to",
+              "interfaceName": "UAM_formlayout_orgTeams",
+              "fields": [
+                {
+                  "name": "Team",
+                  "componentType": "pickerFieldRecords",
+                  "required": true,
+                  "dataKey": "teamid",
+                  "value": "TODO: provide an existing Team name under the chosen Organization",
+                  "valueSource": "gap",
+                  "gapRef": "GAP-002",
+                  "lookupTable": "UAM Team"
+                }
+              ],
+              "actions": [],
+              "expectedOutcome": "The chosen team is selected; the 'Select The Team' button becomes enabled"
+            },
+            {
+              "stepNumber": 4,
+              "description": "Submit the team selection to create the access request",
+              "interfaceName": "UAM_formlayout_orgTeams",
+              "fields": [],
+              "actions": [
+                {
+                  "label": "Select The Team",
+                  "type": "submit"
+                }
+              ],
+              "expectedOutcome": "The request is created and the user returns to the request tracking grid"
+            }
+          ],
+          "postconditions": [
+            {
+              "type": "textVisible",
+              "value": "In progress",
+              "description": "The newly created request shows status In progress"
+            },
+            "The Task Request record is created with taskStatus = In progress and a Team Access Add Approval Task definition (verify in DB or record view)"
+          ],
+          "testDataRefs": []
+        },
+        {
+          "id": "SCN-002",
+          "name": "Manager approves the pending request",
+          "description": "The team's manager opens the Manager Tasks inbox, opens the pending access request via its task-name link, and approves it; the request status becomes Approved.",
+          "priority": "P1",
+          "requiredRoles": [
+            "UAM managers"
+          ],
+          "preconditions": [
+            "A pending Team Access Add Approval request exists for a team the logged-in user manages (created by SCN-001 or seeded)",
+            "User is logged in as a member of UAM managers"
+          ],
+          "steps": [
+            {
+              "stepNumber": 1,
+              "description": "Navigate to the Manager Tasks page",
+              "interfaceName": "UAM_startprocess_taskLink",
+              "fields": [],
+              "actions": [
+                {
+                  "label": "Navigate",
+                  "type": "navigate",
+                  "target": "/suite/sites/user-access-management-anand/page/manager-tasks"
+                }
+              ],
+              "expectedOutcome": "The manager's pending approval tasks are listed, each as a task-name link"
+            },
+            {
+              "stepNumber": 2,
+              "description": "Open the pending access request by clicking its task-name start-process link",
+              "interfaceName": "UAM_startprocess_taskLink",
+              "fields": [],
+              "actions": [
+                {
+                  "label": "TODO: the task-name link text (generated per request, e.g. 'Team Access Request - <team>')",
+                  "type": "link"
+                }
+              ],
+              "expectedOutcome": "The approval interface opens showing the requester, team, and application roles"
+            },
+            {
+              "stepNumber": 3,
+              "description": "Approve the request",
+              "interfaceName": "UAM_richtextdisplay_approvalInterface",
+              "fields": [],
+              "actions": [
+                {
+                  "label": "APPROVE",
+                  "type": "submit"
+                }
+              ],
+              "expectedOutcome": "The task closes and the user is granted the team/roles"
+            }
+          ],
+          "postconditions": [
+            {
+              "type": "textVisible",
+              "value": "Approved",
+              "description": "The request status is now Approved"
+            },
+            "The Task Request record's taskStatus = Approved and a UAM User Team row is created granting access"
+          ],
+          "testDataRefs": []
+        }
+      ],
+      "dataGaps": [
+        {
+          "id": "GAP-001",
+          "scenarioId": "SCN-001",
+          "stepNumber": 2,
+          "fieldName": "Organization",
+          "interfaceName": "UAM_readonly_teams",
+          "dataKey": "orgid",
+          "componentType": "pickerFieldRecords",
+          "lookupTable": "UAM Organization",
+          "reason": "Live data — a real Organization record instance is required to select and cannot be derived from source",
+          "resolution": "Provide an existing Organization name, or seed via /seed-ref-data UAT_1 <sql-dump>",
+          "placeholder": "TODO: provide an existing Organization name"
+        },
+        {
+          "id": "GAP-002",
+          "scenarioId": "SCN-001",
+          "stepNumber": 3,
+          "fieldName": "Team",
+          "interfaceName": "UAM_formlayout_orgTeams",
+          "dataKey": "teamid",
+          "componentType": "pickerFieldRecords",
+          "lookupTable": "UAM Team",
+          "reason": "Live data — a real Team under the chosen Organization is required and cannot be derived from source",
+          "resolution": "Provide an existing Team name under the chosen Organization, or seed via /seed-ref-data",
+          "placeholder": "TODO: provide an existing Team name"
+        },
+        {
+          "id": "GAP-004",
+          "scenarioId": "SCN-002",
+          "stepNumber": 2,
+          "fieldName": "Task-name link",
+          "interfaceName": "UAM_startprocess_taskLink",
+          "dataKey": "taskLink",
+          "componentType": "link",
+          "lookupTable": "",
+          "reason": "Confirmed mechanism (a start-process link labeled with the request's task name), but the task name is generated per request at runtime",
+          "resolution": "Use the task name of the request created by SCN-001, or seed a known pending request and use its task name",
+          "placeholder": "TODO: the pending request's task-name link text"
+        }
+      ]
+    },
+    "specFileName": null,
+    "siteUrl": "/suite/sites/user-access-management-anand"
+  }
+}

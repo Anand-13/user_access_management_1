@@ -1,0 +1,194 @@
+{
+  "feature": "workflow-uam",
+  "title": "Workflow: UAM — Organization → Team",
+  "testCases": [
+    {
+      "feature": "workflow-uam",
+      "requirement": null,
+      "entity": "Organization",
+      "workflow": "Organization → Team",
+      "priority": "P1",
+      "testType": "Workflow",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_administrators",
+        "data": [],
+        "state": null
+      },
+      "steps": [
+        "Navigate to the 'system-admin' page",
+        "Click 'New Organization'",
+        "Enter a unique test value in 'ORGANIZATION NAME'",
+        "Select a value for 'Project Manager' (required)",
+        "Click 'Submit'"
+      ],
+      "expectedResults": [
+        "The Organization is created and the dialog closes"
+      ],
+      "assertions": [],
+      "cleanup": [
+        "Delete the created Organization (reverse order after all verifications)"
+      ],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-WF-UAM-001",
+      "title": "Create Organization (workflow: Organization → Team)",
+      "type": "workflow"
+    },
+    {
+      "feature": "workflow-uam",
+      "requirement": null,
+      "entity": "Organization",
+      "workflow": "Organization → Team",
+      "priority": "P1",
+      "testType": "Workflow",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_administrators",
+        "data": [],
+        "state": "Organization created in the preceding step"
+      },
+      "steps": [
+        "Navigate to the 'system-admin' page",
+        "Wait for the grid to load"
+      ],
+      "expectedResults": [
+        "The created Organization is visible in the grid"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-WF-UAM-002",
+      "title": "Verify Organization appears in grid",
+      "type": "workflow"
+    },
+    {
+      "feature": "workflow-uam",
+      "requirement": null,
+      "entity": "Team",
+      "workflow": "Organization → Team",
+      "priority": "P1",
+      "testType": "Workflow",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_administrators",
+        "data": [],
+        "state": "Organization created earlier in this workflow"
+      },
+      "steps": [
+        "Navigate to the 'system-admin' page",
+        "Open the created Organization record",
+        "Click 'New Team'",
+        "Enter a unique test value in 'Team Name'",
+        "Enter a unique test value in 'Team Description'",
+        "Click 'Submit'"
+      ],
+      "expectedResults": [
+        "The Team is created and the dialog closes"
+      ],
+      "assertions": [],
+      "cleanup": [
+        "Delete the created Team (reverse order after all verifications)"
+      ],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-WF-UAM-003",
+      "title": "Create Team (workflow: Organization → Team)",
+      "type": "workflow"
+    },
+    {
+      "feature": "workflow-uam",
+      "requirement": null,
+      "entity": "Team",
+      "workflow": "Organization → Team",
+      "priority": "P1",
+      "testType": "Workflow",
+      "businessRules": [],
+      "preconditions": {
+        "user": null,
+        "role": "uam_administrators",
+        "data": [],
+        "state": "Team created in the preceding step"
+      },
+      "steps": [
+        "Navigate to the 'system-admin' page",
+        "Open the created Organization record",
+        "Wait for the grid to load"
+      ],
+      "expectedResults": [
+        "The created Team is visible in the grid"
+      ],
+      "assertions": [],
+      "cleanup": [],
+      "blocked": false,
+      "blockerRef": null,
+      "tcId": "TC-WF-UAM-004",
+      "title": "Verify Team appears in grid",
+      "type": "workflow"
+    }
+  ],
+  "compiler": {
+    "kind": "workflow",
+    "context": {
+      "projectName": "UAM",
+      "prefix": "UAM",
+      "siteSlug": "user-access-management-anand",
+      "entityChain": [
+        {
+          "entityName": "Organization",
+          "recordTypeName": "UAM Organization",
+          "crudInterfaceName": "UAM_form_createorUpdateOrganization",
+          "gridPageSlug": "system-admin",
+          "triggerButtonText": "New Organization",
+          "parentEntity": null,
+          "fields": [
+            {
+              "label": "ORGANIZATION NAME",
+              "type": "text",
+              "required": true,
+              "lookupRecordType": null
+            },
+            {
+              "label": "Project Manager",
+              "type": "picker",
+              "required": true,
+              "lookupRecordType": null
+            }
+          ],
+          "adminSidebarTab": null,
+          "submitLabel": "Submit"
+        },
+        {
+          "entityName": "Team",
+          "recordTypeName": "UAM Team",
+          "crudInterfaceName": "UAM_formlayout_createOrUpdateTeam",
+          "gridPageSlug": "system-admin",
+          "triggerButtonText": "New Team",
+          "parentEntity": "Organization",
+          "fields": [
+            {
+              "label": "Team Name",
+              "type": "text",
+              "required": true,
+              "lookupRecordType": null
+            },
+            {
+              "label": "Team Description",
+              "type": "text",
+              "required": false,
+              "lookupRecordType": null
+            }
+          ],
+          "adminSidebarTab": null,
+          "submitLabel": "Submit"
+        }
+      ]
+    },
+    "role": "uam_administrators",
+    "siteUrl": "/suite/sites/user-access-management-anand"
+  }
+}

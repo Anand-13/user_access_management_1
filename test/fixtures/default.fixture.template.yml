@@ -1,0 +1,31 @@
+version: "1.0"
+app: UAT_1
+description: "Default test fixtures — edit values, rename to default.fixture.yml"
+
+fixtures:
+  UAM_dropdownfield_selectingTheRole:
+    fields:
+      "Select The Role":
+        source: values
+        values:
+          - "TODO: Add value 1"
+  UAM_sectionlayout_CreateOrganizationDetails:
+    fields:
+      "Project Manager":
+        source: values
+        values:
+          - "TODO: Add value 1"
+  UAM_sectionlayout_OrganizationAddressDetails:
+    fields:
+      "Country":
+        source: values
+        values:
+          - "TODO: Add value 1"
+      "State":
+        source: values
+        values:
+          - "TODO: Add value 1"
+      "City":
+        source: values
+        values:
+          - "TODO: Add value 1"

@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures';
 import { waitForAppianLoad, appian, SITE_URL } from './helpers';
 
-test.use({ role: 'uam_admin' });
+test.use({ role: 'uam_administrators' });
 
 // Auto-generated Playwright tests for UAM_cardgrid_OrganizationData
 // Pattern: DASHBOARD

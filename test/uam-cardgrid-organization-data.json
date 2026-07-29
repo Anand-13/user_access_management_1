@@ -12,13 +12,13 @@
       "businessRules": [],
       "preconditions": {
         "user": null,
-        "role": "uam_admin",
+        "role": "uam_administrators",
         "data": [],
-        "state": "I am authenticated in the Appian application; I navigate to the Test page"
+        "state": "I am authenticated in the Appian application; I navigate to the UAM Cardgrid Organization Datas page"
       },
       "steps": [
         "Given I am authenticated in the Appian application",
-        "Given I navigate to the Test page"
+        "Given I navigate to the UAM Cardgrid Organization Datas page"
       ],
       "expectedResults": [
         "the page content should be visible",
@@ -39,11 +39,11 @@
     "pattern": "DASHBOARD",
     "siteUrl": "/suite/sites/user-access-management-anand",
     "pageSlug": "system-admin",
-    "pageName": "Test",
+    "pageName": null,
     "adminTab": null,
     "triggerButton": null,
     "prefix": null,
     "fixtureEnabled": false,
-    "role": "uam_admin"
+    "role": "uam_administrators"
   }
 }
